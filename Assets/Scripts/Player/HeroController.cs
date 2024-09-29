@@ -118,7 +118,7 @@ public class HeroController : BaseController, IHealth
                 // Unfinished
                 break;
             case "Normal":
-                ObjectPool.Instance.SpawnFromPool("arrow", spawnPoint.position, spawnPoint.rotation, 1);
+                // ObjectPool.Instance.SpawnFromPool("arrow", spawnPoint.position, spawnPoint.rotation, 1);
                 break;
             case "Skill1":
                 changeScale = true;
