@@ -13,7 +13,7 @@ public class TowerController : MonoBehaviour, IHealthTower
 
     [Header("Tower Stats")]
     private float maxHealth = 10000;
-    private float attackInterval = 2f;
+    private float attackInterval = 1.5f;
     private float currentHealth;
     private float lastAttackTime;
     private IState currentState;
