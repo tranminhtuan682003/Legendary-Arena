@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, IhealthPlayer
 {
+    public Heros currentHero;
     public SphereCollider attackCollider;
     private IState currentState;
     private Rigidbody rb;
+    private Animator animator;
 
     [HideInInspector]
-    public Vector2 moveDirection; // Hướng di chuyển
-    private Vector3 movementVector; // Vector di chuyển trong không gian 3D
+    public Vector2 moveDirection;
+    private Vector3 movementVector;
 
     [Header("IHealth")]
     private float maxHealth = 5000f;
@@ -39,39 +39,62 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
 
     void Awake()
     {
+        currentHero = new Marksman();
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
         isDead = false;
     }
 
     void Start()
     {
-        ChangeState(new PlayerIdleState(this)); // Bắt đầu với trạng thái Idle
+        ChangeState(new PlayerIdleState(this));
+        SkillUIManager skillUIManager = FindObjectOfType<SkillUIManager>();
+        skillUIManager.SetupSkillButtons();
     }
+
 
     void Update()
     {
-        currentState?.Execute(); // Cập nhật logic theo từng trạng thái
+        currentState?.Execute();
     }
 
     public void ChangeState(IState newState)
     {
-        currentState?.Exit(); // Thoát trạng thái cũ
-        currentState = newState; // Gán trạng thái mới
-        currentState.Enter(); // Vào trạng thái mới
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
     }
 
-    // Phương thức nhận input từ Input System
+    public void ChangeAnimator(string nameAnimation)
+    {
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Run");
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Dead");
+
+        animator.SetTrigger(nameAnimation);
+    }
+
+    #region Attack
+    public void ActivateAbility(int abilityIndex)
+    {
+        if (abilityIndex < currentHero.abilities.Count)
+        {
+            currentHero.abilities[abilityIndex].Activate();
+        }
+    }
+
+    #endregion
+
     public void OnMove(InputValue value)
     {
-        moveDirection = value.Get<Vector2>().normalized; // Nhận input di chuyển và chuẩn hóa hướng di chuyển
-        movementVector = new Vector3(moveDirection.x, 0, moveDirection.y); // Chuyển đổi thành vector 3D
+        moveDirection = value.Get<Vector2>().normalized;
+        movementVector = new Vector3(moveDirection.x, 0, moveDirection.y);
     }
 
-    // Phương thức di chuyển nhân vật
     public void Move()
     {
-        // Nếu có input di chuyển và nhân vật chưa chết, thì thực hiện di chuyển
         if (movementVector != Vector3.zero && !isDead)
         {
             Vector3 move = movementVector * moveSpeed * Time.deltaTime;
@@ -85,16 +108,24 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
 
     public void Heal(float amount)
     {
-        // Chưa triển khai
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        Debug.Log("Healed: " + amount);
     }
 
     public void TakeDamage(float amount)
     {
-        // Chưa triển khai
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Dead();
+        }
     }
 
     public void Dead()
     {
-        // Chưa triển khai
+        isDead = true;
+        ChangeAnimator("Dead");
+        Debug.Log("Player is dead.");
     }
 }

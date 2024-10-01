@@ -11,16 +11,20 @@ public class PlayerMoveState : IState
 
     public void Enter()
     {
-        Debug.Log("Enter Move State");
+        playerController.ChangeAnimator("Run");
     }
 
     public void Execute()
     {
-        playerController.Move(); // Gọi phương thức Move() từ PlayerController
+        playerController.Move();
+        if (playerController.moveDirection == Vector2.zero && !playerController.isDead)
+        {
+            playerController.ChangeState(new PlayerIdleState(playerController));
+        }
     }
 
     public void Exit()
     {
-        Debug.Log("Exit Move State");
+        Debug.Log("Exit move state");
     }
 }

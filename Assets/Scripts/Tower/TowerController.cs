@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TowerController : MonoBehaviour, IHealthTower
 {
-    #region Variable
+    #region Variables
 
     [Header("Tower Components")]
     public CapsuleCollider collisionCollider;
@@ -35,66 +35,11 @@ public class TowerController : MonoBehaviour, IHealthTower
 
     #endregion
 
-    #region IHealthTower Implementation
-
-    public float CurrentHealth => currentHealth;
-    public float MaxHealth => maxHealth;
-
-    public void TakeDamage(float damage)
-    {
-        if (currentState is TowerDestroyedState) return;
-
-        currentHealth -= damage;
-        Debug.Log($"Tower hit! Health left: {currentHealth}");
-
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0; // Đảm bảo máu không âm
-            ChangeState(new TowerDestroyedState(this));
-        }
-    }
-
-    public void Heal(float amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log($"Tower healed! Current Health: {currentHealth}");
-    }
-
-    public bool IsAlive()
-    {
-        return currentHealth > 0;
-    }
-
-    #endregion
-
     #region Initialization and Setup
 
     private void Start()
     {
         InitializeTower();
-    }
-
-    private void Update()
-    {
-        currentState?.Execute();
-        CheckEffectRange();
-        CheckAttackRange();
-
-        if (currentTarget != null)
-        {
-            DrawLineToTarget();
-        }
-        else
-        {
-            DisableLine();
-        }
-
-        // Kiểm tra nếu đã đủ thời gian để thực hiện lần bắn tiếp theo
-        if (isAttacking && Time.time - lastAttackTime >= attackInterval)
-        {
-            FireTarget();
-            lastAttackTime = Time.time; // Cập nhật thời gian lần bắn cuối cùng
-        }
     }
 
     private void InitializeTower()
@@ -130,6 +75,65 @@ public class TowerController : MonoBehaviour, IHealthTower
 
         attackArea = gameObject.GetComponentInChildren<AttackArea>();
         attackArea.SetRadius(attackCollider.radius);
+    }
+
+    #endregion
+
+    #region Update Logic
+
+    private void Update()
+    {
+        currentState?.Execute();
+        CheckEffectRange();
+        CheckAttackRange();
+
+        if (currentTarget != null)
+        {
+            DrawLineToTarget();
+        }
+        else
+        {
+            DisableLine();
+        }
+
+        // Kiểm tra nếu đã đủ thời gian để thực hiện lần bắn tiếp theo
+        if (isAttacking && Time.time - lastAttackTime >= attackInterval)
+        {
+            FireTarget();
+            lastAttackTime = Time.time; // Cập nhật thời gian lần bắn cuối cùng
+        }
+    }
+
+    #endregion
+
+    #region IHealthTower Implementation
+
+    public float CurrentHealth => currentHealth;
+    public float MaxHealth => maxHealth;
+
+    public void TakeDamage(float damage)
+    {
+        if (currentState is TowerDestroyedState) return;
+
+        currentHealth -= damage;
+        Debug.Log($"Tower hit! Health left: {currentHealth}");
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0; // Đảm bảo máu không âm
+            ChangeState(new TowerDestroyedState(this));
+        }
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        Debug.Log($"Tower healed! Current Health: {currentHealth}");
+    }
+
+    public bool IsAlive()
+    {
+        return currentHealth > 0;
     }
 
     #endregion
@@ -171,7 +175,13 @@ public class TowerController : MonoBehaviour, IHealthTower
             EnableLine();
             ChangeState(new TowerAttackState(this));
             isAttacking = true;
-            lastAttackTime = Time.time; // Cập nhật thời gian bắt đầu tấn công
+
+            // Chỉ bắn ngay nếu đủ thời gian từ lần bắn trước
+            if (Time.time - lastAttackTime >= attackInterval)
+            {
+                FireTarget(); // Bắn mục tiêu mới
+                lastAttackTime = Time.time; // Cập nhật thời gian bắt đầu tấn công
+            }
         }
     }
 

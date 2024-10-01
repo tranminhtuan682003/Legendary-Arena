@@ -11,12 +11,11 @@ public class PlayerIdleState : IState
 
     public void Enter()
     {
-        Debug.Log("Enter Idle State");
+        playerController.ChangeAnimator("Idle");
     }
 
     public void Execute()
     {
-        // Nếu có input di chuyển, chuyển sang trạng thái Move
         if (playerController.moveDirection != Vector2.zero && !playerController.isDead)
         {
             playerController.ChangeState(new PlayerMoveState(playerController));
@@ -25,6 +24,6 @@ public class PlayerIdleState : IState
 
     public void Exit()
     {
-        Debug.Log("Exit Idle State");
+        Debug.Log("Exit ilde state");
     }
 }
