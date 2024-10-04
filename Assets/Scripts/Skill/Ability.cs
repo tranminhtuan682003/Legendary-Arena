@@ -2,20 +2,17 @@ using UnityEngine;
 
 public abstract class Ability
 {
-    public string abilityName;  // Tên kỹ năng
-    public float cooldown;  // Thời gian hồi chiêu
-    public float manaCost;  // Chi phí mana để kích hoạt kỹ năng
-    private float lastUsedTime = -1f;  // Đặt giá trị khởi tạo để không rơi vào cooldown ngay
-
-    // Thuộc tính công khai để truy cập thời gian sử dụng cuối cùng
+    public string abilityName;
+    public float cooldown;
+    public float manaCost;
+    public ParticleSystem effectSkill;
+    private float lastUsedTime = -1f;
     public float LastUsedTime => lastUsedTime;
-
-    // Kiểm tra xem kỹ năng có đang trong thời gian hồi chiêu hay không
     public bool IsOnCooldown
     {
         get
         {
-            return lastUsedTime >= 0 && Time.time - lastUsedTime < cooldown;  // Thêm kiểm tra để tránh lỗi
+            return lastUsedTime >= 0 && Time.time - lastUsedTime < cooldown;
         }
     }
 
@@ -23,8 +20,8 @@ public abstract class Ability
     {
         if (!IsOnCooldown)
         {
-            lastUsedTime = Time.time;  // Cập nhật thời gian sử dụng cuối cùng
-            UseAbility();  // Kích hoạt kỹ năng
+            lastUsedTime = Time.time;
+            UseAbility();
         }
         else
         {
@@ -33,5 +30,5 @@ public abstract class Ability
         }
     }
 
-    protected abstract void UseAbility();  // Phương thức này sẽ được các lớp con triển khai
+    protected abstract void UseAbility();
 }

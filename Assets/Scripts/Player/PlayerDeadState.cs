@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeadState : MonoBehaviour
+public class PlayerDeadState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerController playerController;
+
+    public PlayerDeadState(PlayerController playerController)
     {
-        
+        this.playerController = playerController;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Enter()
     {
-        
+        playerController.ChangeAnimator("Dead");
+    }
+
+    public void Execute()
+    {
+        playerController.Dead();
+    }
+
+    public void Exit()
+    {
+        Debug.Log("Exit Dead State");
     }
 }

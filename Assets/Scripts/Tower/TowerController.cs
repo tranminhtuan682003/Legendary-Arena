@@ -10,6 +10,7 @@ public class TowerController : MonoBehaviour, IHealthTower
     public SphereCollider attackCollider;
     public SphereCollider effectCollider;
     private Rigidbody rb;
+    public string tagEnemy;
 
     [Header("Tower Stats")]
     private float maxHealth = 10000;
@@ -31,7 +32,6 @@ public class TowerController : MonoBehaviour, IHealthTower
 
     [Header("Bullet Manager")]
     public GameObject bulletTowerPrefab;
-    private int poolSize = 10;
 
     #endregion
 
@@ -53,7 +53,7 @@ public class TowerController : MonoBehaviour, IHealthTower
 
     private void SetupPool()
     {
-        ObjectPool.Instance.CreatePool(bulletTowerPrefab, poolSize);
+        ObjectPool.Instance.CreatePool(bulletTowerPrefab);
     }
 
     private void SetupRigidBody()
@@ -149,7 +149,7 @@ public class TowerController : MonoBehaviour, IHealthTower
 
         foreach (Collider enemy in hitEnemies)
         {
-            if (enemy.CompareTag("Enemy"))
+            if (enemy.CompareTag(tagEnemy))
             {
                 if (!attackQueue.Contains(enemy.transform))
                 {
@@ -189,11 +189,9 @@ public class TowerController : MonoBehaviour, IHealthTower
     {
         if (currentTarget != null)
         {
-            GameObject newProjectile = ObjectPool.Instance.GetFromPool(bulletTowerPrefab);
-            newProjectile.transform.position = spawnPoint.position;
-            newProjectile.GetComponent<BulletTowerController>().Fire(currentTarget, () =>
+            GameObject newProjectile = ObjectPool.Instance.GetFromPool(bulletTowerPrefab, spawnPoint.position, spawnPoint.rotation);
+            newProjectile.GetComponent<BulletTower>().Fire(currentTarget, () =>
             {
-                ObjectPool.Instance.ReturnToPool(bulletTowerPrefab, newProjectile);
             });
         }
     }
@@ -259,7 +257,7 @@ public class TowerController : MonoBehaviour, IHealthTower
         int count = 0;
         foreach (Collider enemy in hitEnemies)
         {
-            if (enemy.CompareTag("Enemy"))
+            if (enemy.CompareTag(tagEnemy))
                 count++;
         }
         return count;

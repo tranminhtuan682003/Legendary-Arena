@@ -9,7 +9,6 @@ public class ObjectPool : MonoBehaviour
 
     private void Awake()
     {
-        // Đảm bảo chỉ có một instance của ObjectPoolManager
         if (Instance == null)
         {
             Instance = this;
@@ -21,59 +20,40 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    // Tạo hoặc lấy pool, nếu pool chưa có, tạo mới
-    public void CreatePool(GameObject prefab, int poolSize)
+    public void CreatePool(GameObject prefab)
     {
         string poolKey = prefab.name;
 
-        // Kiểm tra nếu pool đã tồn tại
         if (!poolDictionary.ContainsKey(poolKey))
         {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            poolDictionary.Add(poolKey, new Queue<GameObject>());
+        }
+    }
 
-            // Tạo các đối tượng ban đầu cho pool
-            for (int i = 0; i < poolSize; i++)
+    public GameObject GetFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        string poolKey = prefab.name;
+
+        if (!poolDictionary.ContainsKey(poolKey))
+        {
+            CreatePool(prefab);
+        }
+        Queue<GameObject> objectPool = poolDictionary[poolKey];
+        foreach (GameObject pooledObject in objectPool)
+        {
+            if (!pooledObject.activeInHierarchy)
             {
-                GameObject newObject = Instantiate(prefab);
-                newObject.SetActive(false);
-                objectPool.Enqueue(newObject);
+                pooledObject.transform.position = position; // Đặt lại vị trí
+                pooledObject.transform.rotation = rotation; // Đặt lại góc xoay
+                pooledObject.SetActive(true);
+                return pooledObject;
             }
-
-            poolDictionary.Add(poolKey, objectPool);
         }
+        GameObject newObject = Instantiate(prefab, position, rotation);
+        newObject.SetActive(true);
+        newObject.name = prefab.name;
+        objectPool.Enqueue(newObject); // Thêm đối tượng mới vào pool
+        return newObject;
     }
 
-    // Lấy một đối tượng từ pool
-    public GameObject GetFromPool(GameObject prefab)
-    {
-        string poolKey = prefab.name;
-
-        if (poolDictionary.ContainsKey(poolKey))
-        {
-            GameObject objectToReuse = poolDictionary[poolKey].Count > 0 ? poolDictionary[poolKey].Dequeue() : Instantiate(prefab);
-            objectToReuse.SetActive(true);
-            return objectToReuse;
-        }
-        else
-        {
-            Debug.LogWarning($"No pool for {poolKey}");
-            return null;
-        }
-    }
-
-    // Trả đối tượng lại vào pool
-    public void ReturnToPool(GameObject prefab, GameObject objectToReturn)
-    {
-        string poolKey = prefab.name;
-
-        if (poolDictionary.ContainsKey(poolKey))
-        {
-            objectToReturn.SetActive(false);
-            poolDictionary[poolKey].Enqueue(objectToReturn);
-        }
-        else
-        {
-            Debug.LogWarning($"No pool for {poolKey}");
-        }
-    }
 }

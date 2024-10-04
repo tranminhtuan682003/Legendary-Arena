@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class SkillUIManager : MonoBehaviour
 {
     public PlayerController playerController;
+    [Header("nomal,skill1,skill2,skill3,goHome,heal,Explosive,Farming,Pushing")]
     public List<Button> skillButtons;
     public List<TextMeshProUGUI> cooldownText;
     public List<TextMeshProUGUI> nameSkill;
@@ -54,8 +56,8 @@ public class SkillUIManager : MonoBehaviour
         // Kiểm tra nếu kỹ năng đang trong cooldown
         if (ability.IsOnCooldown)
         {
-            notice.text = ability.abilityName + " is on cooldown!"; // Hiển thị thông báo
-            return; // Không kích hoạt kỹ năng nếu đang cooldown
+            StartCoroutine(ShowNotice());
+            return;
         }
 
         // Kích hoạt kỹ năng
@@ -93,8 +95,13 @@ public class SkillUIManager : MonoBehaviour
         }
     }
 
+    IEnumerator ShowNotice()
+    {
+        notice.text = "Đang hồi chiêu";
+        yield return new WaitForSeconds(1f);
+        notice.text = "";
+    }
 
-    // Hàm thay đổi màu của nút
     private void ChangeButtonColor(Button button, Color color)
     {
         button.GetComponent<Image>().color = color;
