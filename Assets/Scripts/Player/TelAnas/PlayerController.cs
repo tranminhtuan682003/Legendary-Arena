@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
 public class PlayerController : MonoBehaviour, IhealthPlayer
 {
     [Header("Start & Hero Setup")]
@@ -15,8 +14,9 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
 
     [Header("Effect")]
     public HeroEffects heroEffects;
-    public Dictionary<string, ParticleSystem> particleEffects;
-
+    public Dictionary<string, ParticleSystem> skillEffect;
+    public SupplementaryTable supplementaryTable;
+    [HideInInspector] public GameObject supplymentary;
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     [HideInInspector] public Vector2 moveDirection;
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     [Header("Attack Settings")]
     private AttackArea attackArea;
     public Transform SpawnPoint;
+    public List<GameObject> enemy;
+    public List<GameObject> tower;
     [HideInInspector] public bool isAttacking;
 
     #region IHealthPlayer Implementation
@@ -67,13 +69,13 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     void Start()
     {
         InitializePlayer();
-        ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
         InitializeEffects();
     }
 
     void Update()
     {
         currentState?.Execute();
+        DetectEnemiesInRange();
     }
     #endregion
 
@@ -88,10 +90,14 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
 
     private void InitializePlayer()
     {
+        InitSupplementary("Explosive");
+        ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
         currentHealth = maxHealth;
         isDead = false;
         ChangeState(new PlayerIdleState(this));
         SetupHealthBar();
+        heroEffects.timeAnimationAttack = GetAnimationClipLength("Attack", animator);
+        heroEffects.timeShoot = heroEffects.timeAnimationAttack;
 
         SkillUIManager skillUIManager = FindObjectOfType<SkillUIManager>();
         skillUIManager.SetupSkillButtons();
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     {
         if (heroEffects != null)
         {
-            particleEffects = new Dictionary<string, ParticleSystem>
+            skillEffect = new Dictionary<string, ParticleSystem>
             {
                 { "shootEffect", Instantiate(heroEffects.shootEffect) },
                 { "returnHomeEffect", Instantiate(heroEffects.returnHomeEffect) },
@@ -118,9 +124,21 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
                 { "skill2", Instantiate(heroEffects.Skill2) },
                 { "skill3", Instantiate(heroEffects.Skill3) }
             };
-            foreach (var effect in particleEffects.Values)
+            foreach (var effect in skillEffect.Values)
             {
                 effect.Stop();
+            }
+        }
+    }
+
+    private void InitSupplementary(string name)
+    {
+        foreach (var item in supplementaryTable.supplementarys)
+        {
+            if (item.name == name)
+            {
+                supplymentary = Instantiate(item, transform);
+                supplymentary.SetActive(false);
             }
         }
     }
@@ -142,6 +160,27 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
         animator.ResetTrigger("Dead");
         animator.SetTrigger(animationName);
     }
+
+    private float GetAnimationClipLength(string animationName, Animator animator)
+    {
+        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == animationName)
+            {
+                return clip.length;
+            }
+        }
+        return -1f;
+    }
+
+    private void SetAnimationSpeed(string animationName, float speed)
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(animationName))
+        {
+            animator.speed = speed;
+        }
+    }
     #endregion
 
     #region Attack & Effects
@@ -150,7 +189,6 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     {
         heroEffects.rangeAttack = maxRange;
         attackArea.SetRadius(heroEffects.rangeAttack * 10);
-
     }
 
     public void ActivateLightEffect()
@@ -162,6 +200,22 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     {
         attackArea.DisableLine();
     }
+
+    public void DetectEnemiesInRange()
+    {
+        Vector3 heroPosition = transform.position;
+        float detectionRadius = (heroEffects.rangeAttack + 0.5f) * 2;
+        Collider[] hitColliders = Physics.OverlapSphere(heroPosition, detectionRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.gameObject.layer == LayerMask.NameToLayer("Tower"))
+            {
+                Debug.Log("Tower detected: " + hitCollider.gameObject.name);
+                tower.Add(hitCollider.gameObject);
+            }
+        }
+    }
+
     public void ActivateAbility(int abilityIndex)
     {
         if (abilityIndex < currentHero.abilities.Count)
@@ -170,21 +224,58 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
         }
     }
 
+    public void Attack()
+    {
+        speedShoot();
+        ChangeAnimator("Attack");
+        ActivateEffect("shootEffect", SpawnPoint, 0.5f);
+        GameObject bullet = ObjectPool.Instance.GetFromPool(heroEffects.bulletPrefab, SpawnPoint.position, SpawnPoint.rotation);
+        bullet.GetComponent<BulletTelAnas>().SetMaxRange(heroEffects.rangeAttack);
+        if (heroEffects.rangeAttack == 2.5f)
+        {
+            StartCoroutine(ShowAttackArea());
+        }
+    }
+
+    private IEnumerator ShowAttackArea()
+    {
+        ActivateLightEffect();
+        yield return new WaitForSeconds(0.5f);
+        DeactivateLightEffect();
+    }
+
     public void ActivateEffect(string effectName, Transform position, float duration)
     {
-        if (particleEffects.ContainsKey(effectName))
+        if (skillEffect.ContainsKey(effectName))
         {
-            ParticleSystem effect = particleEffects[effectName];
+            ParticleSystem effect = skillEffect[effectName];
             effect.transform.position = position.position;
             effect.Play();
             StartCoroutine(DeactivateEffect(effect, duration));
         }
     }
 
-    IEnumerator DeactivateEffect(ParticleSystem effect, float duration)
+    private IEnumerator DeactivateEffect(ParticleSystem effect, float duration)
     {
         yield return new WaitForSeconds(duration);
         effect.Stop();
+    }
+
+    public void AdjustSpeedShoot(float timeShoot)
+    {
+        heroEffects.timeShoot = timeShoot;
+    }
+
+    public void speedShoot()
+    {
+        StartCoroutine(ChangeSpeedShoot());
+    }
+
+    private IEnumerator ChangeSpeedShoot()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(heroEffects.timeShoot);
+        isAttacking = false;
     }
     #endregion
 
@@ -230,7 +321,6 @@ public class PlayerController : MonoBehaviour, IhealthPlayer
     {
         isDead = true;
         ChangeAnimator("Dead");
-        Debug.Log("Player is dead.");
     }
     #endregion
 }

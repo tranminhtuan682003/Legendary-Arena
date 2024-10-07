@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Explosive : Ability
 {
-    public Explosive()
+    private PlayerController playerController;
+    public Explosive(PlayerController playerController)
     {
+        this.playerController = playerController;
         abilityName = "Explosive";
         cooldown = 50f;
         manaCost = 0f;
@@ -13,6 +15,5 @@ public class Explosive : Ability
 
     protected override void UseAbility()
     {
-        Debug.Log("Firing a powerful sniper shot!");
     }
 }

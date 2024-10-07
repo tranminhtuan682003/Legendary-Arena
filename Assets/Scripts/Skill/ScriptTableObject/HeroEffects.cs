@@ -9,4 +9,9 @@ public class HeroEffects : ScriptableObject
     public ParticleSystem Skill3;
     public GameObject bulletPrefab;
     public float rangeAttack;
+    //speed shoot
+    public float timeShoot;
+    //speed Animation Attack
+    public float timeAnimationAttack;
+
 }

@@ -17,7 +17,7 @@ public class Marksman : Heros
         abilities.Add(new Skill3());
         abilities.Add(new GoHome(playerController));
         abilities.Add(new Heal(playerController));
-        abilities.Add(new Explosive());
+        abilities.Add(new Explosive(playerController));
         abilities.Add(new Farming(playerController));
         abilities.Add(new Pushing(playerController));
 

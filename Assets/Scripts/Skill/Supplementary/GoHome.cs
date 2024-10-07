@@ -32,7 +32,7 @@ public class GoHome : Ability
 
         while (duration > 0)
         {
-            if (playerController.isMoving)
+            if (playerController.isMoving || playerController.isAttacking)
             {
                 CancelReturnHome();
                 yield break;
@@ -54,9 +54,9 @@ public class GoHome : Ability
         {
             playerController.StopCoroutine(returnCoroutine);
             returnCoroutine = null;
-            if (playerController.particleEffects.ContainsKey("returnHomeEffect"))
+            if (playerController.skillEffect.ContainsKey("returnHomeEffect"))
             {
-                var returnHomeEffect = playerController.particleEffects["returnHomeEffect"];
+                var returnHomeEffect = playerController.skillEffect["returnHomeEffect"];
                 returnHomeEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
         }

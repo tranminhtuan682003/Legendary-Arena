@@ -1,6 +1,3 @@
-using UnityEngine;
-using System.Collections;
-
 public class Farming : Ability
 {
     private PlayerController playerController;
@@ -14,14 +11,9 @@ public class Farming : Ability
 
     protected override void UseAbility()
     {
-        Attack();
-    }
-
-    private void Attack()
-    {
-        playerController.ChangeAnimator("Attack");
-        playerController.ActivateEffect("shootEffect", playerController.SpawnPoint, 0.5f);
-        GameObject bullet = ObjectPool.Instance.GetFromPool(playerController.heroEffects.bulletPrefab, playerController.SpawnPoint.position, playerController.SpawnPoint.rotation);
-        bullet.GetComponent<BulletTelAnas>().SetMaxRange(playerController.heroEffects.rangeAttack);
+        if (!playerController.isAttacking)
+        {
+            playerController.ChangeState(new PlayerAttackState(playerController));
+        }
     }
 }

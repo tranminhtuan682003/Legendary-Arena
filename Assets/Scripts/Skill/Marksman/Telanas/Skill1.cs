@@ -20,11 +20,13 @@ public class Skill1 : Ability
     IEnumerator IncreaseDistance()
     {
         playerController.SetMaxRange(3.5f);
+        playerController.AdjustSpeedShoot(playerController.heroEffects.timeShoot * 0.7f);
         playerController.ActivateLightEffect();
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
 
-        playerController.DeactivateLightEffect();
         playerController.SetMaxRange(2.5f);
+        playerController.AdjustSpeedShoot(playerController.heroEffects.timeShoot / 0.7f);
+        playerController.DeactivateLightEffect();
     }
 }
