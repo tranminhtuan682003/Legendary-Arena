@@ -1,9 +1,9 @@
-public class NomalAttack : Ability
+public class NomalAttackx : Ability
 {
-    private PlayerController playerController;
-    public NomalAttack(PlayerController playerController)
+    private HeroBase hero;
+    public NomalAttackx(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "";
         cooldown = 0f;
         manaCost = 0f;
@@ -11,9 +11,9 @@ public class NomalAttack : Ability
 
     protected override void UseAbility()
     {
-        if (!playerController.isAttacking)
+        if (!hero.heroParameter.isAttacking)
         {
-            playerController.ChangeState(new PlayerAttackState(playerController));
+            hero.ChangeState(new PlayerAttackState(hero));
         }
     }
 }

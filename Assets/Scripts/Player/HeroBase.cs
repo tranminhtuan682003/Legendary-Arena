@@ -1,34 +1,43 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 {
-    private HeroParameter heroParameter;
-    public Hero currentHero;
+    public HeroParameter heroParameter;
+    public Heros currentHero;
     private IState currentState;
     public HeroEffects heroEffects;
     public SupplementaryTable supplementaryTable;
+    public StartPosition startPosition;
     private AttackArea attackArea;
     SkillUIManager skillUIManager;
 
     #region IHealthPlayer
-    public float CurrentHealth { get => heroParameter.currentHealth; set => heroParameter.currentHealth = Mathf.Clamp(value, 0, MaxHealth); }
-    public float MaxHealth { get => heroParameter.maxHealth; set => heroParameter.maxHealth = Mathf.Max(0, value); }
+    public float CurrentHealth
+    {
+        get => heroParameter.currentHealth;
+        set => heroParameter.currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+    }
 
-    public bool IsDead => throw new System.NotImplementedException();
+    public float MaxHealth
+    {
+        get => heroParameter.maxHealth;
+        set => heroParameter.maxHealth = Mathf.Max(0, value);
+    }
+
+    public bool IsDead => CurrentHealth <= 0;
 
     public void Heal(float amount)
     {
-        if (heroParameter.isDead) return;
+        if (IsDead) return;
         CurrentHealth += amount;
     }
 
     public void TakeDamage(float amount)
     {
-        if (heroParameter.isDead) return;
+        if (IsDead) return;
         CurrentHealth -= amount;
         if (CurrentHealth <= 0)
         {
@@ -38,21 +47,23 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 
     public void Dead()
     {
-        heroParameter.isDead = true;
+        Debug.Log("Hero is Dead!");
     }
     #endregion
 
-    void Awake()
+    protected virtual void Awake()
     {
         InitComponent();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         InitParameter();
+        InitPlayer();
+        InitializeEffects();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         currentState?.Execute();
     }
@@ -68,14 +79,12 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     {
         heroParameter.animator = GetComponentInChildren<Animator>();
         heroParameter.rigidbody = GetComponent<Rigidbody>();
+        attackArea = GetComponentInChildren<AttackArea>();
         currentHero = new Marksman(this);
     }
 
     protected virtual void InitParameter()
     {
-        heroParameter.maxHealth = 4000f;
-        heroParameter.currentHealth = heroParameter.maxHealth;
-        heroParameter.speed = 5f;
         heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
     }
 
@@ -104,10 +113,8 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         InitSupplementary("Explosive");
         ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
         heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
-        heroParameter.attackSpeed = heroParameter.timeAttackAnimation;
         skillUIManager = FindObjectOfType<SkillUIManager>();
-        skillUIManager.SetupSkillButtons();
-        heroParameter.attackRange = 2.5f; // khoi tao o player
+        // skillUIManager.SetupSkillButtons();
     }
 
     protected void InitSupplementary(string name)
@@ -168,13 +175,6 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         attackArea.DisableLine();
     }
 
-    protected IEnumerator ShowAttackArea()
-    {
-        ActivateLightEffect();
-        yield return new WaitForSeconds(0.2f);
-        DeactivateLightEffect();
-    }
-
     public void ActivateAbility(int abilityIndex)
     {
         if (abilityIndex < currentHero.abilities.Count)
@@ -182,15 +182,19 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
             currentHero.abilities[abilityIndex].Activate();
         }
     }
-    public void Attack()
+
+    public virtual void Attack()
     {
-        StartCoroutine(Shooting());
         ChangeAnimator("Attack");
-        if (heroEffects.rangeAttack == 2.5f)
-        {
-            StartCoroutine(ShowAttackArea());
-        }
     }
+
+    protected IEnumerator ShowAttackArea()
+    {
+        ActivateLightEffect();
+        yield return new WaitForSeconds(0.2f);
+        DeactivateLightEffect();
+    }
+
     public IEnumerator Shooting()
     {
         heroParameter.isAttacking = true;
@@ -215,6 +219,11 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         effect.Stop();
     }
 
+    public void AdjustSpeedShoot(float attackSpeed)
+    {
+        heroParameter.attackSpeed = attackSpeed;
+    }
+
     #region Movement Methods
     protected void OnMove(InputValue value)
     {
@@ -224,7 +233,7 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 
     public void Move()
     {
-        if (heroParameter.movementVector != Vector3.zero && !heroParameter.isDead)
+        if (heroParameter.movementVector != Vector3.zero && !IsDead)
         {
             heroParameter.isMoving = true;
             Vector3 move = heroParameter.movementVector * heroParameter.speed * Time.deltaTime;
@@ -239,5 +248,4 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         }
     }
     #endregion
-
 }

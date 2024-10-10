@@ -6,7 +6,7 @@ using System.Collections;
 
 public class SkillUIManager : MonoBehaviour
 {
-    public PlayerController playerController;
+    private HeroBase hero;
     [Header("nomal,skill1,skill2,skill3,goHome,heal,Explosive,Farming,Pushing")]
     public List<Button> skillButtons;
     public List<TextMeshProUGUI> cooldownText;
@@ -19,6 +19,7 @@ public class SkillUIManager : MonoBehaviour
 
     private void Start()
     {
+        hero = FindObjectOfType<HeroBase>();
         SetupSkillButtons();
         // Lưu màu sắc gốc của nút
         if (skillButtons.Count > 0)
@@ -34,13 +35,13 @@ public class SkillUIManager : MonoBehaviour
 
     public void SetupSkillButtons()
     {
-        for (int i = 0; i < playerController.currentHero.abilities.Count; i++)
+        for (int i = 0; i < hero.currentHero.abilities.Count; i++)
         {
             if (i < skillButtons.Count && i < cooldownText.Count && i < nameSkill.Count)
             {
                 int index = i;
                 // Gán tên kỹ năng
-                nameSkill[i].text = playerController.currentHero.abilities[i].abilityName;
+                nameSkill[i].text = hero.currentHero.abilities[i].abilityName;
 
                 // Thêm sự kiện khi nhấn nút
                 skillButtons[i].onClick.RemoveAllListeners();
@@ -51,7 +52,7 @@ public class SkillUIManager : MonoBehaviour
 
     private void ActivateAbility(int index)
     {
-        var ability = playerController.currentHero.abilities[index];
+        var ability = hero.currentHero.abilities[index];
 
         // Kiểm tra nếu kỹ năng đang trong cooldown
         if (ability.IsOnCooldown)
@@ -61,7 +62,7 @@ public class SkillUIManager : MonoBehaviour
         }
 
         // Kích hoạt kỹ năng
-        playerController.ActivateAbility(index);
+        hero.ActivateAbility(index);
         // Đổi màu nút
         ChangeButtonColor(skillButtons[index], cooldownColor);
     }
@@ -69,11 +70,11 @@ public class SkillUIManager : MonoBehaviour
     // Cập nhật hiển thị thời gian hồi chiêu
     private void UpdateCooldowns()
     {
-        for (int i = 0; i < playerController.currentHero.abilities.Count; i++)
+        for (int i = 0; i < hero.currentHero.abilities.Count; i++)
         {
             if (i < cooldownText.Count)
             {
-                var ability = playerController.currentHero.abilities[i];
+                var ability = hero.currentHero.abilities[i];
                 if (ability.IsOnCooldown)
                 {
                     float cooldownRemaining = ability.cooldown - (Time.time - ability.LastUsedTime);

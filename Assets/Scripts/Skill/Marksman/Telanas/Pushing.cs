@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 public class Pushing : Ability
 {
-    private PlayerController playerController;
-    public Pushing(PlayerController playerController)
+    private HeroBase hero;
+    public Pushing(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "";
         cooldown = 0f;
         manaCost = 0f;
@@ -13,9 +13,9 @@ public class Pushing : Ability
 
     protected override void UseAbility()
     {
-        if (!playerController.isAttacking)
+        if (!hero.heroParameter.isAttacking)
         {
-            playerController.ChangeState(new PlayerAttackState(playerController));
+            hero.ChangeState(new PlayerAttackState(hero));
         }
     }
 }

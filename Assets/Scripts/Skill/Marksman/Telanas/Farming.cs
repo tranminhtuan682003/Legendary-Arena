@@ -1,9 +1,9 @@
 public class Farming : Ability
 {
-    private PlayerController playerController;
-    public Farming(PlayerController playerController)
+    private HeroBase hero;
+    public Farming(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "";
         cooldown = 0f;
         manaCost = 0f;
@@ -11,9 +11,9 @@ public class Farming : Ability
 
     protected override void UseAbility()
     {
-        if (!playerController.isAttacking)
+        if (!hero.heroParameter.isAttacking)
         {
-            playerController.ChangeState(new PlayerAttackState(playerController));
+            hero.ChangeState(new PlayerAttackState(hero));
         }
     }
 }

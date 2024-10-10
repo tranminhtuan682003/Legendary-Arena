@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 7e9f0b7034c74a344878f476c179ef3e
+  m_SerializeEntries:
+  - m_GUID: fffdcd2c288c9c144b22d27efea9fab6
+    m_Address: Assets/Scripts/Skill/ScriptTableObject/SupplementaryTable.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5efb7768799e1d24391142a0fd5f0c66
+    m_Address: Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6ad0855345aa73a4aa1edd2238a5eb2a, type: 2}
+    - {fileID: 11400000, guid: f848fa698f972724d9676b2fcd6729da, type: 2}

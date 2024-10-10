@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class PlayerMoveState : IState
 {
-    private PlayerController playerController;
+    private HeroBase hero;
 
-    public PlayerMoveState(PlayerController playerController)
+    public PlayerMoveState(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
     }
 
     public void Enter()
     {
-        playerController.ChangeAnimator("Run");
+        hero.ChangeAnimator("Run");
     }
 
     public void Execute()
     {
-        playerController.Move();
-        if (playerController.moveDirection == Vector2.zero && !playerController.isDead)
+        hero.Move();
+        if (hero.heroParameter.moveDirection == Vector2.zero && !hero.IsDead)
         {
-            playerController.ChangeState(new PlayerIdleState(playerController));
+            hero.ChangeState(new PlayerIdleState(hero));
         }
     }
 

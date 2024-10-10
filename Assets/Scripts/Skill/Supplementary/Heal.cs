@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Heal : Ability
 {
-    private PlayerController playerController;
-    public Heal(PlayerController playerController)
+    private HeroBase hero;
+    public Heal(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "Heal";
         cooldown = 30f;
         manaCost = 0f;
     }
     protected override void UseAbility()
     {
-        Debug.Log("Mau con lai la : " + playerController.CurrentHealth);
+        Debug.Log("Mau con lai la : " + hero.CurrentHealth);
     }
 }

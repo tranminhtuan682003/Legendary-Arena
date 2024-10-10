@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Explosive : Ability
 {
-    private PlayerController playerController;
-    public Explosive(PlayerController playerController)
+    private HeroBase hero;
+    public Explosive(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "Explosive";
         cooldown = 50f;
         manaCost = 0f;

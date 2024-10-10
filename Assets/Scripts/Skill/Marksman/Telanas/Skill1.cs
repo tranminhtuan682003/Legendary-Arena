@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class Skill1 : Ability
+public class Skill1x : Ability
 {
-    private PlayerController playerController;
+    private HeroBase hero;
 
-    public Skill1(PlayerController playerController)
+    public Skill1x(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "Rapid";
         cooldown = 5f;
         manaCost = 30f;
@@ -15,18 +15,18 @@ public class Skill1 : Ability
 
     protected override void UseAbility()
     {
-        playerController.StartCoroutine(IncreaseDistance());
+        hero.StartCoroutine(IncreaseDistance());
     }
     IEnumerator IncreaseDistance()
     {
-        playerController.SetMaxRange(3.5f);
-        playerController.AdjustSpeedShoot(playerController.heroEffects.timeShoot * 0.7f);
-        playerController.ActivateLightEffect();
+        hero.SetMaxRange(3.5f);
+        hero.AdjustSpeedShoot(hero.heroParameter.attackSpeed * 0.7f);
+        hero.ActivateLightEffect();
 
         yield return new WaitForSeconds(4f);
 
-        playerController.SetMaxRange(2.5f);
-        playerController.AdjustSpeedShoot(playerController.heroEffects.timeShoot / 0.7f);
-        playerController.DeactivateLightEffect();
+        hero.SetMaxRange(2.5f);
+        hero.AdjustSpeedShoot(hero.heroParameter.attackSpeed / 0.7f);
+        hero.DeactivateLightEffect();
     }
 }

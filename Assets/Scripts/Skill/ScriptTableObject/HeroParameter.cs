@@ -20,8 +20,7 @@ public class HeroParameter
     public float attackSpeed;
     public float timeAttackAnimation;
     public bool isAttacking;
-    [Header("Dead")]
-    public bool isDead;
+
     [Header("DetectTarget")]
     public List<GameObject> enemy;
     public List<GameObject> tower;
@@ -29,4 +28,6 @@ public class HeroParameter
     public Dictionary<string, ParticleSystem> skillEffect;
     public GameObject supplymentary;
     public Transform spawnPoint;
+    [Header("bool")]
+    public bool used;
 }

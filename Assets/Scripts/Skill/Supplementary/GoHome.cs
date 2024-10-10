@@ -3,12 +3,12 @@ using System.Collections;
 
 public class GoHome : Ability
 {
-    private PlayerController playerController;
+    private HeroBase hero;
     private Coroutine returnCoroutine; // Lưu lại coroutine để hủy nếu cần
 
-    public GoHome(PlayerController playerController)
+    public GoHome(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         abilityName = "Return";
         cooldown = 0f;
         manaCost = 0f;
@@ -17,9 +17,9 @@ public class GoHome : Ability
     protected override void UseAbility()
     {
         // Nếu không đang return và không di chuyển, bắt đầu return
-        if (returnCoroutine == null && !playerController.isMoving)
+        if (returnCoroutine == null && !hero.heroParameter.isMoving)
         {
-            returnCoroutine = playerController.StartCoroutine(ReturnHome());
+            returnCoroutine = hero.StartCoroutine(ReturnHome());
         }
     }
 
@@ -27,12 +27,12 @@ public class GoHome : Ability
     {
         float duration = 5f;
 
-        // Gọi hàm ActivateEffect từ PlayerController để kích hoạt hiệu ứng returnHomeEffect
-        playerController.ActivateEffect("returnHomeEffect", playerController.transform, duration);
+        // Gọi hàm ActivateEffect từ hero để kích hoạt hiệu ứng returnHomeEffect
+        hero.ActivateEffect("returnHomeEffect", hero.transform, duration);
 
         while (duration > 0)
         {
-            if (playerController.isMoving || playerController.isAttacking)
+            if (hero.heroParameter.isMoving || hero.heroParameter.isAttacking)
             {
                 CancelReturnHome();
                 yield break;
@@ -42,7 +42,7 @@ public class GoHome : Ability
             yield return null;
         }
         CancelReturnHome();
-        playerController.transform.position = playerController.startPosition.position;
+        hero.transform.position = hero.startPosition.assasinPosition;
         Debug.Log("Player returned to start position");
 
         returnCoroutine = null;
@@ -52,11 +52,11 @@ public class GoHome : Ability
     {
         if (returnCoroutine != null)
         {
-            playerController.StopCoroutine(returnCoroutine);
+            hero.StopCoroutine(returnCoroutine);
             returnCoroutine = null;
-            if (playerController.skillEffect.ContainsKey("returnHomeEffect"))
+            if (hero.heroParameter.skillEffect.ContainsKey("returnHomeEffect"))
             {
-                var returnHomeEffect = playerController.skillEffect["returnHomeEffect"];
+                var returnHomeEffect = hero.heroParameter.skillEffect["returnHomeEffect"];
                 returnHomeEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
         }

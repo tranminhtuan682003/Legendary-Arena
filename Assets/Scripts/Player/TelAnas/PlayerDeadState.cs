@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class PlayerDeadState : IState
 {
-    private PlayerController playerController;
+    private HeroBase hero;
 
-    public PlayerDeadState(PlayerController playerController)
+    public PlayerDeadState(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
     }
 
     public void Enter()
     {
-        playerController.ChangeAnimator("Dead");
+        hero.ChangeAnimator("Dead");
     }
 
     public void Execute()
     {
-        playerController.Dead();
+        hero.Dead();
     }
 
     public void Exit()

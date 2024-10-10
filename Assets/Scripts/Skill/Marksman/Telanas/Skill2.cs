@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Skill2 : Ability
+public class Skill2x : Ability
 {
-    public Skill2()
+    public Skill2x()
     {
         abilityName = "Sniper";
         cooldown = 10f;

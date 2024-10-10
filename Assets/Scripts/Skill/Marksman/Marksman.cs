@@ -1,27 +1,24 @@
 using UnityEngine;
 public class Marksman : Heros
 {
-    private PlayerController playerController;
-    public Marksman(PlayerController playerController)
+    private HeroBase hero;
+    public Marksman(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
         heroName = "Marksman";
         SetupAbilities();
     }
 
     public override void SetupAbilities()
     {
-        abilities.Add(new NomalAttack(playerController));
-        abilities.Add(new Skill1(playerController));
-        abilities.Add(new Skill2());
-        abilities.Add(new Skill3());
-        abilities.Add(new GoHome(playerController));
-        abilities.Add(new Heal(playerController));
-        abilities.Add(new Explosive(playerController));
-        abilities.Add(new Farming(playerController));
-        abilities.Add(new Pushing(playerController));
-
-
-        Debug.Log("Số lượng kỹ năng của Marksman: " + abilities.Count);
+        abilities.Add(new NomalAttackx(hero));
+        abilities.Add(new Skill1x(hero));
+        abilities.Add(new Skill2x());
+        abilities.Add(new Skill3x());
+        abilities.Add(new GoHome(hero));
+        abilities.Add(new Heal(hero));
+        abilities.Add(new Explosive(hero));
+        abilities.Add(new Farming(hero));
+        abilities.Add(new Pushing(hero));
     }
 }

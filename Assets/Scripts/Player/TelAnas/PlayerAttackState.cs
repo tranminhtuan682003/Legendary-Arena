@@ -1,23 +1,23 @@
 using UnityEngine;
 public class PlayerAttackState : IState
 {
-    private PlayerController playerController;
+    private HeroBase hero;
 
-    public PlayerAttackState(PlayerController playerController)
+    public PlayerAttackState(HeroBase hero)
     {
-        this.playerController = playerController;
+        this.hero = hero;
     }
 
     public void Enter()
     {
-        playerController.Attack();
+        hero.Attack();
     }
 
     public void Execute()
     {
-        if (!playerController.isAttacking)
+        if (!hero.heroParameter.isAttacking)
         {
-            playerController.ChangeState(new PlayerIdleState(playerController));
+            hero.ChangeState(new PlayerIdleState(hero));
         }
     }
 

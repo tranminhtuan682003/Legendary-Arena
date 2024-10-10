@@ -1,7 +1,7 @@
 using UnityEngine;
-public class Skill3 : Ability
+public class Skill3x : Ability
 {
-    public Skill3()
+    public Skill3x()
     {
         abilityName = "Slow";
         cooldown = 20f; // Thời gian hồi chiêu ngắn
