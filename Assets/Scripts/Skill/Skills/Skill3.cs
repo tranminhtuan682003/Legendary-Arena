@@ -10,18 +10,9 @@ public class Skill3 : SkillBase
         radius = 155f;
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    protected override void SetLabelVisibility(bool isVisible)
     {
-        base.OnPointerDown(eventData);
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        base.OnPointerUp(eventData);
-    }
-
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
+        base.SetLabelVisibility(isVisible);
+        nameLabel.text = "Sturned";
     }
 }

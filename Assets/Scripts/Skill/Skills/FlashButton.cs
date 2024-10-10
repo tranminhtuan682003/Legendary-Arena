@@ -9,39 +9,50 @@ public class FlashButton : SkillBase
         base.Start();
         radius = 115f;
         cooldownTime = 100f;
-        hero.heroParameter.supplymentary.SetActive(false);
+        nameSupplymentary = "Explosive";
+        cencelSkill.gameObject.SetActive(false);
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    protected override void SetLabelVisibility(bool isVisible)
     {
-        base.OnPointerDown(eventData);
-        hero.heroParameter.supplymentary.SetActive(true);
+        base.SetLabelVisibility(isVisible);
+        nameLabel.text = "Flash";
     }
 
-    public override void OnPointerUp(PointerEventData eventData)
+    protected override void FuncitionInOnPointerDown()
     {
-        base.OnPointerUp(eventData);
+        base.FuncitionInOnPointerDown();
+        supplymentary.SetActive(true);
+    }
+    protected override void FuncitionInOnPointerUp()
+    {
+        base.FuncitionInOnPointerUp();
+        supplymentary.SetActive(false);
         TelePlayer();
-        hero.heroParameter.supplymentary.SetActive(false);
+    }
+    protected override void FuncitionInOnPointerUpCencel()
+    {
+        base.FuncitionInOnPointerUpCencel();
+        supplymentary.SetActive(false);
     }
 
-    public override void OnDrag(PointerEventData eventData)
+    protected override void FuncitionInOnDrag()
     {
-        base.OnDrag(eventData);
+        base.FuncitionInOnDrag();
         SetRotationForSupplymentary(currentPointerPosition);
+
     }
 
     private void SetRotationForSupplymentary(Vector2 currentPointerPosition)
     {
         Vector2 direction = currentPointerPosition - centerPosition;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg * -1 + 90f;
-        hero.heroParameter.supplymentary.transform.rotation = Quaternion.Euler(0, angle, 0);
+        supplymentary.transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
     private void TelePlayer()
     {
-        hero.transform.position = hero.heroParameter.supplymentary.transform.position + hero.heroParameter.supplymentary.transform.forward * 2f;
-        hero.transform.rotation = hero.heroParameter.supplymentary.transform.rotation;
-
+        hero.transform.position = supplymentary.transform.position + supplymentary.transform.forward * 2f;
+        hero.transform.rotation = supplymentary.transform.rotation;
     }
 }

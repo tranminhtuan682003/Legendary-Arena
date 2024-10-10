@@ -9,7 +9,6 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     public Heros currentHero;
     private IState currentState;
     public HeroEffects heroEffects;
-    public SupplementaryTable supplementaryTable;
     public StartPosition startPosition;
     private AttackArea attackArea;
     SkillUIManager skillUIManager;
@@ -110,23 +109,10 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     protected virtual void InitPlayer()
     {
         ChangeState(new PlayerIdleState(this));
-        InitSupplementary("Explosive");
         ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
         heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
         skillUIManager = FindObjectOfType<SkillUIManager>();
         // skillUIManager.SetupSkillButtons();
-    }
-
-    protected void InitSupplementary(string name)
-    {
-        foreach (var item in supplementaryTable.supplementarys)
-        {
-            if (item.name == name)
-            {
-                heroParameter.supplymentary = Instantiate(item, transform);
-                heroParameter.supplymentary.SetActive(false);
-            }
-        }
     }
 
     protected float GetTimeAnimation(string animationName, Animator animator)

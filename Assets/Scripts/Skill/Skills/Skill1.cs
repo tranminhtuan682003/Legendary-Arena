@@ -10,20 +10,16 @@ public class Skill1 : SkillBase
         radius = 155f;
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    protected override void SetLabelVisibility(bool isVisible)
     {
-        base.OnPointerDown(eventData);
+        base.SetLabelVisibility(isVisible);
+        nameLabel.text = "Up range";
+
+    }
+    protected override void FuncitionInOnPointerDown()
+    {
+        base.FuncitionInOnPointerDown();
         StartCoroutine(IncreaseDistance());
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        base.OnPointerUp(eventData);
-    }
-
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
     }
 
     IEnumerator IncreaseDistance()

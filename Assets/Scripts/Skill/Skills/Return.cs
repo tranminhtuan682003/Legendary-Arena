@@ -12,23 +12,19 @@ public class Return : SkillBase
         radius = 115f;
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    protected override void SetLabelVisibility(bool isVisible)
     {
-        base.OnPointerDown(eventData);
+        base.SetLabelVisibility(isVisible);
+        nameLabel.text = "Home";
+    }
+
+    protected override void FuncitionInOnPointerDown()
+    {
+        base.FuncitionInOnPointerDown();
         if (returnCoroutine == null && !hero.heroParameter.isMoving)
         {
             returnCoroutine = hero.StartCoroutine(ReturnHome());
         }
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        base.OnPointerUp(eventData);
-    }
-
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
     }
 
     IEnumerator ReturnHome()

@@ -1,224 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
-    private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
-    private Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
-    private Dictionary<string, CanvasGroup> textCanvasGroups = new Dictionary<string, CanvasGroup>();
-    private Dictionary<string, CanvasGroup> buttonCanvasGroups = new Dictionary<string, CanvasGroup>();
+    // Singleton Instance (Thread-safe)
+    private static UIManager _instance;
+    public static UIManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                var existingInstance = FindObjectOfType<UIManager>();
+                if (existingInstance != null)
+                {
+                    _instance = existingInstance;
+                }
+                else
+                {
+                    var newObj = new GameObject("UIManager");
+                    _instance = newObj.AddComponent<UIManager>();
+                    DontDestroyOnLoad(newObj);
+                }
+            }
+            return _instance;
+        }
+    }
 
-    private RectTransform Select;
-    private float moveSpeed = 5f;
-    private float fadeDuration = 0.25f;
-
-    private UIEffectManager effectManager;
-
-    #region Unity Callbacks
+    private UIDatabase uIDatabase;
+    private const string supplementaryTableAddress = "Assets/Scripts/Manager/NavigationManager/UIDatabase.asset";
+    private Dictionary<string, GameObject> screens = new Dictionary<string, GameObject>();
+    private Canvas canvas;
 
     private void Awake()
     {
-        effectManager = GetComponent<UIEffectManager>();
-        FindSelect();
-        InitializeButtons();
-        InitializePanels();
-        InitializeTextCanvasGroups();
-        InitializeButtonCanvasGroups();
-        InitSelectPosition();
-        RegisterButtonEvents();
-
-        // Set initial alpha values
-        SetInitialAlphaValues();
+        if (_instance == null) { _instance = this; DontDestroyOnLoad(gameObject); }
+        else if (_instance != this) Destroy(gameObject);
     }
 
-    #endregion
+    private void Start() => InitUIManager();
 
-    #region Initialization Methods
-
-    private void FindSelect()
+    private void InitUIManager()
     {
-        GameObject selectObject = GameObject.Find("Select");
-        if (selectObject != null)
+        canvas = FindObjectOfType<Canvas>();
+        Addressables.LoadAssetAsync<UIDatabase>(supplementaryTableAddress).Completed += handle =>
         {
-            Select = selectObject.GetComponent<RectTransform>();
-        }
-        else
-        {
-            Debug.LogError("Select not found!");
-        }
-    }
-
-    private void InitializeButtons()
-    {
-        AddButton("HomeButton");
-        AddButton("ShopButton");
-        AddButton("HeroButton");
-        AddButton("BagButton");
-        AddButton("PlayButton");
-    }
-
-    private void AddButton(string buttonName)
-    {
-        Button button = GameObject.Find(buttonName)?.GetComponent<Button>();
-        if (button != null)
-        {
-            buttons.Add(buttonName, button);
-        }
-    }
-
-    private void InitializePanels()
-    {
-        AddPanel("Home");
-        AddPanel("Shop");
-        AddPanel("Hero");
-        AddPanel("Bag");
-        AddPanel("Game");
-    }
-
-    private void AddPanel(string panelName)
-    {
-        GameObject panel = GameObject.Find(panelName);
-        if (panel != null)
-        {
-            panels.Add(panelName, panel);
-        }
-    }
-
-    private void InitializeTextCanvasGroups()
-    {
-        AddTextCanvasGroup("HomeButtonText");
-        AddTextCanvasGroup("ShopButtonText");
-        AddTextCanvasGroup("HeroButtonText");
-        AddTextCanvasGroup("BagButtonText");
-        AddTextCanvasGroup("PlayButtonText");
-    }
-
-    private void AddTextCanvasGroup(string textName)
-    {
-        TextMeshProUGUI text = GameObject.Find(textName)?.GetComponent<TextMeshProUGUI>();
-        if (text != null)
-        {
-            CanvasGroup canvasGroup = text.gameObject.AddComponent<CanvasGroup>();
-            textCanvasGroups.Add(textName, canvasGroup);
-        }
-    }
-
-    private void InitializeButtonCanvasGroups()
-    {
-        foreach (var buttonName in buttons.Keys)
-        {
-            Button button = buttons[buttonName];
-            CanvasGroup canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
-            buttonCanvasGroups.Add(buttonName, canvasGroup);
-        }
-    }
-
-    private void SetInitialAlphaValues()
-    {
-        foreach (var canvasGroup in textCanvasGroups.Values)
-        {
-            effectManager.SetCanvasGroupAlpha(canvasGroup, 0f);
-        }
-
-        foreach (var canvasGroup in buttonCanvasGroups.Values)
-        {
-            effectManager.SetCanvasGroupAlpha(canvasGroup, 1f);
-        }
-    }
-
-    #endregion
-
-    #region Button Events
-
-    private void RegisterButtonEvents()
-    {
-        RegisterButtonEvent("HomeButton", "Home", "HomeButtonText");
-        RegisterButtonEvent("ShopButton", "Shop", "ShopButtonText");
-        RegisterButtonEvent("HeroButton", "Hero", "HeroButtonText");
-        RegisterButtonEvent("BagButton", "Bag", "BagButtonText");
-        RegisterButtonEvent("PlayButton", "Game", "PlayButtonText");
-    }
-
-    private void RegisterButtonEvent(string buttonName, string panelName, string textName)
-    {
-        if (buttons.TryGetValue(buttonName, out Button button))
-        {
-            button.onClick.AddListener(() => OpenPanelMoveAndShowText(panelName, button.GetComponent<RectTransform>(), buttonName, textName));
-        }
-    }
-
-    private void OpenPanelMoveAndShowText(string panelName, RectTransform buttonRect, string buttonName, string textName)
-    {
-        OpenPanel(panelName);
-        MoveIndicatorToButton(buttonRect);
-        StartCoroutine(effectManager.FadeAndResetCanvasGroups(textCanvasGroups, buttonCanvasGroups, textName, buttonName, fadeDuration));
-    }
-
-    private void OpenPanel(string panelName)
-    {
-        foreach (var panel in panels.Values)
-        {
-            panel.SetActive(false);
-        }
-
-        if (panels.ContainsKey(panelName))
-        {
-            panels[panelName].SetActive(true);
-
-            if (panelName == "Home")
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                BannerAutoScroll bannerAutoScroll = panels[panelName].GetComponentInChildren<BannerAutoScroll>();
-                if (bannerAutoScroll != null)
+                uIDatabase = handle.Result;
+                foreach (var item in uIDatabase.screens)
                 {
-                    bannerAutoScroll.ResetScroll();
+                    if (item.screenPrefab != null && !screens.ContainsKey(item.screenName))
+                    {
+                        var screenInstance = Instantiate(item.screenPrefab, canvas.transform);
+                        screens.Add(item.screenName, screenInstance);
+                        screenInstance.SetActive(false);
+                    }
                 }
+                ShowScreen("Home");
             }
-        }
+        };
     }
 
-
-    private void MoveIndicatorToButton(RectTransform buttonRect)
+    public void ShowScreen(string screenName)
     {
-        if (Select != null)
-        {
-            StopAllCoroutines();
-            StartCoroutine(MoveIndicatorCoroutine(buttonRect.position));
-        }
+        foreach (var item in screens) item.Value.SetActive(false);
+        if (screens.ContainsKey(screenName)) screens[screenName].SetActive(true);
+        else Debug.LogError($"Không tìm thấy màn hình: {screenName}");
     }
-
-    private IEnumerator MoveIndicatorCoroutine(Vector3 targetPosition)
-    {
-        Vector3 startPosition = Select.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < 1f)
-        {
-            Select.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime);
-            elapsedTime += Time.deltaTime * moveSpeed;
-            yield return null;
-        }
-
-        Select.position = targetPosition;
-    }
-
-    #endregion
-
-    #region Initialization Methods
-
-    private void InitSelectPosition()
-    {
-        if (buttons.TryGetValue("HomeButton", out Button homeButton))
-        {
-            RectTransform homeButtonRect = homeButton.GetComponent<RectTransform>();
-            if (Select != null && homeButtonRect != null)
-            {
-                Select.position = homeButtonRect.position;
-            }
-        }
-    }
-    #endregion
 }

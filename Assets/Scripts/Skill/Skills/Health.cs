@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.EventSystems;
 public class Health : SkillBase
@@ -9,18 +10,9 @@ public class Health : SkillBase
         radius = 115f;
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    protected override void SetLabelVisibility(bool isVisible)
     {
-        base.OnPointerDown(eventData);
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        base.OnPointerUp(eventData);
-    }
-
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
+        base.SetLabelVisibility(isVisible);
+        nameLabel.text = "Health";
     }
 }
