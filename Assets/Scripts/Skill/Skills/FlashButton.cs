@@ -4,13 +4,18 @@ using UnityEngine.EventSystems;
 
 public class FlashButton : SkillBase
 {
+    private GameObject supplymentary;
     protected override void Start()
     {
         base.Start();
         radius = 115f;
         cooldownTime = 100f;
-        nameSupplymentary = "Explosive";
-        cencelSkill.gameObject.SetActive(false);
+        UIManager.Instance.InitSupplymentary(hero.transform, "Explosive", OnSupplymentaryInitialized);
+    }
+
+    private void OnSupplymentaryInitialized()
+    {
+        supplymentary = UIManager.Instance.GetSup("Explosive");
     }
 
     protected override void SetLabelVisibility(bool isVisible)
@@ -22,6 +27,7 @@ public class FlashButton : SkillBase
     protected override void FuncitionInOnPointerDown()
     {
         base.FuncitionInOnPointerDown();
+        Debug.Log(supplymentary);
         supplymentary.SetActive(true);
     }
     protected override void FuncitionInOnPointerUp()
@@ -30,9 +36,9 @@ public class FlashButton : SkillBase
         supplymentary.SetActive(false);
         TelePlayer();
     }
-    protected override void FuncitionInOnPointerUpCencel()
+    protected override void FuncitionInOnPointerUpCancel()
     {
-        base.FuncitionInOnPointerUpCencel();
+        base.FuncitionInOnPointerUpCancel();
         supplymentary.SetActive(false);
     }
 

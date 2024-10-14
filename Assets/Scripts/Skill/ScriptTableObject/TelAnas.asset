@@ -21,3 +21,5 @@ MonoBehaviour:
   Skill3: {fileID: 5429551983749303504, guid: 473eb9f805de5ef44867dd298d36862a, type: 3}
   bulletPrefab: {fileID: 2696578628681602873, guid: 1b3fee36dd4b54a43b42a40f8afea679,
     type: 3}
+  healthBar: {fileID: 3749239048914436889, guid: 0f4fe5dcf9311ca45b4875a75d7419c3,
+    type: 3}

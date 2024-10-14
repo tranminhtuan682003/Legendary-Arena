@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc3d852957921a41bfc1ae70ba60ba4, type: 3}
   m_Name: SupplementaryTable
   m_EditorClassIdentifier: 
-  supplementarys:
-  - {fileID: 3078326348590835054, guid: ba53284b2994a96429d441147e03fa1d, type: 3}
+  supplymentarys:
+  - nameSup: Explosive
+    supPrefab: {fileID: 3078326348590835054, guid: ba53284b2994a96429d441147e03fa1d,
+      type: 3}

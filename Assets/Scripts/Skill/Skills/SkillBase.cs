@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -17,15 +15,7 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
     protected TextMeshProUGUI nameLabel;
     protected TextMeshProUGUI cooldownLabel;
     protected Button actionButton;
-    protected RectTransform cencelSkill;
-
-    // Supplementary Table Addressables
-    protected string supplementaryTableAddress = "Assets/Scripts/Skill/ScriptTableObject/SupplementaryTable.asset";
-    protected SupplementaryTable supplementaryTable;
-
-    // Supplementary Item
-    protected GameObject supplymentary;
-    protected string nameSupplymentary;
+    protected RectTransform cancelSkill;
 
     // Skill and Dragging Data
     [SerializeField] protected Vector2 currentPointerPosition;
@@ -38,6 +28,9 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
     protected bool isCooldownActive;
     protected float cooldownTime;
 
+    // Trạng thái để kiểm tra xem hero đã được gán chưa
+    protected bool isHeroAssigned = false;
+
     #endregion
 
     #region Initialization
@@ -47,46 +40,25 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
         InitializeComponents();
         DeactivateButton();
         SetLabelVisibility(true);
-        Addressables.LoadAssetAsync<SupplementaryTable>(supplementaryTableAddress).Completed += OnSupplementaryTableLoaded;
+    }
+
+    public void SetHero(HeroBase heroInstance)
+    {
+        hero = heroInstance;
+        isHeroAssigned = true;  // Gán thành công hero, kích hoạt các thao tác khác
+        Debug.Log("Hero đã được gán từ SkillManager: " + hero.name);
     }
 
     protected virtual void InitializeComponents()
     {
-        hero = FindObjectOfType<HeroBase>();
         buttonRect = GetComponent<RectTransform>();
         actionButton = GetComponent<Button>();
 
-        cencelSkill = GameObject.Find("CencelSkill")?.GetComponent<RectTransform>();
+        cancelSkill = GameObject.Find("CancelSkill")?.GetComponent<RectTransform>();
         moveableRect = buttonRect.Find("MoveableRect")?.GetComponent<RectTransform>();
         background = buttonRect.Find("Background")?.GetComponent<RectTransform>();
         nameLabel = buttonRect.Find("Name")?.GetComponent<TextMeshProUGUI>();
         cooldownLabel = buttonRect.Find("CoolDown")?.GetComponent<TextMeshProUGUI>();
-    }
-
-    #endregion
-
-    #region Supplementary Table Handling
-
-    protected virtual void OnSupplementaryTableLoaded(AsyncOperationHandle<SupplementaryTable> handle)
-    {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            supplementaryTable = handle.Result;
-            InitSupplementary();
-        }
-    }
-
-    protected void InitSupplementary()
-    {
-        foreach (var item in supplementaryTable.supplementarys)
-        {
-            if (item.name == nameSupplymentary)
-            {
-                supplymentary = Instantiate(item, hero.transform);
-                supplymentary.SetActive(false);
-                break;
-            }
-        }
     }
 
     #endregion
@@ -164,26 +136,28 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
+        if (!isHeroAssigned) return; // Chặn thao tác nếu hero chưa được gán
         if (isCooldownActive) return;
         FuncitionInOnPointerDown();
         ActivateButton();
         centerPosition = RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, buttonRect.position);
         isDragging = true;
-        if (cencelSkill != null) cencelSkill.gameObject.SetActive(true);
+        if (cancelSkill != null) cancelSkill.gameObject.SetActive(true);
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
+        if (!isHeroAssigned) return; // Chặn thao tác nếu hero chưa được gán
         if (isCooldownActive) return;
 
-        if (IsPointerOverRectTransform(cencelSkill, eventData))
+        if (IsPointerOverRectTransform(cancelSkill, eventData))
         {
             CancelDrag();
-            if (cencelSkill != null) cencelSkill.gameObject.SetActive(false);
-            FuncitionInOnPointerUpCencel();
+            if (cancelSkill != null) cancelSkill.gameObject.SetActive(false);
+            FuncitionInOnPointerUpCancel();
             return;
         }
-        cencelSkill.gameObject.SetActive(false);
+        cancelSkill.gameObject.SetActive(false);
         FuncitionInOnPointerUp();
         DeactivateButton();
         isDragging = false;
@@ -192,6 +166,7 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public virtual void OnDrag(PointerEventData eventData)
     {
+        if (!isHeroAssigned) return; // Chặn thao tác nếu hero chưa được gán
         if (isCooldownActive || !isDragging) return;
         FuncitionInOnDrag();
         UpdateDragPosition(eventData);
@@ -234,7 +209,7 @@ public abstract class SkillBase : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     protected virtual void FuncitionInOnPointerDown() { }
     protected virtual void FuncitionInOnPointerUp() { }
-    protected virtual void FuncitionInOnPointerUpCencel() { }
+    protected virtual void FuncitionInOnPointerUpCancel() { }
     protected virtual void FuncitionInOnDrag() { }
 
     #endregion

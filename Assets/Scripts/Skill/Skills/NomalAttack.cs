@@ -1,5 +1,4 @@
-using UnityEngine.EventSystems;
-
-public class NomalAttack : AttackBase, IPointerDownHandler
+public class NomalAttack : AttackBase
 {
+
 }

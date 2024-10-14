@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773b322a7423bd848b207089bb2ef03b, type: 3}
+  m_Name: HeroBackgroundDatabase
+  m_EditorClassIdentifier: 
+  heroBackgrounds:
+  - nameHero: TelAnas
+    Image: {fileID: 4973148794063147613, guid: 2444b463df8109e4cb94d8abddbf9b6a, type: 3}
+  - nameHero: Nakroth
+    Image: {fileID: 7049239343711109666, guid: d5d00843066d30a40a340dccb54f5764, type: 3}

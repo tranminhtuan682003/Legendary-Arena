@@ -6,10 +6,10 @@ using System.Collections;
 public abstract class AttackBase : MonoBehaviour, IPointerDownHandler
 {
     protected HeroBase hero;
-    protected virtual void Start()
+    public void SetHero(HeroBase heroInstance)
     {
-        hero = FindAnyObjectByType<HeroBase>();
-
+        hero = heroInstance;
+        Debug.Log("Hero được gán từ SkillManager: " + hero.name);
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b1ae096c806f3240b13b42ac45079ed, type: 3}
+  m_Name: UIDatabase
+  m_EditorClassIdentifier: 
+  screens:
+  - screenName: Home
+    screenPrefab: {fileID: 6137913898450389455, guid: 06c2bd4943388834096cba72ba2820e0,
+      type: 3}
+  - screenName: Shop
+    screenPrefab: {fileID: 6648387644304144847, guid: 362a9332eabfafe46bd0788c3e78a64b,
+      type: 3}
+  - screenName: Profile
+    screenPrefab: {fileID: 6578236592332219360, guid: 70c2766122ab53041b3d04b34f2abc21,
+      type: 3}
+  - screenName: Bag
+    screenPrefab: {fileID: 5024376472349377923, guid: 16834eb32b928b34e85138c78de4f021,
+      type: 3}
+  - screenName: Hero
+    screenPrefab: {fileID: 4164460571111818354, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
+      type: 3}
+  - screenName: Game
+    screenPrefab: {fileID: 5296202036603421792, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
+      type: 3}
+  - screenName: PickHero
+    screenPrefab: {fileID: 1774752966577839632, guid: 4e9c8a84cf0d408459ff04b34052d8df,
+      type: 3}
+  navigations:
+    screenName: Navigation
+    screenPrefab: {fileID: 1609501697559966218, guid: b9453b1928112d64b99f4c9208f63f60,
+      type: 3}

@@ -2,18 +2,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 {
     public HeroParameter heroParameter;
-    public Heros currentHero;
     private IState currentState;
     public HeroEffects heroEffects;
+    private const string HeroEffectAddress = "Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset";
     public StartPosition startPosition;
     private AttackArea attackArea;
-    SkillUIManager skillUIManager;
+    private GameObject healthBar;
+    private bool healthBarReady;
 
-    #region IHealthPlayer
+    #region IHealthPlayer Implementation
+
     public float CurrentHealth
     {
         get => heroParameter.currentHealth;
@@ -48,30 +52,20 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     {
         Debug.Log("Hero is Dead!");
     }
+
     #endregion
+
+    #region Initialization Methods
 
     protected virtual void Awake()
     {
+        HeroEventManager.TriggerHeroCreated(this);
         InitComponent();
     }
 
     protected virtual void Start()
     {
-        InitParameter();
-        InitPlayer();
         InitializeEffects();
-    }
-
-    protected virtual void Update()
-    {
-        currentState?.Execute();
-    }
-
-    public void ChangeState(IState newState)
-    {
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
     }
 
     protected void InitComponent()
@@ -79,7 +73,6 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         heroParameter.animator = GetComponentInChildren<Animator>();
         heroParameter.rigidbody = GetComponent<Rigidbody>();
         attackArea = GetComponentInChildren<AttackArea>();
-        currentHero = new Marksman(this);
     }
 
     protected virtual void InitParameter()
@@ -89,20 +82,37 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 
     protected void InitializeEffects()
     {
-        if (heroEffects != null)
+        Addressables.LoadAssetAsync<HeroEffects>(HeroEffectAddress).Completed += handle =>
         {
-            heroParameter.skillEffect = new Dictionary<string, ParticleSystem>
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                { "shootEffect", Instantiate(heroEffects.shootEffect) },
-                { "returnHomeEffect", Instantiate(heroEffects.returnHomeEffect) },
-                { "skill1", Instantiate(heroEffects.Skill1) },
-                { "skill2", Instantiate(heroEffects.Skill2) },
-                { "skill3", Instantiate(heroEffects.Skill3) }
-            };
-            foreach (var effect in heroParameter.skillEffect.Values)
-            {
-                effect.Stop();
+                heroEffects = handle.Result;
+                InitializeSkillEffects();
+                InitHealthBar();
+                InitPlayer();
+                InitParameter();
             }
+            else
+            {
+                Debug.LogError("Failed to load HeroEffects: " + handle.OperationException);
+            }
+        };
+    }
+
+    private void InitializeSkillEffects()
+    {
+        heroParameter.skillEffect = new Dictionary<string, ParticleSystem>
+        {
+            { "shootEffect", Instantiate(heroEffects.shootEffect) },
+            { "returnHomeEffect", Instantiate(heroEffects.returnHomeEffect) },
+            { "skill1", Instantiate(heroEffects.Skill1) },
+            { "skill2", Instantiate(heroEffects.Skill2) },
+            { "skill3", Instantiate(heroEffects.Skill3) },
+        };
+
+        foreach (var effect in heroParameter.skillEffect.Values)
+        {
+            effect.Stop();
         }
     }
 
@@ -111,9 +121,46 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         ChangeState(new PlayerIdleState(this));
         ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
         heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
-        skillUIManager = FindObjectOfType<SkillUIManager>();
-        // skillUIManager.SetupSkillButtons();
     }
+
+    private void InitHealthBar()
+    {
+        healthBar = Instantiate(heroEffects.healthBar);
+        healthBarReady = true;
+    }
+
+    private void SetPositionHealthBar()
+    {
+        healthBar.transform.position = transform.position + new Vector3(0, 2.25f, 0);
+    }
+
+    #endregion
+
+    #region Update and State Management
+
+    protected virtual void Update()
+    {
+        currentState?.Execute();
+    }
+
+    protected virtual void LateUpdate()
+    {
+        if (healthBarReady)
+        {
+            SetPositionHealthBar();
+        }
+    }
+
+    public void ChangeState(IState newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
+
+    #endregion
+
+    #region Animation and Effects
 
     protected float GetTimeAnimation(string animationName, Animator animator)
     {
@@ -145,49 +192,6 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         heroParameter.animator.SetTrigger(animationName);
     }
 
-    public void SetMaxRange(float maxRange)
-    {
-        heroParameter.attackRange = maxRange;
-        attackArea.SetRadius(heroParameter.attackRange * 10);
-    }
-
-    public void ActivateLightEffect()
-    {
-        attackArea.EnableLine();
-    }
-
-    public void DeactivateLightEffect()
-    {
-        attackArea.DisableLine();
-    }
-
-    public void ActivateAbility(int abilityIndex)
-    {
-        if (abilityIndex < currentHero.abilities.Count)
-        {
-            currentHero.abilities[abilityIndex].Activate();
-        }
-    }
-
-    public virtual void Attack()
-    {
-        ChangeAnimator("Attack");
-    }
-
-    protected IEnumerator ShowAttackArea()
-    {
-        ActivateLightEffect();
-        yield return new WaitForSeconds(0.2f);
-        DeactivateLightEffect();
-    }
-
-    public IEnumerator Shooting()
-    {
-        heroParameter.isAttacking = true;
-        yield return new WaitForSeconds(heroParameter.attackSpeed);
-        heroParameter.isAttacking = false;
-    }
-
     public void ActivateEffect(string effectName, Transform position, float duration)
     {
         if (heroParameter.skillEffect.ContainsKey(effectName))
@@ -205,12 +209,48 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         effect.Stop();
     }
 
+    public void ActivateLightEffect()
+    {
+        attackArea.EnableLine();
+    }
+
+    public void DeactivateLightEffect()
+    {
+        attackArea.DisableLine();
+    }
+
+    #endregion
+
+    #region Combat and Attack
+
+    public virtual void Attack()
+    {
+        ChangeAnimator("Attack");
+    }
+
+    public IEnumerator Shooting()
+    {
+        heroParameter.isAttacking = true;
+        yield return new WaitForSeconds(heroParameter.attackSpeed);
+        heroParameter.isAttacking = false;
+    }
+
+    protected IEnumerator ShowAttackArea()
+    {
+        ActivateLightEffect();
+        yield return new WaitForSeconds(0.2f);
+        DeactivateLightEffect();
+    }
+
     public void AdjustSpeedShoot(float attackSpeed)
     {
         heroParameter.attackSpeed = attackSpeed;
     }
 
+    #endregion
+
     #region Movement Methods
+
     protected void OnMove(InputValue value)
     {
         heroParameter.moveDirection = value.Get<Vector2>().normalized;
@@ -233,5 +273,21 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
             heroParameter.isMoving = false;
         }
     }
+
+    #endregion
+
+    #region Utility Methods
+
+    public void SetMaxRange(float maxRange)
+    {
+        heroParameter.attackRange = maxRange;
+        attackArea.SetRadius(heroParameter.attackRange * 10);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        Debug.Log("HeroBase đã bị hủy.");
+    }
+
     #endregion
 }
