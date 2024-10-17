@@ -626,9 +626,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAnyButtonProcessing: 0
-  pickHero: 0
   nameHero: 
+  isDragCamera: 0
+  isPickHeroScreen: 0
+  isPickHero: 0
   nameSupplymentary: 
+  isPickSupplymentary: 0
+  nameGame: 
+  nameSideBet: 
+  isBet: 0
+  moneyBet: 
 --- !u!4 &1129395476
 Transform:
   m_ObjectHideFlags: 0

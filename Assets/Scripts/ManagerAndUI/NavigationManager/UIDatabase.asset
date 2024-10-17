@@ -17,22 +17,25 @@ MonoBehaviour:
     screenPrefab: {fileID: 6137913898450389455, guid: 06c2bd4943388834096cba72ba2820e0,
       type: 3}
   - screenName: Shop
-    screenPrefab: {fileID: 6648387644304144847, guid: 362a9332eabfafe46bd0788c3e78a64b,
+    screenPrefab: {fileID: 3049049260748059731, guid: 362a9332eabfafe46bd0788c3e78a64b,
       type: 3}
   - screenName: Profile
     screenPrefab: {fileID: 6578236592332219360, guid: 70c2766122ab53041b3d04b34f2abc21,
       type: 3}
   - screenName: Bag
-    screenPrefab: {fileID: 5024376472349377923, guid: 16834eb32b928b34e85138c78de4f021,
+    screenPrefab: {fileID: 8180810246954889338, guid: 16834eb32b928b34e85138c78de4f021,
       type: 3}
   - screenName: Hero
-    screenPrefab: {fileID: 4164460571111818354, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
+    screenPrefab: {fileID: 3754449141831162044, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
       type: 3}
   - screenName: Game
-    screenPrefab: {fileID: 5296202036603421792, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
+    screenPrefab: {fileID: 2249574976730259073, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
       type: 3}
   - screenName: PickHero
-    screenPrefab: {fileID: 1774752966577839632, guid: 4e9c8a84cf0d408459ff04b34052d8df,
+    screenPrefab: {fileID: 4796202814706305400, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
+      type: 3}
+  - screenName: UpDown
+    screenPrefab: {fileID: 8618643230929615972, guid: 62bce7886d8ab7d43838321b00f084b6,
       type: 3}
   navigations:
     screenName: Navigation

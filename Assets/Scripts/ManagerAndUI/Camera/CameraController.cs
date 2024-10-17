@@ -3,8 +3,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private HeroBase hero;
-    private Vector3 offset = new Vector3(0, 6f, -6f);
-    private Vector3 rotationAngles = new Vector3(35, 0, 0);
+    public Vector3 offset = new Vector3(0, 6f, -6f);
+    public Vector3 rotationAngles = new Vector3(35, 0, 0);
     private bool isHeroAssigned = false;
 
     void Update()

@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
             return instance;
         }
     }
-
+    private StartPosition startPosition;
     private UIDatabase uIDatabase;
     private HeroDatabase heroDatabase;
     private SupplementaryDatabase supplementaryDatabase;
@@ -46,10 +46,22 @@ public class UIManager : MonoBehaviour
     private Canvas canvas;
     private RectTransform selectScreen;
     [HideInInspector] public bool isAnyButtonProcessing = false;
-    [HideInInspector] public bool pickHero;
     [HideInInspector] public string nameHero;
-    [HideInInspector] public string nameSupplymentary;
     [HideInInspector] public bool isDragCamera;
+    [HideInInspector] public bool isPickHeroScreen;
+    [HideInInspector] public bool isPickHero;
+    //Supplymentary
+    [HideInInspector] public string nameSupplymentary;
+    [HideInInspector] public bool isPickSupplymentary;
+
+    // SelectGame
+    [HideInInspector] public string nameGame;
+
+    // Game Up Down
+    [HideInInspector] public string nameSideBet;
+    [HideInInspector] public bool isBet;
+    [HideInInspector] public string moneyBet;
+
 
     private void Awake()
     {
@@ -69,6 +81,12 @@ public class UIManager : MonoBehaviour
         InitScreen();
     }
 
+    public void ResetBool()
+    {
+        isPickHeroScreen = false;
+        isPickHero = false;
+    }
+
     private void InitScreen()
     {
         canvas = FindObjectOfType<Canvas>();
@@ -82,7 +100,6 @@ public class UIManager : MonoBehaviour
                     CreateNavigation();
                     ShowNavigation("Navigation");
                     ShowScreen("Home");
-                    InitHeroBackground(); // Gọi InitHeroBackground sau khi screen đã được tạo
                 });
             }
         };
@@ -124,6 +141,7 @@ public class UIManager : MonoBehaviour
                 if (nameHero == item.heroName)
                 {
                     var heroInstance = Instantiate(item.heroPrefab);
+                    heroInstance.transform.position = startPosition.centerPosition;
                     heros.Add(item.heroName, heroInstance);
                     break;
                 }

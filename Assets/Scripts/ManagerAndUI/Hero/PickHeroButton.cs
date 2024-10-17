@@ -10,7 +10,6 @@ public class PickHeroButton : MonoBehaviour
     {
         button = GetComponent<Button>();
         nameHero = button.name;
-
         button.onClick.AddListener(() => { HandleClick(); });
     }
 
@@ -24,8 +23,10 @@ public class PickHeroButton : MonoBehaviour
                 siblingButton.image.color = Color.white;
             }
         }
+
         button.image.color = Color.grey;
         UIManager.Instance.ShowHeroBackground(nameHero);
         UIManager.Instance.GetNameHero(nameHero);
+        UIManager.Instance.isPickHero = true;
     }
 }
