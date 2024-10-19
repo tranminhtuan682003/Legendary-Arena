@@ -57,12 +57,6 @@ public class UIManager : MonoBehaviour
     // SelectGame
     [HideInInspector] public string nameGame;
 
-    // Game Up Down
-    [HideInInspector] public string nameSideBet;
-    [HideInInspector] public bool isBet;
-    [HideInInspector] public string moneyBet;
-
-
     private void Awake()
     {
         if (instance == null)

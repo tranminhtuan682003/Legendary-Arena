@@ -7,29 +7,25 @@ using UnityEngine.UI;
 public class SelectMoneyButton : MonoBehaviour
 {
     private Button button;
-    private TextMeshProUGUI money;
-    private TextMeshProUGUI moneyOverTotal;
-
-    private TextMeshProUGUI moneyUnderTotal;
     void Start()
     {
         button = GetComponent<Button>();
-        moneyOverTotal = GameObject.Find("MoneyOverTotal").GetComponent<TextMeshProUGUI>();
-        moneyUnderTotal = GameObject.Find("MoneyUnderTotal").GetComponent<TextMeshProUGUI>();
-        money = button.GetComponent<TextMeshProUGUI>();
         button.onClick.AddListener(HandleClick);
     }
 
     private void HandleClick()
     {
-        UIManager.Instance.moneyBet = money.text;
-        if (UIManager.Instance.nameSideBet == "BetOverButton")
+        UpDownManager.Instance.moneyBet = button.name;
+        int value = int.Parse(UpDownManager.Instance.moneyBet);
+        UpDownManager.Instance.totalBetMoney += value;
+        UpDownManager.Instance.resultBetMoney = UpDownManager.Instance.totalBetMoney;
+        if (UpDownManager.Instance.nameSideBet == "BetUnderButton")
         {
-            moneyOverTotal.text = UIManager.Instance.moneyBet;
+            UpDownManager.Instance.moneyBetUnder.text = UpDownManager.Instance.totalBetMoney.ToString();
         }
-        if (UIManager.Instance.nameSideBet == "BetUnderButton")
+        if (UpDownManager.Instance.nameSideBet == "BetOverButton")
         {
-            moneyUnderTotal.text = UIManager.Instance.moneyBet;
+            UpDownManager.Instance.moneyBetOver.text = UpDownManager.Instance.totalBetMoney.ToString();
         }
     }
 }

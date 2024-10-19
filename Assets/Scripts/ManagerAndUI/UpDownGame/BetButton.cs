@@ -6,22 +6,35 @@ using UnityEngine.UI;
 public class BetButton : MonoBehaviour
 {
     private Button button;
-    private GameObject betLevel;
+    private static Button lastSelectedButton;
+
     void Start()
     {
         button = GetComponent<Button>();
-        betLevel = GameObject.Find("BetLevel");
         button.onClick.AddListener(HandleClick);
-        if (button.name == "BetUnderButton")
-        {
-            betLevel.SetActive(false);
-        }
     }
-
     private void HandleClick()
     {
-        UIManager.Instance.nameSideBet = button.name;
-        UIManager.Instance.isBet = !UIManager.Instance.isBet;
-        betLevel.SetActive(UIManager.Instance.isBet);
+        UpDownManager.Instance.nameSideBet = button.name;
+        UpDownManager.Instance.footer.SetActive(true);
+        if (UpDownManager.Instance.nameSideBet == "BetUnderButton")
+        {
+            UpDownManager.Instance.moneyBetUnder.text = "0";
+            UpDownManager.Instance.moneyBetOver.text = "Bet";
+            UpDownManager.Instance.moneyBetUnder.color = Color.red;
+        }
+        if (UpDownManager.Instance.nameSideBet == "BetOverButton")
+        {
+            UpDownManager.Instance.moneyBetOver.text = "0";
+            UpDownManager.Instance.moneyBetUnder.text = "Bet";
+            UpDownManager.Instance.moneyBetOver.color = Color.red;
+        }
+
+        if (lastSelectedButton != null && lastSelectedButton != button)
+        {
+            lastSelectedButton.image.color = Color.yellow;
+        }
+        button.image.color = Color.black;
+        lastSelectedButton = button;
     }
 }
