@@ -38,6 +38,7 @@ public class SelectGameManager : MonoBehaviour
             { "10vs10", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg5") },
             { "UpDown", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg6") },
             { "XXX", Resources.Load<Sprite>("NewUI/BackgroundGameMode/xxx") },
+            { "Rank", Resources.Load<Sprite>("NewUI/BackgroundGameMode/rank") },
         };
     }
     private void ChangeBackground(string gameMode)
@@ -84,6 +85,9 @@ public class SelectGameManager : MonoBehaviour
                 gameMode.SetActive(true);
                 break;
             case "XXX":
+                gameMode.SetActive(true);
+                break;
+            case "Rank":
                 gameMode.SetActive(true);
                 break;
             default:

@@ -20,7 +20,7 @@ public class PlayerController : HeroBase
         base.InitParameter();
         heroParameter.maxHealth = 4100f;
         heroParameter.currentHealth = heroParameter.maxHealth;
-        heroParameter.speed = 5.5f;
+        heroParameter.speed = 10f;
         heroParameter.attackSpeed = heroParameter.timeAttackAnimation;
         heroParameter.attackRange = 2.5f;
         heroParameter.spawnPoint = transform.Find("SpawnPoint");

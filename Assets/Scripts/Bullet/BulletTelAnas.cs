@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BulletTelAnas : MonoBehaviour
 {
-    private float speed = 10f;
+    private float speed = 15f;
     public float range = 2.5f;
     private Rigidbody rb;
 

@@ -25,7 +25,6 @@ public class PickHeroButton : MonoBehaviour
         }
 
         button.image.color = Color.grey;
-        UIManager.Instance.ShowHeroBackground(nameHero);
         UIManager.Instance.GetNameHero(nameHero);
         UIManager.Instance.isPickHero = true;
     }

@@ -33,11 +33,9 @@ public class UIManager : MonoBehaviour
     private UIDatabase uIDatabase;
     private HeroDatabase heroDatabase;
     private SupplementaryDatabase supplementaryDatabase;
-    private HeroBackgroundDatabase heroBackgroundDatabase;
     private const string UIDatabaseAddress = "Assets/Scripts/Manager/NavigationManager/UIDatabase.asset";
     private const string HeroDatabaseAddress = "Assets/Scripts/ManagerAndUI/Hero/HeroDatabase.asset";
     private const string SupplementaryDatabaseAddress = "Assets/Scripts/Skill/ScriptTableObject/SupplementaryTable.asset";
-    private const string HeroBackgroundDatabaseAddress = "Assets/Scripts/ManagerAndUI/HeroBackground/HeroBackgroundDatabase.asset";
     private Dictionary<string, GameObject> screens = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> navigations = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> heros = new Dictionary<string, GameObject>();
@@ -135,7 +133,7 @@ public class UIManager : MonoBehaviour
                 if (nameHero == item.heroName)
                 {
                     var heroInstance = Instantiate(item.heroPrefab);
-                    heroInstance.transform.position = startPosition.centerPosition;
+                    heroInstance.transform.position = new Vector3(-32f, 0f, -31f);
                     heros.Add(item.heroName, heroInstance);
                     break;
                 }
@@ -196,26 +194,6 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning($"Không tìm thấy supplymentary có tên: {nameSup}");
             return null;  // Trả về null nếu không tìm thấy
         }
-    }
-
-    public void InitHeroBackground()
-    {
-        Addressables.LoadAssetAsync<HeroBackgroundDatabase>(HeroBackgroundDatabaseAddress).Completed += handle =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                heroBackgroundDatabase = handle.Result;
-                foreach (var item in heroBackgroundDatabase.heroBackgrounds)
-                {
-                    if (item.Image != null && !heroBackgrounds.ContainsKey(item.nameHero))
-                    {
-                        var heroBG = Instantiate(item.Image, screens["PickHero"].transform);
-                        screens.Add(item.nameHero, heroBG);
-                        heroBG.SetActive(false);
-                    }
-                }
-            }
-        };
     }
 
     public void ShowHeroBackground(string nameHero)

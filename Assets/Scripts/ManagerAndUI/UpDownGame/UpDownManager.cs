@@ -32,6 +32,7 @@ public class UpDownManager : MonoBehaviour
     // UI Elements
     [Header("UI Elements")]
     [HideInInspector] public GameObject footer;
+    [HideInInspector] public GameObject chart;
     private TextMeshProUGUI timer;
     [HideInInspector] public TextMeshProUGUI asset;
     [HideInInspector] public int totalAsset;
@@ -99,6 +100,7 @@ public class UpDownManager : MonoBehaviour
     {
         timer = FindComponentInChild<TextMeshProUGUI>("BetTable/Timer");
         footer = FindComponentInChild<Transform>("Footer").gameObject;
+        chart = FindComponentInChild<Transform>("Chart").gameObject;
         bowl = FindComponentInChild<RectTransform>("BetTable/Bowl");
         asset = FindComponentInChild<TextMeshProUGUI>("Header/Area/CoinAndDiamond/Coin/Asset");
 
@@ -127,6 +129,7 @@ public class UpDownManager : MonoBehaviour
     private void ResetUIElements()
     {
         footer.SetActive(false);
+        chart.SetActive(false);
         moneyBetOver2.text = string.Empty;
         moneyBetUnder2.text = string.Empty;
         canRandomPlayer = true;

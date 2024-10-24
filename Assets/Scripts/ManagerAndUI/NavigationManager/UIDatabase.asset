@@ -20,7 +20,7 @@ MonoBehaviour:
     screenPrefab: {fileID: 3049049260748059731, guid: 362a9332eabfafe46bd0788c3e78a64b,
       type: 3}
   - screenName: Profile
-    screenPrefab: {fileID: 6578236592332219360, guid: 70c2766122ab53041b3d04b34f2abc21,
+    screenPrefab: {fileID: 961290554555584482, guid: 70c2766122ab53041b3d04b34f2abc21,
       type: 3}
   - screenName: Bag
     screenPrefab: {fileID: 8180810246954889338, guid: 16834eb32b928b34e85138c78de4f021,
@@ -29,13 +29,13 @@ MonoBehaviour:
     screenPrefab: {fileID: 3754449141831162044, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
       type: 3}
   - screenName: Game
-    screenPrefab: {fileID: 2249574976730259073, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
+    screenPrefab: {fileID: 8792086164862659735, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
       type: 3}
   - screenName: PickHero
     screenPrefab: {fileID: 4796202814706305400, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
       type: 3}
   - screenName: UpDown
-    screenPrefab: {fileID: 901341869891588627, guid: 62bce7886d8ab7d43838321b00f084b6,
+    screenPrefab: {fileID: 6778324999118477722, guid: 62bce7886d8ab7d43838321b00f084b6,
       type: 3}
   navigations:
     screenName: Navigation

@@ -10,10 +10,10 @@ public class CameraRotateArea : MonoBehaviour, IDragHandler, IPointerDownHandler
     private float moveSpeed = 0.1f;
 
     // Giới hạn cho trục X và Z
-    private float minX = 0;
-    private float maxX = 15f;
-    private float minZ = 0;
-    private float maxZ = 80;
+    public float minX = 0;
+    public float maxX = 15f;
+    public float minZ = 0;
+    public float maxZ = 80;
 
     void Start()
     {
