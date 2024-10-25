@@ -42,6 +42,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf5521299c1309d4f87da7e458b382c3
+    m_Address: Assets/Scripts/Soldier/SoldierDatabase.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
   m_SchemaSet:

@@ -6,13 +6,17 @@ public class GamePlay1vs1Manager : MonoBehaviour
 {
     public static GamePlay1vs1Manager Instance { get; private set; }
 
-    public enum GameState { Start, Playing, Paused, GameOver }
+    public enum GameState { Start, Playing, GameOver }
     public GameState CurrentState { get; private set; }
 
-    #region TurretManager
-    public Transform target;
+    [Header("TurretManager")]
+    [HideInInspector] public Transform targetOfTurret;
 
-    #endregion
+    [Header("SoldierManager")]
+    [HideInInspector] public Transform targetOfSoldier;
+    public GameObject soldierPrefab; // Prefab của lính
+    public Transform soldierSpawnPoint; // Điểm xuất hiện của lính
+    private int timerToSpawnSoldier = 60; // Mỗi phút sinh lính
 
     private void Awake()
     {
@@ -38,32 +42,45 @@ public class GamePlay1vs1Manager : MonoBehaviour
         switch (newState)
         {
             case GameState.Start:
-                Debug.Log("Game Start");
+                StartGame();
                 break;
             case GameState.Playing:
-                Debug.Log("Game Playing");
-                break;
-            case GameState.Paused:
-                Debug.Log("Game Paused");
+                PlayingGame();
                 break;
             case GameState.GameOver:
-                Debug.Log("Game Over");
+                EndGame();
                 break;
         }
     }
 
     public void StartGame()
     {
+        Debug.Log("Game Start");
         ChangeState(GameState.Playing);
     }
 
-    public void PauseGame()
+    public void PlayingGame()
     {
-        ChangeState(GameState.Paused);
+        Debug.Log("Game Playing");
+        // StartCoroutine(SpawnSoldiersRoutine());
     }
 
     public void EndGame()
     {
-        ChangeState(GameState.GameOver);
+        Debug.Log("Game Over");
+        StopAllCoroutines();
+    }
+
+    private IEnumerator SpawnSoldiersRoutine()
+    {
+        while (CurrentState == GameState.Playing)
+        {
+            yield return new WaitForSeconds(timerToSpawnSoldier);
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(soldierPrefab, soldierSpawnPoint.position, Quaternion.identity);
+                yield return new WaitForSeconds(1f);
+            }
+        }
     }
 }

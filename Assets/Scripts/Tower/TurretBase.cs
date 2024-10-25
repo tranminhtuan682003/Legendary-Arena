@@ -2,27 +2,28 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
-using System.Collections;
-using System;
+
 public abstract class TurretBase : MonoBehaviour
 {
     private IState currentState;
-    //ScriptTableObject SupplyToTheTurret
-    private SupplyToTheTurret itemOfTurret;
-    private const string ItemAddress = "Assets/Scripts/Tower/ItemOfTurret.asset";
+    private SupplyToTheTurret turretDatabase;
+    private const string TurretDatabaseAddress = "Assets/Scripts/Tower/ItemOfTurret.asset";
     private GameObject bulletTurret;
     private Transform spawnPoint;
 
-    public int CurrentHealth { get; protected set; }
-    public int MaxHealth { get; protected set; }
-    public bool IsActive => CurrentHealth > 0;
-    public float DetectionRange { get; protected set; }
-    public float AttackRange { get; protected set; }
-    public int AttackDamage { get; protected set; }
-    public float AttackInterval { get; protected set; } = 2f; // Thời gian giữa các đòn tấn công
+    // Các thuộc tính
+    private int currentHealth;
+    private int maxHealth;
+    private float detectionRange;
+    private float attackRange;
+    private int attackDamage;
+    private float attackInterval = 2f;
 
     private Transform target;
     private float attackCooldown = 0f;
+
+    // Dictionary ánh xạ tag với các hàm xử lý mục tiêu
+    private Dictionary<string, System.Action<Collider>> targetHandlers;
 
     protected virtual void Start()
     {
@@ -31,10 +32,10 @@ public abstract class TurretBase : MonoBehaviour
         InitItem();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         currentState?.Execute();
-        DetectPlayer();
+        DetectTarget();
     }
 
     public void ChangeState(IState newState)
@@ -44,30 +45,37 @@ public abstract class TurretBase : MonoBehaviour
         currentState.Enter();
     }
 
-    protected virtual void Initialize(int maxHealth, float detectionRange, float attackRange, int attackDamage)
+    protected virtual void Initialize(int maxHealth, float detectionRange, float attackRange, int attackDamage, string tagEnemy, string tagSoldierEnemy)
     {
-        MaxHealth = maxHealth;
-        CurrentHealth = MaxHealth;
-        DetectionRange = detectionRange;
-        AttackRange = attackRange;
-        AttackDamage = attackDamage;
+        this.maxHealth = maxHealth;
+        currentHealth = maxHealth;
+        this.detectionRange = detectionRange;
+        this.attackRange = attackRange;
+        this.attackDamage = attackDamage;
+
+        targetHandlers = new Dictionary<string, System.Action<Collider>>
+        {
+            { tagEnemy, HandlePlayerTarget },
+            { tagSoldierEnemy, HandleSoldierTarget }
+        };
     }
 
     private void InitItem()
     {
         spawnPoint = transform.Find("SpawnPoint");
-        Addressables.LoadAssetAsync<SupplyToTheTurret>(ItemAddress).Completed += handle =>
+        Addressables.LoadAssetAsync<SupplyToTheTurret>(TurretDatabaseAddress).Completed += handle =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                itemOfTurret = handle.Result;
+                turretDatabase = handle.Result;
                 bulletTurret = GetPrefabByName("BulletTurret");
             }
         };
     }
+
     private GameObject GetPrefabByName(string name)
     {
-        foreach (var item in itemOfTurret.items)
+        foreach (var item in turretDatabase.items)
         {
             if (item.name == name)
             {
@@ -81,67 +89,71 @@ public abstract class TurretBase : MonoBehaviour
 
     public virtual void ReduceDamage(int percentage)
     {
-        int damageReduction = (percentage * CurrentHealth) / 100;
-        CurrentHealth -= damageReduction;
+        int damageReduction = (percentage * currentHealth) / 100;
+        currentHealth -= damageReduction;
     }
 
-    public virtual void TakeDamage(int amount)
+    public void TakeDamage(int amount)
     {
-        CurrentHealth -= amount;
-        if (CurrentHealth <= 0)
+        currentHealth -= amount;
+        if (currentHealth <= 0)
         {
-            CurrentHealth = 0;
+            currentHealth = 0;
             ChangeState(new TurretDestroyedState(this));
         }
     }
 
-    private void OnDrawGizmos()
+    public void DetectTarget()
     {
-        if (DetectionRange > 0)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(transform.position, DetectionRange);
-        }
-    }
-    public void DetectPlayer()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, DetectionRange);
-        bool playerDetected = false;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Player"))
+            if (targetHandlers.TryGetValue(hitCollider.tag, out var handler))
             {
                 target = hitCollider.transform;
-                GamePlay1vs1Manager.Instance.target = target;
-                playerDetected = true;
-
-                if (Vector3.Distance(transform.position, target.position) <= AttackRange)
-                {
-                    if (!(currentState is TurretAttackState))
-                    {
-                        ChangeState(new TurretAttackState(this));
-                    }
-                }
-                else
-                {
-                    if (!(currentState is TurretIdleState))
-                    {
-                        ChangeState(new TurretIdleState(this));
-                    }
-                }
-                break;
+                GamePlay1vs1Manager.Instance.targetOfTurret = target;
+                handler.Invoke(hitCollider);
+                return;
             }
         }
 
-        if (!playerDetected && !(currentState is TurretIdleState))
+        if (!(currentState is TurretIdleState))
         {
             ChangeState(new TurretIdleState(this));
             target = null;
         }
     }
 
+    private void HandlePlayerTarget(Collider other)
+    {
+        UpdateStateBasedOnTarget();
+    }
 
+    private void HandleSoldierTarget(Collider other)
+    {
+        UpdateStateBasedOnTarget();
+    }
+
+    private void UpdateStateBasedOnTarget()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        if (distanceToTarget <= attackRange)
+        {
+            if (!(currentState is TurretAttackState))
+            {
+                ChangeState(new TurretAttackState(this));
+            }
+        }
+        else
+        {
+            if (!(currentState is TurretIdleState))
+            {
+                ChangeState(new TurretIdleState(this));
+            }
+        }
+    }
 
     public void HandleAttack()
     {
@@ -149,7 +161,7 @@ public abstract class TurretBase : MonoBehaviour
         {
             Debug.Log("Turret is attacking " + target.name);
             ObjectPool.Instance.GetFromPool(bulletTurret, spawnPoint.position, spawnPoint.rotation);
-            attackCooldown = AttackInterval;
+            attackCooldown = attackInterval;
         }
         else
         {
@@ -157,17 +169,8 @@ public abstract class TurretBase : MonoBehaviour
         }
     }
 
-    private void ShowAttackRange(bool show)
+    public void TurretDestroyed()
     {
-        if (show)
-        {
-            Debug.Log("Displaying attack range.");
-        }
-        else
-        {
-            Debug.Log("Hiding attack range.");
-        }
+        gameObject.SetActive(false);
     }
-
-    protected abstract void AttackTarget(HeroBase target);
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4247236505681831615}
   m_Layer: 0
   m_Name: TelAnas
-  m_TagString: Player
+  m_TagString: PlayerBlue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
     supplymentary: {fileID: 0}
     spawnPoint: {fileID: 0}
     used: 0
-  heroEffects: {fileID: 0}
+  heroDatabase: {fileID: 0}
   startPosition:
     botPosition: {x: 5.1, y: 0, z: 8}
     topPosition: {x: 9.9, y: 0, z: 9}

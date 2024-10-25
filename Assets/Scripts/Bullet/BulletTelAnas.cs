@@ -9,16 +9,12 @@ public class BulletTelAnas : MonoBehaviour
 
     void Awake()
     {
-        // Chỉ khởi tạo Rigidbody một lần
         rb = GetComponent<Rigidbody>();
     }
 
     void OnEnable()
     {
-        // Đặt vận tốc khi đạn được kích hoạt
         rb.velocity = transform.forward * speed;
-
-        // Tính toán thời gian bay dựa trên range và bắt đầu Coroutine
         float flightTime = range / speed;
         StartCoroutine(DisableAfterTime(flightTime));
     }
@@ -31,7 +27,6 @@ public class BulletTelAnas : MonoBehaviour
 
     public void SetMaxRange(float maxRange)
     {
-        // Đặt lại tầm bắn mới
-        this.range = maxRange;
+        range = maxRange;
     }
 }

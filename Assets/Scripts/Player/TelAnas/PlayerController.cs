@@ -36,7 +36,7 @@ public class PlayerController : HeroBase
         base.Attack();
         StartCoroutine(Shooting());
         ActivateEffect("shootEffect", heroParameter.spawnPoint, 0.5f);
-        GameObject bullet = ObjectPool.Instance.GetFromPool(heroEffects.bulletPrefab, heroParameter.spawnPoint.position, heroParameter.spawnPoint.rotation);
+        GameObject bullet = ObjectPool.Instance.GetFromPool(heroDatabase.bulletPrefab, heroParameter.spawnPoint.position, heroParameter.spawnPoint.rotation);
         bullet.GetComponent<BulletTelAnas>().SetMaxRange(heroParameter.attackRange);
         if (heroParameter.attackRange == 2.5f)
         {

@@ -11,9 +11,7 @@ public class TurretDestroyedState : IState
 
     public void Enter()
     {
-        Debug.Log("Turret has been destroyed.");
-        // Logic khi trụ bị phá hủy
-        // Ví dụ: dừng tất cả các hành động, hiển thị hiệu ứng phá hủy...
+        turret.TurretDestroyed();
     }
 
     public void Execute()

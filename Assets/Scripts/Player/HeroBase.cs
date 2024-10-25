@@ -9,8 +9,8 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 {
     public HeroParameter heroParameter;
     private IState currentState;
-    public HeroEffects heroEffects;
-    private const string HeroEffectAddress = "Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset";
+    public HeroEffects heroDatabase;
+    private const string HeroDatabaseAddress = "Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset";
     public StartPosition startPosition;
     private AttackArea attackArea;
     private GameObject healthBar;
@@ -82,11 +82,11 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
 
     protected void InitializeEffects()
     {
-        Addressables.LoadAssetAsync<HeroEffects>(HeroEffectAddress).Completed += handle =>
+        Addressables.LoadAssetAsync<HeroEffects>(HeroDatabaseAddress).Completed += handle =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                heroEffects = handle.Result;
+                heroDatabase = handle.Result;
                 InitializeSkillEffects();
                 InitHealthBar();
                 InitPlayer();
@@ -103,11 +103,11 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     {
         heroParameter.skillEffect = new Dictionary<string, ParticleSystem>
         {
-            { "shootEffect", Instantiate(heroEffects.shootEffect) },
-            { "returnHomeEffect", Instantiate(heroEffects.returnHomeEffect) },
-            { "skill1", Instantiate(heroEffects.Skill1) },
-            { "skill2", Instantiate(heroEffects.Skill2) },
-            { "skill3", Instantiate(heroEffects.Skill3) },
+            { "shootEffect", Instantiate(heroDatabase.shootEffect) },
+            { "returnHomeEffect", Instantiate(heroDatabase.returnHomeEffect) },
+            { "skill1", Instantiate(heroDatabase.Skill1) },
+            { "skill2", Instantiate(heroDatabase.Skill2) },
+            { "skill3", Instantiate(heroDatabase.Skill3) },
         };
 
         foreach (var effect in heroParameter.skillEffect.Values)
@@ -119,13 +119,13 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
     protected virtual void InitPlayer()
     {
         ChangeState(new PlayerIdleState(this));
-        ObjectPool.Instance.CreatePool(heroEffects.bulletPrefab);
+        ObjectPool.Instance.CreatePool(heroDatabase.bulletPrefab);
         heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
     }
 
     private void InitHealthBar()
     {
-        healthBar = Instantiate(heroEffects.healthBar);
+        healthBar = Instantiate(heroDatabase.healthBar);
         healthBarReady = true;
     }
 
