@@ -3,7 +3,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
 
-public abstract class TurretBase : MonoBehaviour
+public abstract class TurretBase : MonoBehaviour, ITeamMember
 {
     private IState currentState;
     private SupplyToTheTurret turretDatabase;
@@ -22,8 +22,8 @@ public abstract class TurretBase : MonoBehaviour
     private Transform target;
     private float attackCooldown = 0f;
 
-    // Dictionary ánh xạ tag với các hàm xử lý mục tiêu
-    private Dictionary<string, System.Action<Collider>> targetHandlers;
+    [SerializeField] private Team team;
+    public Team GetTeam() => team;
 
     protected virtual void Start()
     {
@@ -45,19 +45,14 @@ public abstract class TurretBase : MonoBehaviour
         currentState.Enter();
     }
 
-    protected virtual void Initialize(int maxHealth, float detectionRange, float attackRange, int attackDamage, string tagEnemy, string tagSoldierEnemy)
+    protected virtual void Initialize(int maxHealth, float detectionRange, float attackRange, int attackDamage, Team team)
     {
         this.maxHealth = maxHealth;
-        currentHealth = maxHealth;
+        this.currentHealth = maxHealth;
         this.detectionRange = detectionRange;
         this.attackRange = attackRange;
         this.attackDamage = attackDamage;
-
-        targetHandlers = new Dictionary<string, System.Action<Collider>>
-        {
-            { tagEnemy, HandlePlayerTarget },
-            { tagSoldierEnemy, HandleSoldierTarget }
-        };
+        this.team = team;
     }
 
     private void InitItem()
@@ -77,20 +72,11 @@ public abstract class TurretBase : MonoBehaviour
     {
         foreach (var item in turretDatabase.items)
         {
-            if (item.name == name)
-            {
-                return item.prefab;
-            }
+            if (item.name == name) return item.prefab;
         }
 
         Debug.LogWarning("Prefab not found!");
         return null;
-    }
-
-    public virtual void ReduceDamage(int percentage)
-    {
-        int damageReduction = (percentage * currentHealth) / 100;
-        currentHealth -= damageReduction;
     }
 
     public void TakeDamage(int amount)
@@ -106,52 +92,44 @@ public abstract class TurretBase : MonoBehaviour
     public void DetectTarget()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
+        bool foundTarget = false;
 
         foreach (var hitCollider in hitColliders)
         {
-            if (targetHandlers.TryGetValue(hitCollider.tag, out var handler))
+            ITeamMember potentialTarget = hitCollider.GetComponent<ITeamMember>();
+
+            // Chỉ chọn đối tượng thuộc đội đối phương
+            if (potentialTarget != null && potentialTarget.GetTeam() != this.team)
             {
                 target = hitCollider.transform;
                 GamePlay1vs1Manager.Instance.targetOfTurret = target;
-                handler.Invoke(hitCollider);
-                return;
+                UpdateStateBasedOnTarget();
+                foundTarget = true;
+                break;
             }
         }
 
-        if (!(currentState is TurretIdleState))
+        // Nếu không tìm thấy target hợp lệ, quay lại trạng thái Idle
+        if (!foundTarget && !(currentState is TurretIdleState))
         {
             ChangeState(new TurretIdleState(this));
             target = null;
         }
     }
 
-    private void HandlePlayerTarget(Collider other)
-    {
-        UpdateStateBasedOnTarget();
-    }
-
-    private void HandleSoldierTarget(Collider other)
-    {
-        UpdateStateBasedOnTarget();
-    }
-
     private void UpdateStateBasedOnTarget()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        if (target == null) return;
 
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
         if (distanceToTarget <= attackRange)
         {
             if (!(currentState is TurretAttackState))
-            {
                 ChangeState(new TurretAttackState(this));
-            }
         }
-        else
+        else if (!(currentState is TurretIdleState))
         {
-            if (!(currentState is TurretIdleState))
-            {
-                ChangeState(new TurretIdleState(this));
-            }
+            ChangeState(new TurretIdleState(this));
         }
     }
 
@@ -159,8 +137,13 @@ public abstract class TurretBase : MonoBehaviour
     {
         if (target != null && attackCooldown <= 0f)
         {
-            Debug.Log("Turret is attacking " + target.name);
-            ObjectPool.Instance.GetFromPool(bulletTurret, spawnPoint.position, spawnPoint.rotation);
+            Debug.Log("Soldier is attacking " + target.name);
+            GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletTurret, spawnPoint.position, spawnPoint.rotation);
+            if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
+            {
+                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage);
+            }
+
             attackCooldown = attackInterval;
         }
         else

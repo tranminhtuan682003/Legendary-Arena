@@ -26,9 +26,7 @@ public class SoldierBlue : SoldierBase
             attackRange: 4f,
             attackDamage: 40,
             roadMaps: roadMaps,
-            tagEnemy: "PlayerRed",
-            tagSoldierEnemy: "SoldierRed",
-            tagTurretEnemy: "TurretRed"
+            team: Team.Blue
         );
     }
 }

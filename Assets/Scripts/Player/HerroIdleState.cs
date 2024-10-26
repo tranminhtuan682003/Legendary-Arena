@@ -1,24 +1,24 @@
 using UnityEngine;
 
-public class PlayerIdleState : IState
+public class HerroIdleState : IState
 {
     private HeroBase hero;
 
-    public PlayerIdleState(HeroBase hero)
+    public HerroIdleState(HeroBase hero)
     {
         this.hero = hero;
     }
 
     public void Enter()
     {
-        hero.ChangeAnimator("Idle");
+        // hero.ChangeAnimator("Idle");
     }
 
     public void Execute()
     {
-        if (hero.heroParameter.moveDirection != Vector2.zero && !hero.IsDead)
+        if (hero.moveDirection != Vector2.zero && !hero.IsDead)
         {
-            hero.ChangeState(new PlayerMoveState(hero));
+            hero.ChangeState(new HerroMoveState(hero));
         }
     }
 

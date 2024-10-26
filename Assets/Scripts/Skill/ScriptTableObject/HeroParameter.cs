@@ -21,13 +21,7 @@ public class HeroParameter
     public float timeAttackAnimation;
     public bool isAttacking;
 
-    [Header("DetectTarget")]
-    public List<GameObject> enemy;
-    public List<GameObject> tower;
     [Header("Prefab and Transform")]
     public Dictionary<string, ParticleSystem> skillEffect;
-    public GameObject supplymentary;
     public Transform spawnPoint;
-    [Header("bool")]
-    public bool used;
 }

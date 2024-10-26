@@ -6,13 +6,11 @@ public class TurretRed : TurretBase
     {
         base.Start();
         Initialize(
-            maxHealth: 6000,
+            maxHealth: 1000,
             detectionRange: 6f,
             attackRange: 5f,
-            attackDamage: 100,
-            tagEnemy: "PlayerBlue",
-            tagSoldierEnemy: "SoldierBlue"
-
+            attackDamage: 10,
+            team: Team.Red
         );
     }
 

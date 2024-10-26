@@ -47,6 +47,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8cacbb59a9b6c1469b50d5bd400f238
+    m_Address: Assets/Scripts/Player/ValheinDatabase.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
   m_SchemaSet:

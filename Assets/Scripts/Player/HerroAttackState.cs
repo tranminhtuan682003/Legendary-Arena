@@ -1,24 +1,20 @@
 using UnityEngine;
-public class PlayerAttackState : IState
+public class HerroAttackState : IState
 {
     private HeroBase hero;
 
-    public PlayerAttackState(HeroBase hero)
+    public HerroAttackState(HeroBase hero)
     {
         this.hero = hero;
     }
 
     public void Enter()
     {
-        hero.Attack();
     }
 
     public void Execute()
     {
-        if (!hero.heroParameter.isAttacking)
-        {
-            hero.ChangeState(new PlayerIdleState(hero));
-        }
+
     }
 
     public void Exit()

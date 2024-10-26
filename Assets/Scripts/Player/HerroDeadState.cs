@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeadState : IState
+public class HerroDeadState : IState
 {
     private HeroBase hero;
 
-    public PlayerDeadState(HeroBase hero)
+    public HerroDeadState(HeroBase hero)
     {
         this.hero = hero;
     }
 
     public void Enter()
     {
-        hero.ChangeAnimator("Dead");
+        // hero.ChangeAnimator("Dead");
     }
 
     public void Execute()

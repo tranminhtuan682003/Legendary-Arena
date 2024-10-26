@@ -14,9 +14,9 @@ public abstract class AttackBase : MonoBehaviour, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        if (!hero.heroParameter.isAttacking)
-        {
-            hero.ChangeState(new PlayerAttackState(hero));
-        }
+        // if (!hero.isAttacking)
+        // {
+        //     hero.ChangeState(new PlayerAttackState(hero));
+        // }
     }
 }

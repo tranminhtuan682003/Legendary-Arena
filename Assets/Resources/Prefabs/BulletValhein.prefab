@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3325721270024941406}
   - component: {fileID: -7345082318858044011}
   m_Layer: 0
-  m_Name: BulletTelAnas
+  m_Name: BulletValhein
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,154 +1,67 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public abstract class HeroBase : MonoBehaviour, IhealthPlayer
+public abstract class HeroBase : MonoBehaviour, ITeamMember
 {
-    public HeroParameter heroParameter;
-    private IState currentState;
-    public HeroEffects heroDatabase;
-    private const string HeroDatabaseAddress = "Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset";
-    public StartPosition startPosition;
-    private AttackArea attackArea;
-    private GameObject healthBar;
-    private bool healthBarReady;
-
-    #region IHealthPlayer Implementation
-
-    public float CurrentHealth
-    {
-        get => heroParameter.currentHealth;
-        set => heroParameter.currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-    }
-
-    public float MaxHealth
-    {
-        get => heroParameter.maxHealth;
-        set => heroParameter.maxHealth = Mathf.Max(0, value);
-    }
-
-    public bool IsDead => CurrentHealth <= 0;
-
-    public void Heal(float amount)
-    {
-        if (IsDead) return;
-        CurrentHealth += amount;
-    }
-
-    public void TakeDamage(float amount)
-    {
-        if (IsDead) return;
-        CurrentHealth -= amount;
-        if (CurrentHealth <= 0)
-        {
-            Dead();
-        }
-    }
-
-    public void Dead()
-    {
-        Debug.Log("Hero is Dead!");
-    }
-
+    #region Components
+    private Rigidbody rb;
+    private Animator animator;
+    protected IState currentState;
+    private GameObject bulletHero;
+    private string nameBulletHero;
+    private Transform spawnPoint;
     #endregion
 
-    #region Initialization Methods
+    #region Team and Database
+    [SerializeField] private Team team;
+    private HeroDatabasee heroDatabase;
+    private string HeroDatabaseAddress;
 
-    protected virtual void Awake()
-    {
-        HeroEventManager.TriggerHeroCreated(this);
-        InitComponent();
-    }
+    public Team GetTeam() => team;
+    #endregion
+
+    #region Health
+    [Header("Health")]
+    protected int currentHealth;
+    protected int maxHealth;
+    public bool IsDead => currentHealth <= 0;
+    #endregion
+
+    #region Movement
+    [Header("Movement")]
+    protected float speedMove;
+    public Vector2 moveDirection;
+    public Vector3 movementVector;
+    public bool isMoving;
+    #endregion
+
+    #region Attack
+    [Header("Attack")]
+    public float detectionRange;
+    public float attackRange;
+    public int attackDamage;
+    private float attackInterval = 2f;
+    private float attackCooldown = 0f;
+    #endregion
+
+    #region Targeting
+    private Transform target;
+    #endregion
 
     protected virtual void Start()
     {
-        InitializeEffects();
+        HeroEventManager.TriggerHeroCreated(this);
+        currentState = new HerroIdleState(this);
+        currentState.Enter();
+        InitComponents();
     }
-
-    protected void InitComponent()
-    {
-        heroParameter.animator = GetComponentInChildren<Animator>();
-        heroParameter.rigidbody = GetComponent<Rigidbody>();
-        attackArea = GetComponentInChildren<AttackArea>();
-    }
-
-    protected virtual void InitParameter()
-    {
-        heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
-    }
-
-    protected void InitializeEffects()
-    {
-        Addressables.LoadAssetAsync<HeroEffects>(HeroDatabaseAddress).Completed += handle =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                heroDatabase = handle.Result;
-                InitializeSkillEffects();
-                InitHealthBar();
-                InitPlayer();
-                InitParameter();
-            }
-            else
-            {
-                Debug.LogError("Failed to load HeroEffects: " + handle.OperationException);
-            }
-        };
-    }
-
-    private void InitializeSkillEffects()
-    {
-        heroParameter.skillEffect = new Dictionary<string, ParticleSystem>
-        {
-            { "shootEffect", Instantiate(heroDatabase.shootEffect) },
-            { "returnHomeEffect", Instantiate(heroDatabase.returnHomeEffect) },
-            { "skill1", Instantiate(heroDatabase.Skill1) },
-            { "skill2", Instantiate(heroDatabase.Skill2) },
-            { "skill3", Instantiate(heroDatabase.Skill3) },
-        };
-
-        foreach (var effect in heroParameter.skillEffect.Values)
-        {
-            effect.Stop();
-        }
-    }
-
-    protected virtual void InitPlayer()
-    {
-        ChangeState(new PlayerIdleState(this));
-        ObjectPool.Instance.CreatePool(heroDatabase.bulletPrefab);
-        heroParameter.timeAttackAnimation = GetTimeAnimation("Attack", heroParameter.animator);
-    }
-
-    private void InitHealthBar()
-    {
-        healthBar = Instantiate(heroDatabase.healthBar);
-        healthBarReady = true;
-    }
-
-    private void SetPositionHealthBar()
-    {
-        healthBar.transform.position = transform.position + new Vector3(0, 2.25f, 0);
-    }
-
-    #endregion
-
-    #region Update and State Management
 
     protected virtual void Update()
     {
         currentState?.Execute();
-    }
-
-    protected virtual void LateUpdate()
-    {
-        if (healthBarReady)
-        {
-            SetPositionHealthBar();
-        }
+        DetectTarget();
     }
 
     public void ChangeState(IState newState)
@@ -158,136 +71,144 @@ public abstract class HeroBase : MonoBehaviour, IhealthPlayer
         currentState.Enter();
     }
 
-    #endregion
-
-    #region Animation and Effects
-
-    protected float GetTimeAnimation(string animationName, Animator animator)
+    protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, Team team, string HeroDatabaseAddress, string nameBulletHero)
     {
-        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.speedMove = speedMove;
+        this.detectionRange = detectionRange;
+        this.attackRange = attackRange;
+        this.attackDamage = attackDamage;
+        this.team = team;
+        this.HeroDatabaseAddress = HeroDatabaseAddress;
+        this.nameBulletHero = nameBulletHero;
+        LoadHeroDatabase();
+    }
+
+    private void InitComponents()
+    {
+        animator = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody>();
+        spawnPoint = transform.Find("SpawnPoint");
+    }
+
+    private void LoadHeroDatabase()
+    {
+        Addressables.LoadAssetAsync<HeroDatabasee>(HeroDatabaseAddress).Completed += handle =>
         {
-            if (clip.name == animationName)
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                return clip.length;
+                heroDatabase = handle.Result;
+                bulletHero = GetPrefabByName(nameBulletHero);
+            }
+            else
+            {
+                Debug.LogError("Failed to load Hero database.");
+            }
+        };
+    }
+
+    private GameObject GetPrefabByName(string name)
+    {
+        foreach (var item in heroDatabase.data)
+        {
+            if (item.name == name) return item.gameObject;
+        }
+        Debug.LogWarning("Prefab not found!");
+        return null;
+    }
+
+    private void DetectTarget()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
+        bool foundTarget = false;
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (IsValidTarget(hitCollider))
+            {
+                target = hitCollider.transform;
+                foundTarget = true;
+                break;
             }
         }
-        return -1f;
-    }
 
-    protected void SetAnimationSpeed(string animationName, float speed)
-    {
-        AnimatorStateInfo stateInfo = heroParameter.animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(animationName))
+        if (!foundTarget)
         {
-            heroParameter.animator.speed = speed;
+            target = null;
         }
     }
 
-    public void ChangeAnimator(string animationName)
+    private bool IsValidTarget(Collider hitCollider)
     {
-        heroParameter.animator.ResetTrigger("Idle");
-        heroParameter.animator.ResetTrigger("Run");
-        heroParameter.animator.ResetTrigger("Attack");
-        heroParameter.animator.ResetTrigger("Dead");
-        heroParameter.animator.SetTrigger(animationName);
+        ITeamMember potentialTarget = hitCollider.GetComponent<ITeamMember>();
+        return potentialTarget != null && potentialTarget.GetTeam() != this.team;
     }
 
-    public void ActivateEffect(string effectName, Transform position, float duration)
+    public void HandleAttack()
     {
-        if (heroParameter.skillEffect.ContainsKey(effectName))
+        if (target != null && attackCooldown <= 0f)
         {
-            ParticleSystem effect = heroParameter.skillEffect[effectName];
-            effect.transform.position = position.position;
-            effect.Play();
-            StartCoroutine(DeactivateEffect(effect, duration));
+            Debug.Log("Soldier is attacking " + target.name);
+            GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletHero, spawnPoint.position, spawnPoint.rotation);
+            if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
+            {
+                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage);
+            }
+
+            attackCooldown = attackInterval;
+        }
+        else
+        {
+            attackCooldown -= Time.deltaTime;
         }
     }
 
-    private IEnumerator DeactivateEffect(ParticleSystem effect, float duration)
+    #region Health Methods
+    public void Heal(int amount)
     {
-        yield return new WaitForSeconds(duration);
-        effect.Stop();
+        if (IsDead) return;
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
     }
 
-    public void ActivateLightEffect()
+    public void TakeDamage(int amount)
     {
-        attackArea.EnableLine();
+        if (IsDead) return;
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            Dead();
+        }
     }
 
-    public void DeactivateLightEffect()
+    public void Dead()
     {
-        attackArea.DisableLine();
+        Debug.Log("Hero is Dead!");
     }
-
-    #endregion
-
-    #region Combat and Attack
-
-    public virtual void Attack()
-    {
-        ChangeAnimator("Attack");
-    }
-
-    public IEnumerator Shooting()
-    {
-        heroParameter.isAttacking = true;
-        yield return new WaitForSeconds(heroParameter.attackSpeed);
-        heroParameter.isAttacking = false;
-    }
-
-    protected IEnumerator ShowAttackArea()
-    {
-        ActivateLightEffect();
-        yield return new WaitForSeconds(0.2f);
-        DeactivateLightEffect();
-    }
-
-    public void AdjustSpeedShoot(float attackSpeed)
-    {
-        heroParameter.attackSpeed = attackSpeed;
-    }
-
     #endregion
 
     #region Movement Methods
-
     protected void OnMove(InputValue value)
     {
-        heroParameter.moveDirection = value.Get<Vector2>().normalized;
-        heroParameter.movementVector = new Vector3(heroParameter.moveDirection.x, 0, heroParameter.moveDirection.y);
+        moveDirection = value.Get<Vector2>().normalized;
+        movementVector = new Vector3(moveDirection.x, 0, moveDirection.y);
     }
 
     public void Move()
     {
-        if (heroParameter.movementVector != Vector3.zero && !IsDead)
+        if (movementVector != Vector3.zero && !IsDead)
         {
-            heroParameter.isMoving = true;
-            Vector3 move = heroParameter.movementVector * heroParameter.speed * Time.deltaTime;
-            heroParameter.rigidbody.MovePosition(transform.position + move);
+            isMoving = true;
+            Vector3 move = movementVector * speedMove * Time.deltaTime;
+            rb.MovePosition(transform.position + move);
 
-            Quaternion targetRotation = Quaternion.LookRotation(heroParameter.movementVector);
-            heroParameter.rigidbody.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
+            Quaternion targetRotation = Quaternion.LookRotation(movementVector);
+            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
         }
         else
         {
-            heroParameter.isMoving = false;
+            isMoving = false;
         }
     }
-
-    #endregion
-
-    #region Utility Methods
-
-    public void SetMaxRange(float maxRange)
-    {
-        heroParameter.attackRange = maxRange;
-        attackArea.SetRadius(heroParameter.attackRange * 10);
-    }
-
-    protected virtual void OnDestroy()
-    {
-        Debug.Log("HeroBase đã bị hủy.");
-    }
-
     #endregion
 }
