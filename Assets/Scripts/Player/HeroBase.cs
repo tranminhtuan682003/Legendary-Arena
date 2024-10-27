@@ -7,7 +7,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 {
     #region Components
     private Rigidbody rb;
-    private Animator animator;
+    [HideInInspector] public Animator animator;
     protected IState currentState;
     private GameObject bulletHero;
     private string nameBulletHero;
@@ -53,9 +53,9 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
     protected virtual void Start()
     {
         HeroEventManager.TriggerHeroCreated(this);
+        InitComponents();
         currentState = new HerroIdleState(this);
         currentState.Enter();
-        InitComponents();
     }
 
     protected virtual void Update()
@@ -194,7 +194,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         movementVector = new Vector3(moveDirection.x, 0, moveDirection.y);
     }
 
-    public void Move()
+    public void HanldeMove()
     {
         if (movementVector != Vector3.zero && !IsDead)
         {

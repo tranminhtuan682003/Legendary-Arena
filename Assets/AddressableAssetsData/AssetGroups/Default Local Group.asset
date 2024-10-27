@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e25d627a5a098d458f2d46e9b50d1d5
+    m_Address: SkillConfig_Valhein(Clone)
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
   m_SchemaSet:

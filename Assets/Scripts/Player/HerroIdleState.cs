@@ -11,7 +11,7 @@ public class HerroIdleState : IState
 
     public void Enter()
     {
-        // hero.ChangeAnimator("Idle");
+        hero.animator.SetFloat("Blend", 0);
     }
 
     public void Execute()

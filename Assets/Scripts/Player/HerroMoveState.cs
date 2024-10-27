@@ -11,12 +11,12 @@ public class HerroMoveState : IState
 
     public void Enter()
     {
-        // hero.ChangeAnimator("Run");
+        hero.animator.SetFloat("Blend", 1);
     }
 
     public void Execute()
     {
-        hero.Move();
+        hero.HanldeMove();
         if (hero.moveDirection == Vector2.zero && !hero.IsDead)
         {
             hero.ChangeState(new HerroIdleState(hero));

@@ -21,10 +21,10 @@ public class SoldierBlue : SoldierBase
 
         Initialize(
             maxHealth: 500,
-            speedMove: 1f,
+            speedMove: 0.75f,
             detectionRange: 5f,
             attackRange: 4f,
-            attackDamage: 40,
+            attackDamage: 100,
             roadMaps: roadMaps,
             team: Team.Blue
         );
