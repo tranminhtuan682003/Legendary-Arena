@@ -6,6 +6,8 @@ public abstract class BulletBase : MonoBehaviour
     private Rigidbody rb;
     private float speedMove;
     private int damage;
+    private float attackRange;
+    private float timeLife;
     private Transform target;
 
     protected virtual void Start()
@@ -18,22 +20,30 @@ public abstract class BulletBase : MonoBehaviour
         HandleMove();
     }
 
-    public void Initialize(float speedMove, Transform target, int damage)
+    public void Initialize(float speedMove, Transform target, int damage, float attackRange)
     {
         this.speedMove = speedMove;
         this.target = target;
         this.damage = damage;
+        this.attackRange = attackRange;
+
+        timeLife = attackRange / speedMove;
     }
 
     private void HandleMove()
     {
         if (target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speedMove * Time.deltaTime);
+            Vector3 direction = (target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 100f);
+            Vector3 newPosition = transform.position + direction * speedMove * Time.deltaTime;
+            rb.MovePosition(newPosition);
         }
         else
         {
-            rb.velocity = transform.forward * speedMove * Time.deltaTime;
+            rb.velocity = transform.forward * speedMove;
+            StartCoroutine(DisableAfterTime(timeLife));
         }
     }
 
@@ -62,5 +72,12 @@ public abstract class BulletBase : MonoBehaviour
         {
             turret.TakeDamage(damage);
         }
+    }
+
+    // Coroutine để vô hiệu hóa viên đạn sau khi hết thời gian tồn tại
+    private IEnumerator DisableAfterTime(float timeLife)
+    {
+        yield return new WaitForSeconds(timeLife);
+        gameObject.SetActive(false);
     }
 }

@@ -6,12 +6,14 @@ public class Valhein : HeroBase
         Initialize(
             maxHealth: 5000,
             speedMove: 10f,
-            detectionRange: 6f,
+            detectionRange: 7f,
             attackRange: 4f,
-            attackDamage: 100,
+            attackDamage: 1000,
             team: Team.Blue,
             HeroDatabaseAddress: "Assets/Scripts/Player/ValheinDatabase.asset",
-            nameBulletHero: "BulletValhein"
+            nameBulletHero: "BulletValhein",
+            attackInterval: TimeRunAnimation("Attack")
+
         );
     }
 }

@@ -1,25 +1,26 @@
 using UnityEngine;
 
-public class HerroMoveState : IState
+public class HeroMoveState : IState
 {
     private HeroBase hero;
 
-    public HerroMoveState(HeroBase hero)
+    public HeroMoveState(HeroBase hero)
     {
         this.hero = hero;
     }
 
     public void Enter()
     {
-        hero.animator.SetFloat("Blend", 1);
+        hero.isActive = true;
+        hero.ChangeAnimation("Run");
     }
 
     public void Execute()
     {
         hero.HanldeMove();
-        if (hero.moveDirection == Vector2.zero && !hero.IsDead)
+        if (hero.movementVector == Vector3.zero && !hero.IsDead)
         {
-            hero.ChangeState(new HerroIdleState(hero));
+            hero.ChangeState(new HeroIdleState(hero));
         }
     }
 

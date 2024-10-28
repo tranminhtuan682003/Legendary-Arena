@@ -13,7 +13,6 @@ public class SkillManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Đăng ký sự kiện khi hero được khởi tạo
         HeroEventManager.OnHeroCreated += OnHeroCreated;
         InitializeButtons();
     }
@@ -25,21 +24,16 @@ public class SkillManager : MonoBehaviour
 
     private void InitializeButtons()
     {
-        // Khởi tạo các nút theo thứ tự cố định
         for (int i = 1; i <= 8; i++)
         {
             skillButtons[$"Skill{i}"] = GameObject.Find($"Skill{i}")?.GetComponent<Button>();
         }
-
-        // Nút cho skill bổ sung (extra skill)
         skillButtons["ExtraSkill"] = GameObject.Find("ExtraSkill")?.GetComponent<Button>();
     }
 
     private void OnHeroCreated(HeroBase hero)
     {
         this.hero = hero;
-
-        // Sử dụng Addressables để tải SkillConfig cho hero
         string address = $"SkillConfig_{hero.name}"; // Đặt tên theo địa chỉ đã gán cho Addressables
         Addressables.LoadAssetAsync<SkillConfig>(address).Completed += OnSkillConfigLoaded;
     }
@@ -50,10 +44,6 @@ public class SkillManager : MonoBehaviour
         {
             currentSkillConfig = handle.Result;
             AssignSkills();
-        }
-        else
-        {
-            Debug.LogWarning($"Failed to load SkillConfig for hero: {hero.name}");
         }
     }
 
@@ -82,18 +72,11 @@ public class SkillManager : MonoBehaviour
 
     private void CreateAndAssignSkill(SkillConfig.SkillData skillData, Button button)
     {
-        if (button == null || skillData == null)
-        {
-            Debug.LogError($"Button or SkillData is null when trying to assign skill {skillData?.skillName}");
-            return;
-        }
-
         ISkill skill = SkillFactory.CreateSkill(skillData, hero);
         if (skill != null)
         {
-            (skill as SkillBase)?.Initialize(skillData, hero);
+            (skill as SkillBase)?.SetData(skillData, hero);
             button.onClick.AddListener(() => skill.Execute());
-            Debug.Log($"{skillData.skillName} has been assigned to {button.name}");
         }
     }
 }

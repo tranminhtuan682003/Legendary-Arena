@@ -630,7 +630,7 @@ MonoBehaviour:
   isDragCamera: 0
   isPickHeroScreen: 0
   isPickHero: 0
-  nameSupplymentary: 
+  extraSkillName: 
   isPickSupplymentary: 0
   nameGame: 
 --- !u!4 &1129395476

@@ -5,6 +5,5 @@ public class Health : SkillBase
 {
     public override void Execute()
     {
-        throw new System.NotImplementedException();
     }
 }

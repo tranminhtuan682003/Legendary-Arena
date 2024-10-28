@@ -118,10 +118,6 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
             if (Vector3.Distance(transform.position, targetPosition) < 1f)
                 currentRoadIndex++;
         }
-        else
-        {
-            Debug.Log("Reached the end of the path");
-        }
     }
 
     private void ChaseTarget()
@@ -173,7 +169,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
             GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletSoldier, spawnPoint.position, spawnPoint.rotation);
             if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
             {
-                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage);
+                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
             }
 
             attackCooldown = attackInterval;

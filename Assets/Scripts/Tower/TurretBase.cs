@@ -141,7 +141,7 @@ public abstract class TurretBase : MonoBehaviour, ITeamMember
             GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletTurret, spawnPoint.position, spawnPoint.rotation);
             if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
             {
-                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage);
+                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
             }
 
             attackCooldown = attackInterval;

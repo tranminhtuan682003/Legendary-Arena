@@ -7,8 +7,9 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 {
     #region Components
     private Rigidbody rb;
-    [HideInInspector] public Animator animator;
-    protected IState currentState;
+    private Animator animator;
+    private IState currentState;
+    public bool isActive;
     private GameObject bulletHero;
     private string nameBulletHero;
     private Transform spawnPoint;
@@ -24,14 +25,14 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 
     #region Health
     [Header("Health")]
-    protected int currentHealth;
-    protected int maxHealth;
+    private int currentHealth;
+    private int maxHealth;
     public bool IsDead => currentHealth <= 0;
     #endregion
 
     #region Movement
     [Header("Movement")]
-    protected float speedMove;
+    private float speedMove;
     public Vector2 moveDirection;
     public Vector3 movementVector;
     public bool isMoving;
@@ -39,22 +40,24 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 
     #region Attack
     [Header("Attack")]
+    public bool foundTarget;
+    public bool isAttacking;
     public float detectionRange;
     public float attackRange;
     public int attackDamage;
-    private float attackInterval = 2f;
-    private float attackCooldown = 0f;
+    public float attackInterval;
+    public float attackCooldown = 0f;
     #endregion
 
     #region Targeting
-    private Transform target;
+    public Transform target;
     #endregion
 
     protected virtual void Start()
     {
         HeroEventManager.TriggerHeroCreated(this);
         InitComponents();
-        currentState = new HerroIdleState(this);
+        currentState = new HeroIdleState(this);
         currentState.Enter();
     }
 
@@ -62,6 +65,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
     {
         currentState?.Execute();
         DetectTarget();
+        attackCooldown -= Time.deltaTime;
     }
 
     public void ChangeState(IState newState)
@@ -71,7 +75,31 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         currentState.Enter();
     }
 
-    protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, Team team, string HeroDatabaseAddress, string nameBulletHero)
+    public void ChangeAnimation(string nameAnimation)
+    {
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Run");
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Dead");
+        animator.SetTrigger(nameAnimation);
+    }
+
+    public float TimeRunAnimation(string animationName)
+    {
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == animationName)
+            {
+                return clip.length;
+            }
+        }
+        return -1f;
+    }
+
+
+
+    protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, Team team, string HeroDatabaseAddress, string nameBulletHero, float attackInterval)
     {
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
@@ -82,6 +110,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         this.team = team;
         this.HeroDatabaseAddress = HeroDatabaseAddress;
         this.nameBulletHero = nameBulletHero;
+        this.attackInterval = attackInterval;
         LoadHeroDatabase();
     }
 
@@ -121,8 +150,6 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
     private void DetectTarget()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
-        bool foundTarget = false;
-
         foreach (var hitCollider in hitColliders)
         {
             if (IsValidTarget(hitCollider))
@@ -133,11 +160,18 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
             }
         }
 
-        if (!foundTarget)
+        if (foundTarget)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            isAttacking = distanceToTarget <= attackRange;
+        }
+        else
         {
             target = null;
+            isAttacking = false;
         }
     }
+
 
     private bool IsValidTarget(Collider hitCollider)
     {
@@ -145,23 +179,33 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         return potentialTarget != null && potentialTarget.GetTeam() != this.team;
     }
 
+    public void FollowTarget()
+    {
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        transform.position += directionToTarget * speedMove * Time.deltaTime;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+    }
+
     public void HandleAttack()
     {
-        if (target != null && attackCooldown <= 0f)
+        if (target != null)
         {
-            Debug.Log("Soldier is attacking " + target.name);
-            GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletHero, spawnPoint.position, spawnPoint.rotation);
-            if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
-            {
-                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage);
-            }
+            RotateToTarget();
+        }
 
-            attackCooldown = attackInterval;
-        }
-        else
+        GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletHero, spawnPoint.position, spawnPoint.rotation);
+        if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
         {
-            attackCooldown -= Time.deltaTime;
+            bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
         }
+    }
+
+    private void RotateToTarget()
+    {
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 180f);
     }
 
     #region Health Methods
@@ -196,19 +240,14 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 
     public void HanldeMove()
     {
-        if (movementVector != Vector3.zero && !IsDead)
-        {
-            isMoving = true;
-            Vector3 move = movementVector * speedMove * Time.deltaTime;
-            rb.MovePosition(transform.position + move);
 
-            Quaternion targetRotation = Quaternion.LookRotation(movementVector);
-            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
-        }
-        else
-        {
-            isMoving = false;
-        }
+        isMoving = true;
+        Vector3 move = movementVector * speedMove * Time.deltaTime;
+        rb.MovePosition(transform.position + move);
+
+        Quaternion targetRotation = Quaternion.LookRotation(movementVector);
+        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
     }
+
     #endregion
 }

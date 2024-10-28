@@ -1,7 +1,8 @@
+using UnityEngine;
 public class PushPillar : SkillBase
 {
     public override void Execute()
     {
-        throw new System.NotImplementedException();
+        hero.ChangeState(new HeroAttackState(hero));
     }
 }

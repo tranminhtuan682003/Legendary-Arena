@@ -18,13 +18,15 @@ MonoBehaviour:
     skillLevel: 0
     baseDamage: 0
     damagePerLevel: 0
-    skillEffect: {fileID: 0}
+    skillEffect: {fileID: 1384563884197521199, guid: 5bcd2c86770dfe049ba13f473461d59e,
+      type: 3}
     soundEffect: {fileID: 0}
   - skillName: Health
     skillLevel: 0
     baseDamage: 0
     damagePerLevel: 0
-    skillEffect: {fileID: 0}
+    skillEffect: {fileID: 9017484664307500583, guid: 1245b8d2997d5b34fb1637be70a7eb05,
+      type: 3}
     soundEffect: {fileID: 0}
   - skillName: Skill1Valhein
     skillLevel: 0
