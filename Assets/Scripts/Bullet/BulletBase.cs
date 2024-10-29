@@ -8,8 +8,9 @@ public abstract class BulletBase : MonoBehaviour
     private int damage;
     private float attackRange;
     private float timeLife;
-    private Transform target;
+    protected Transform target;
 
+    protected virtual void OnEnable() { }
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -20,14 +21,18 @@ public abstract class BulletBase : MonoBehaviour
         HandleMove();
     }
 
-    public void Initialize(float speedMove, Transform target, int damage, float attackRange)
+    public void Initialize(float speedMove, int damage, float attackRange)
     {
         this.speedMove = speedMove;
-        this.target = target;
         this.damage = damage;
         this.attackRange = attackRange;
 
         timeLife = attackRange / speedMove;
+    }
+
+    protected virtual void OnTargetDetected(Transform newTarget)
+    {
+        target = newTarget;
     }
 
     private void HandleMove()

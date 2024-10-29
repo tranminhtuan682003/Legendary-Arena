@@ -4,6 +4,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using Unity.Mathematics;
 
 public class UIManager : MonoBehaviour
 {
@@ -138,18 +139,29 @@ public class UIManager : MonoBehaviour
                 if (nameHero == item.heroName)
                 {
                     var heroInstance = Instantiate(item.heroPrefab);
-                    heroInstance.transform.position = new Vector3(-32f, 0f, -31f);
+                    var heroBase = heroInstance.GetComponent<HeroBase>(); // Lấy HeroBase từ heroInstance
+
+                    if (heroBase.GetTeam() == Team.Blue) // Sử dụng heroBase để gọi getTeam()
+                    {
+                        heroInstance.transform.position = new Vector3(-32, 0, -30.5f);
+                    }
+                    else
+                    {
+                        heroInstance.transform.position = new Vector3(26.45f, 0f, 27.95f);
+                        heroInstance.transform.rotation = Quaternion.AngleAxis(180f, Vector3.up);
+                    }
+
                     heros.Add(item.heroName, heroInstance);
                     break;
                 }
-                else
-                {
-                    Debug.Log("Khong co tuong nay");
-                    return;
-                }
             }
         }
+        else
+        {
+            Debug.Log("Khong co tuong nay");
+        }
     }
+
 
     private void CreateNavigation()
     {

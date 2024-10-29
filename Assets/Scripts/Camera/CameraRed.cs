@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraRed : MonoBehaviour
 {
     private HeroBase hero;
-    public Vector3 offset = new Vector3(0, 6f, -6f);
+    private Vector3 offset = new Vector3(0, 13, 13);
     private bool isHeroAssigned = false;
 
     void Update()
@@ -26,13 +28,19 @@ public class CameraController : MonoBehaviour
 
     private void OnHeroCreated(HeroBase hero)
     {
-        this.hero = hero;
-        isHeroAssigned = true;
+        if (hero.GetTeam() == Team.Red)
+        {
+            this.hero = hero;
+            isHeroAssigned = true;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void FollowTarget()
     {
-        if (hero == null) return;
         if (UIManager.Instance.isDragCamera) return;
         transform.position = hero.transform.position + offset;
     }

@@ -22,7 +22,7 @@ public abstract class TurretBase : MonoBehaviour, ITeamMember
     private Transform target;
     private float attackCooldown = 0f;
 
-    [SerializeField] private Team team;
+    private Team team;
     public Team GetTeam() => team;
 
     protected virtual void Start()
@@ -97,19 +97,15 @@ public abstract class TurretBase : MonoBehaviour, ITeamMember
         foreach (var hitCollider in hitColliders)
         {
             ITeamMember potentialTarget = hitCollider.GetComponent<ITeamMember>();
-
-            // Chỉ chọn đối tượng thuộc đội đối phương
             if (potentialTarget != null && potentialTarget.GetTeam() != this.team)
             {
                 target = hitCollider.transform;
-                GamePlay1vs1Manager.Instance.targetOfTurret = target;
+                TurretEventManager.TriggerTargetDetected(target);
                 UpdateStateBasedOnTarget();
                 foundTarget = true;
                 break;
             }
         }
-
-        // Nếu không tìm thấy target hợp lệ, quay lại trạng thái Idle
         if (!foundTarget && !(currentState is TurretIdleState))
         {
             ChangeState(new TurretIdleState(this));
@@ -141,7 +137,7 @@ public abstract class TurretBase : MonoBehaviour, ITeamMember
             GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletTurret, spawnPoint.position, spawnPoint.rotation);
             if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
             {
-                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
+                bullet.Initialize(speedMove: 20f, damage: attackDamage, attackRange: attackRange);
             }
 
             attackCooldown = attackInterval;

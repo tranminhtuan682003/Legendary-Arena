@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SoldierDatabase
   m_EditorClassIdentifier: 
   items:
-  - name: BulletSoldier
+  - name: BulletSoldierBlue
     prefab: {fileID: 7660746455711276036, guid: 97e9794ce161af543bb159b5215537d6,
+      type: 3}
+  - name: BulletSoldierRed
+    prefab: {fileID: 7660746455711276036, guid: 4f1960dc1080b4b46ab0f253f73fa9d3,
       type: 3}

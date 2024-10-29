@@ -49,7 +49,7 @@ public class ObjectPool : MonoBehaviour
                 return pooledObject;
             }
         }
-        GameObject newObject = Instantiate(prefab, position, rotation);
+        GameObject newObject = Instantiate(prefab, position, rotation, transform);
         newObject.SetActive(true);
         newObject.name = prefab.name;
         objectPool.Enqueue(newObject); // Thêm đối tượng mới vào pool

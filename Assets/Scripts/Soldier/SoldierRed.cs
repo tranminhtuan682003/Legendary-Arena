@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierBlue : SoldierBase
+public class SoldierRed : SoldierBase
 {
     protected override void Start()
     {
@@ -26,8 +26,8 @@ public class SoldierBlue : SoldierBase
             attackRange: 4f,
             attackDamage: 30,
             roadMaps: roadMaps,
-            team: Team.Blue,
-            nameBullet: "BulletSoldierBlue"
+            team: Team.Red,
+            nameBullet: "BulletSoldierRed"
         );
     }
 }

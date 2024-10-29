@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BulletSoldierBlue : BulletBase
+public class BulletSoldierRed : BulletBase
 {
     protected override void OnEnable()
     {

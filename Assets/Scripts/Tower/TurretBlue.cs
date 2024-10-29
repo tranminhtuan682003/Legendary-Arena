@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
-using UnityEngine;
-public class TurretRed : TurretBase
+public class TurretBlue : TurretBase
 {
     protected override void Start()
     {
@@ -10,7 +8,7 @@ public class TurretRed : TurretBase
             detectionRange: 6f,
             attackRange: 5f,
             attackDamage: 10,
-            team: Team.Red
+            team: Team.Blue
         );
     }
 }

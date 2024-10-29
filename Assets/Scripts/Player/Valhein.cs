@@ -4,11 +4,11 @@ public class Valhein : HeroBase
     {
         base.Start();
         Initialize(
-            maxHealth: 5000,
+            maxHealth: 500,
             speedMove: 10f,
             detectionRange: 7f,
             attackRange: 4f,
-            attackDamage: 1000,
+            attackDamage: 50,
             team: Team.Blue,
             HeroDatabaseAddress: "Assets/Scripts/Player/ValheinDatabase.asset",
             nameBulletHero: "BulletValhein",

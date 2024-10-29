@@ -17,7 +17,7 @@ public class HeroMoveState : IState
 
     public void Execute()
     {
-        hero.HanldeMove();
+        hero.HandleMove();
         if (hero.movementVector == Vector3.zero && !hero.IsDead)
         {
             hero.ChangeState(new HeroIdleState(hero));

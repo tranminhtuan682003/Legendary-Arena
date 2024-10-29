@@ -11,7 +11,6 @@ public class SoldierAttackState : IState
     }
     public void Enter()
     {
-        Debug.Log("casefs");
     }
 
     public void Execute()
@@ -21,6 +20,5 @@ public class SoldierAttackState : IState
 
     public void Exit()
     {
-        Debug.Log("asjhfgsuiyedf");
     }
 }

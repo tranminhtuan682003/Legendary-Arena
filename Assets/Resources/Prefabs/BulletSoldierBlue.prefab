@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 963075677289509671}
   - component: {fileID: -4117805273190778922}
   m_Layer: 0
-  m_Name: BulletSoldier
+  m_Name: BulletSoldierBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -21.070648, y: 2.65, z: -15.322663}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}

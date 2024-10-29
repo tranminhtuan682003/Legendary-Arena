@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System;
 
 public abstract class HeroBase : MonoBehaviour, ITeamMember
 {
@@ -16,7 +17,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
     #endregion
 
     #region Team and Database
-    [SerializeField] private Team team;
+    private Team team;
     private HeroDatabasee heroDatabase;
     private string HeroDatabaseAddress;
 
@@ -25,8 +26,8 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
 
     #region Health
     [Header("Health")]
-    private int currentHealth;
-    private int maxHealth;
+    public int currentHealth;
+    public int maxHealth;
     public bool IsDead => currentHealth <= 0;
     #endregion
 
@@ -97,8 +98,6 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         return -1f;
     }
 
-
-
     protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, Team team, string HeroDatabaseAddress, string nameBulletHero, float attackInterval)
     {
         this.maxHealth = maxHealth;
@@ -155,6 +154,7 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
             if (IsValidTarget(hitCollider))
             {
                 target = hitCollider.transform;
+                HeroEventManager.TriggerTargetDetected(target);
                 foundTarget = true;
                 break;
             }
@@ -172,12 +172,12 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         }
     }
 
-
     private bool IsValidTarget(Collider hitCollider)
     {
         ITeamMember potentialTarget = hitCollider.GetComponent<ITeamMember>();
         return potentialTarget != null && potentialTarget.GetTeam() != this.team;
     }
+
 
     public void FollowTarget()
     {
@@ -193,11 +193,10 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         {
             RotateToTarget();
         }
-
         GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletHero, spawnPoint.position, spawnPoint.rotation);
         if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
         {
-            bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
+            bullet.Initialize(speedMove: 20f, damage: attackDamage, attackRange: attackRange);
         }
     }
 
@@ -235,18 +234,28 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
     protected void OnMove(InputValue value)
     {
         moveDirection = value.Get<Vector2>().normalized;
+
+        // Lật hướng di chuyển nếu đội là "Red"
+        if (GetTeam() == Team.Red)
+        {
+            moveDirection = -moveDirection;
+        }
+
         movementVector = new Vector3(moveDirection.x, 0, moveDirection.y);
     }
 
-    public void HanldeMove()
+    public void HandleMove()
     {
-
         isMoving = true;
         Vector3 move = movementVector * speedMove * Time.deltaTime;
         rb.MovePosition(transform.position + move);
 
-        Quaternion targetRotation = Quaternion.LookRotation(movementVector);
-        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
+        // Xoay đối tượng về hướng di chuyển
+        if (movementVector != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(movementVector);
+            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
+        }
     }
 
     #endregion

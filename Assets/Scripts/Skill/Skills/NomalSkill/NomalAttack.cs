@@ -5,11 +5,18 @@ public class NomalAttack : SkillBase
     {
         if (hero.attackCooldown <= 0)
         {
-            hero.ChangeState(new HeroAttackState(hero));
-        }
-        else if (hero.target != null && !hero.isAttacking)
-        {
-            hero.ChangeState(new HeroFollowTargetState(hero));
+            if (hero.target && hero.isAttacking)
+            {
+                hero.ChangeState(new HeroAttackState(hero));
+            }
+            else if (hero.target != null && !hero.isAttacking)
+            {
+                hero.ChangeState(new HeroFollowTargetState(hero));
+            }
+            else if (!hero.target && !hero.isAttacking)
+            {
+                hero.ChangeState(new HeroAttackState(hero));
+            }
         }
     }
 }

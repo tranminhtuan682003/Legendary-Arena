@@ -7,12 +7,12 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
 {
     private IState currentState;
     private Rigidbody rb;
-
-    [SerializeField] private Team team;
+    private Team team;
     public Team GetTeam() => team;
 
     private List<Vector3> roadMaps;
     private int currentRoadIndex;
+    private string nameBullet;
 
     // Soldier Database
     [Header("Soldier Database")]
@@ -71,7 +71,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
         currentState.Enter();
     }
 
-    protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, List<Vector3> roadMaps, Team team)
+    protected virtual void Initialize(int maxHealth, float speedMove, float detectionRange, float attackRange, int attackDamage, List<Vector3> roadMaps, Team team, string nameBullet)
     {
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
@@ -81,6 +81,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
         this.attackDamage = attackDamage;
         this.roadMaps = roadMaps;
         this.team = team;
+        this.nameBullet = nameBullet;
         this.currentRoadIndex = 0;
     }
 
@@ -93,7 +94,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 soldierDatabase = handle.Result;
-                bulletSoldier = GetPrefabByName("BulletSoldier");
+                bulletSoldier = GetPrefabByName(nameBullet);
             }
         };
     }
@@ -142,6 +143,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
             if (potentialTarget != null && potentialTarget.GetTeam() != this.team)
             {
                 target = hitCollider.transform;
+                SoldierEventManager.TriggerTargetDetected(target);
                 isChasingTarget = true;
                 foundTarget = true;
                 break;
@@ -169,7 +171,7 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
             GameObject bulletObject = ObjectPool.Instance.GetFromPool(bulletSoldier, spawnPoint.position, spawnPoint.rotation);
             if (bulletObject.TryGetComponent<BulletBase>(out var bullet))
             {
-                bullet.Initialize(speedMove: 20f, target: target, damage: attackDamage, attackRange: attackRange);
+                bullet.Initialize(speedMove: 20f, damage: attackDamage, attackRange: attackRange);
             }
 
             attackCooldown = attackInterval;
