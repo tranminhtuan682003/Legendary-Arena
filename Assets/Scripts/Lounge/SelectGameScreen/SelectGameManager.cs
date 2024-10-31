@@ -32,13 +32,13 @@ public class SelectGameManager : MonoBehaviour
     {
         backgrounds = new Dictionary<string, Sprite>
         {
-            { "1vs1", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg2") },
-            { "3vs3", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg3") },
-            { "5vs5", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg4") },
-            { "10vs10", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg5") },
-            { "UpDown", Resources.Load<Sprite>("NewUI/BackgroundGameMode/bg6") },
-            { "XXX", Resources.Load<Sprite>("NewUI/BackgroundGameMode/xxx") },
-            { "Rank", Resources.Load<Sprite>("NewUI/BackgroundGameMode/rank") },
+            { "1vs1", Resources.Load<Sprite>("UI/BackgroundGameMode/bg2") },
+            { "3vs3", Resources.Load<Sprite>("UI/BackgroundGameMode/bg3") },
+            { "5vs5", Resources.Load<Sprite>("UI/BackgroundGameMode/bg4") },
+            { "10vs10", Resources.Load<Sprite>("UI/BackgroundGameMode/bg5") },
+            { "UpDown", Resources.Load<Sprite>("UI/BackgroundGameMode/bg6") },
+            { "XXX", Resources.Load<Sprite>("UI/BackgroundGameMode/xxx") },
+            { "Rank", Resources.Load<Sprite>("UI/BackgroundGameMode/rank") },
         };
     }
     private void ChangeBackground(string gameMode)

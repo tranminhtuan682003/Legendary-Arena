@@ -81,16 +81,16 @@ public class PickHeroManager : MonoBehaviour
     {
         heroBackgrounds = new Dictionary<string, Sprite>
         {
-            { "TelAnas", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/TelAnas") },
-            { "Nakroth", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Nakroth") },
-            { "Omen", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Omen") },
-            { "Toro", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Toro") },
-            { "Violet", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Violet") },
-            { "Zill", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Zill") },
-            { "Volkath", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Volkath") },
-            { "Ryoma", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Ryoma") },
-            { "Valhein", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Valhein") },
-            { "Veres", Resources.Load<Sprite>("NewUI/heroBackground/BackgroundHerro/Veres") }
+            { "TelAnas", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/TelAnas") },
+            { "Nakroth", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Nakroth") },
+            { "Omen", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Omen") },
+            { "Toro", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Toro") },
+            { "Violet", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Violet") },
+            { "Zill", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Zill") },
+            { "Volkath", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Volkath") },
+            { "Ryoma", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Ryoma") },
+            { "Valhein", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Valhein") },
+            { "Veres", Resources.Load<Sprite>("UI/heroBackground/BackgroundHerro/Veres") }
         };
     }
 
@@ -110,16 +110,16 @@ public class PickHeroManager : MonoBehaviour
     {
         heroImgs = new Dictionary<string, Sprite>
         {
-            { "TelAnas", Resources.Load<Sprite>("NewUI/heroBackground/TelAnas") },
-            { "Nakroth", Resources.Load<Sprite>("NewUI/heroBackground/Nakroth") },
-            { "Omen", Resources.Load<Sprite>("NewUI/heroBackground/Omen") },
-            { "Toro", Resources.Load<Sprite>("NewUI/heroBackground/Toro") },
-            { "Violet", Resources.Load<Sprite>("NewUI/heroBackground/Violet") },
-            { "Zill", Resources.Load<Sprite>("NewUI/heroBackground/Zill") },
-            { "Volkath", Resources.Load<Sprite>("NewUI/heroBackground/Volkath") },
-            { "Ryoma", Resources.Load<Sprite>("NewUI/heroBackground/Ryoma") },
-            { "Valhein", Resources.Load<Sprite>("NewUI/heroBackground/Valhein") },
-            { "Veres", Resources.Load<Sprite>("NewUI/heroBackground/Veres") }
+            { "TelAnas", Resources.Load<Sprite>("UI/heroBackground/TelAnas") },
+            { "Nakroth", Resources.Load<Sprite>("UI/heroBackground/Nakroth") },
+            { "Omen", Resources.Load<Sprite>("UI/heroBackground/Omen") },
+            { "Toro", Resources.Load<Sprite>("UI/heroBackground/Toro") },
+            { "Violet", Resources.Load<Sprite>("UI/heroBackground/Violet") },
+            { "Zill", Resources.Load<Sprite>("UI/heroBackground/Zill") },
+            { "Volkath", Resources.Load<Sprite>("UI/heroBackground/Volkath") },
+            { "Ryoma", Resources.Load<Sprite>("UI/heroBackground/Ryoma") },
+            { "Valhein", Resources.Load<Sprite>("UI/heroBackground/Valhein") },
+            { "Veres", Resources.Load<Sprite>("UI/heroBackground/Veres") }
         };
     }
 
@@ -139,11 +139,11 @@ public class PickHeroManager : MonoBehaviour
     {
         supplymentaryImgs = new Dictionary<string, Sprite>
         {
-            {"Execute",Resources.Load<Sprite>("NewUI/Supplymentary/Execute")},
-            {"Flicker",Resources.Load<Sprite>("NewUI/Supplymentary/Flicker")},
-            {"Purge",Resources.Load<Sprite>("NewUI/Supplymentary/Purge")},
-            {"Roar",Resources.Load<Sprite>("NewUI/Supplymentary/Roar")},
-            {"Stun",Resources.Load<Sprite>("NewUI/Supplymentary/Stun")}
+            {"Execute",Resources.Load<Sprite>("UI/Supplymentary/Execute")},
+            {"Flicker",Resources.Load<Sprite>("UI/Supplymentary/Flicker")},
+            {"Purge",Resources.Load<Sprite>("UI/Supplymentary/Purge")},
+            {"Roar",Resources.Load<Sprite>("UI/Supplymentary/Roar")},
+            {"Stun",Resources.Load<Sprite>("UI/Supplymentary/Stun")}
         };
     }
     private void ChangeSupplymentaryImg(string supplymentaryName)

@@ -30,17 +30,13 @@ public class UIManager : MonoBehaviour
             return instance;
         }
     }
-    private StartPosition startPosition;
     private UIDatabase uIDatabase;
     private HeroDatabase heroDatabase;
-    private SupplementaryDatabase supplementaryDatabase;
     private const string UIDatabaseAddress = "Assets/Scripts/Manager/NavigationManager/UIDatabase.asset";
     private const string HeroDatabaseAddress = "Assets/Scripts/ManagerAndUI/Hero/HeroDatabase.asset";
-    private const string SupplementaryDatabaseAddress = "Assets/Scripts/Skill/ScriptTableObject/SupplementaryTable.asset";
     private Dictionary<string, GameObject> screens = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> navigations = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> heros = new Dictionary<string, GameObject>();
-    private Dictionary<string, GameObject> supplymentarys = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> heroBackgrounds = new Dictionary<string, GameObject>();
     private Canvas canvas;
     private RectTransform selectScreen;
@@ -169,48 +165,6 @@ public class UIManager : MonoBehaviour
         navigations.Add(uIDatabase.navigations.screenName, nav);
         selectScreen = GameObject.Find("SelectScreen").GetComponent<RectTransform>();
         nav.SetActive(false);
-    }
-
-    public void InitSupplymentary(Transform parent, string nameSup, Action onComplete)
-    {
-        Addressables.LoadAssetAsync<SupplementaryDatabase>(SupplementaryDatabaseAddress).Completed += handle =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                supplementaryDatabase = handle.Result;
-                foreach (var item in supplementaryDatabase.supplymentarys)
-                {
-                    if (item.nameSup == nameSup)
-                    {
-                        var sup = Instantiate(item.supPrefab, parent);
-                        supplymentarys.Add(item.nameSup, sup);
-                        sup.SetActive(false);
-                    }
-                }
-
-                // Gọi callback khi hoàn tất khởi tạo
-                onComplete?.Invoke();
-            }
-            else
-            {
-                Debug.LogError("Không thể tải SupplementaryDatabase.");
-                onComplete?.Invoke(); // Gọi callback dù có lỗi để tránh treo chương trình
-            }
-        };
-    }
-
-
-    public GameObject GetSup(string nameSup)
-    {
-        if (supplymentarys.ContainsKey(nameSup))
-        {
-            return supplymentarys[nameSup];  // Trả về đối tượng nếu tìm thấy
-        }
-        else
-        {
-            Debug.LogWarning($"Không tìm thấy supplymentary có tên: {nameSup}");
-            return null;  // Trả về null nếu không tìm thấy
-        }
     }
 
     public void ShowHeroBackground(string nameHero)

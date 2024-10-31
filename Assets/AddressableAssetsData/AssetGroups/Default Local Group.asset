@@ -17,16 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 7e9f0b7034c74a344878f476c179ef3e
   m_SerializeEntries:
-  - m_GUID: fffdcd2c288c9c144b22d27efea9fab6
-    m_Address: Assets/Scripts/Skill/ScriptTableObject/SupplementaryTable.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5efb7768799e1d24391142a0fd5f0c66
-    m_Address: Assets/Scripts/Skill/ScriptTableObject/TelAnas.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8440ac86a17f325498e099834a94b8bb
     m_Address: Assets/Scripts/Manager/NavigationManager/UIDatabase.asset
     m_ReadOnly: 0
