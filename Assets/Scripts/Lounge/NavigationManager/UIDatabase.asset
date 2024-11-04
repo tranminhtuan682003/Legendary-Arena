@@ -35,7 +35,7 @@ MonoBehaviour:
     screenPrefab: {fileID: 4796202814706305400, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
       type: 3}
   - screenName: UpDown
-    screenPrefab: {fileID: 6778324999118477722, guid: 62bce7886d8ab7d43838321b00f084b6,
+    screenPrefab: {fileID: 6471043361029650870, guid: 62bce7886d8ab7d43838321b00f084b6,
       type: 3}
   navigations:
     screenName: Navigation
