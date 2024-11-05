@@ -15,8 +15,20 @@ public class BetTypeButton : MonoBehaviour
 
     private void HandleClick()
     {
+        if (betType == BetType.Tai)
+        {
+            UISBManager.Instance.ChangeStateOverBetButton(true);
+            UISBManager.Instance.ChangeStateUnderBetButton(false);
+        }
+        else
+        {
+            UISBManager.Instance.ChangeStateUnderBetButton(true);
+            UISBManager.Instance.ChangeStateOverBetButton(false);
+        }
+
         BetManager.Instance.currentBetType = betType;
-        UISBManager.Instance.betTable.SetActive(true);
+        UISBManager.Instance.StateBetTable(true);
         Debug.Log(BetManager.Instance.currentBetType);
     }
+
 }

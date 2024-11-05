@@ -14,7 +14,7 @@ public class BetButtonSB : MonoBehaviour
 
     private void OnBetButtonClicked()
     {
-        BetManager.Instance.SetBetMoney(betAmount);
+        BetManager.Instance.SetCurrentBetAmount(betAmount);
         SoundSBManager.Instance.PlayBetSound();
     }
 }

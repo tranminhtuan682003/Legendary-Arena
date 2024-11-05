@@ -18,25 +18,57 @@ public class BetManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void SaveBetMoney(int amount)
+    public void SaveBetAmount(int amount)
     {
         betAmount = amount;
     }
+    public int BetAmount()
+    {
+        return betAmount;
+    }
 
-    public void SetBetMoney(int amount)
+    public void SetCurrentBetAmount(int amount)
     {
         currentBetAmount += amount;
         UISBManager.Instance.UpdateBetAmountDisplay(currentBetAmount);
     }
+    public int CurrentBetAmount()
+    {
+        return currentBetAmount;
+    }
 
-    public void ResetBets()
+    public void ResetCurrentBetAmount()
     {
         currentBetAmount = 0;
     }
 
+    public void ResetBetAmount()
+    {
+        betAmount = 0;
+        currentBetType = BetType.None;
+    }
+
     public void CalculatePayout(BetResult result)
     {
-        int payout = (result == BetResult.Win) ? betAmount * 2 : -betAmount;
-        SichBoManager.Instance.UpdateScore(payout);
+        if (currentBetType == BetType.None)
+        {
+            SoundSBManager.Instance.PlayNoneBet();
+        }
+        else
+        {
+            if (result == BetResult.Win)
+            {
+                SoundSBManager.Instance.PlayWinSound();
+            }
+            else
+            {
+                SoundSBManager.Instance.PlayLoseSound();
+            }
+        }
+
+        int payout = (result == BetResult.Win) ? betAmount * 2 : -0;
+        SichBoManager.Instance.UpdateScoreAfterRound(payout);
+        SichBoManager.Instance.SetDetailBet(payout);
     }
+
 }
