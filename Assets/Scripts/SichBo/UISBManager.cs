@@ -30,6 +30,8 @@ public class UISBManager : MonoBehaviour
     private GameObject betTable;
 
     private GameObject chart;
+    private GameObject deposit;
+    private GameObject setting;
 
     private List<int> generatedIds = new List<int>(); // Danh sách lưu các ID đã tạo
     private const string IdFileName = "GeneratedIds.json"; // Tên file JSON
@@ -49,6 +51,8 @@ public class UISBManager : MonoBehaviour
         InitializeUIElements();
         StateBetTable(false);
         ChartState(false);
+        DepositState(false);
+        SettingState(false);
         LoadGeneratedIds();
     }
 
@@ -90,6 +94,8 @@ public class UISBManager : MonoBehaviour
         underBetButton = GameObject.Find("UnderBetButton")?.GetComponent<Button>();
 
         chart = GameObject.Find("Chart");
+        deposit = GameObject.Find("Deposit");
+        setting = GameObject.Find("Setting");
     }
     #endregion
 
@@ -219,21 +225,24 @@ public class UISBManager : MonoBehaviour
     #region Button States
     public void ChangeStateOverBetButton(bool state)
     {
-        if (overBetButton != null && betAmountOverText != null)
+        if (overBetButton != null)
         {
-            overBetButton.image.color = state ? Color.black : Color.yellow;
+            string spritePath = state ? "UISB/ButtonBetDeactive" : "UISB/ButtonBetActive";
+            overBetButton.image.sprite = Resources.Load<Sprite>(spritePath);
             betAmountOverText.color = state ? Color.yellow : Color.black;
         }
     }
 
     public void ChangeStateUnderBetButton(bool state)
     {
-        if (underBetButton != null && betAmountUnderText != null)
+        if (underBetButton != null)
         {
-            underBetButton.image.color = state ? Color.black : Color.yellow;
+            string spritePath = state ? "UISB/ButtonBetDeactive" : "UISB/ButtonBetActive";
+            underBetButton.image.sprite = Resources.Load<Sprite>(spritePath);
             betAmountUnderText.color = state ? Color.yellow : Color.black;
         }
     }
+
 
     public void ActiveOverButton(bool active)
     {
@@ -273,20 +282,18 @@ public class UISBManager : MonoBehaviour
 
     public void SettingState(bool state)
     {
-        // if (chart != null)
-        // {
-        //     chart.SetActive(state);
-        // }
-        Debug.Log("Setiing");
+        if (setting != null)
+        {
+            setting.SetActive(state);
+        }
     }
 
     public void DepositState(bool state)
     {
-        // if (chart != null)
-        // {
-        //     chart.SetActive(state);
-        // }
-        Debug.Log("Deposit");
+        if (deposit != null)
+        {
+            deposit.SetActive(state);
+        }
     }
 
 
