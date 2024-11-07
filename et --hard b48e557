@@ -1,0 +1,33 @@
+[33mafff6b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: reset: moving to HEAD~2
+[33mb48e557[m HEAD@{1}: commit: Xóa các tệp Firebase lớn khỏi commit
+[33m2963a38[m HEAD@{2}: commit: Add firebase
+[33mafff6b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{3}: commit: Update game sich bo
+[33m195a36d[m HEAD@{4}: checkout: moving from main to master
+[33m0fbf3e6[m[33m ([m[1;32mmain[m[33m)[m HEAD@{5}: commit (initial): no commnets
+[33md0f9ffe[m[33m ([m[1;32miam_tuan[m[33m)[m HEAD@{6}: checkout: moving from master to iam_tuan
+[33m195a36d[m HEAD@{7}: commit: Completed game SichBo
+[33mcce069c[m HEAD@{8}: commit: SichBo Game Update
+[33mea296cc[m HEAD@{9}: commit: Shop Ui
+[33m762ded1[m HEAD@{10}: commit: Update CameraController, SkillHeo, Soldier, Turret
+[33m8f54578[m HEAD@{11}: commit: I am not feeling well today
+[33m6f72dcc[m HEAD@{12}: commit: Update Skill system and add system manager
+[33mb407b61[m HEAD@{13}: commit: Clean code HeroBase, SoldierBase, TurretBase
+[33md3b9c8e[m HEAD@{14}: commit: Complete SoldierManager and TurretManager
+[33mc543ec0[m HEAD@{15}: commit: Completed map base and modify TurretController
+[33ma72ea10[m HEAD@{16}: commit: almost done game Over / Under ^^
+[33m5dc363c[m HEAD@{17}: commit: Game over under loading
+[33m34bdcf8[m HEAD@{18}: commit: Sleep
+[33ma83ac7b[m HEAD@{19}: commit: Completed UI manager
+[33m79fbbb6[m HEAD@{20}: commit: completed skill
+[33m5e96363[m HEAD@{21}: commit: i am tired
+[33m299023f[m HEAD@{22}: commit: complete Skill1
+[33ma1daf12[m HEAD@{23}: commit: Skill manager completed
+[33md1ec205[m HEAD@{24}: commit: go on the bed
+[33mfe41f7c[m HEAD@{25}: commit: completed TowerController
+[33me8d5435[m HEAD@{26}: commit: add database
+[33m4d78585[m HEAD@{27}: reset: moving to 4d78585
+[33m4d78585[m HEAD@{28}: reset: moving to 4d78585f4b3a4e046398478b199b30830e94bc0e
+[33md0f9ffe[m[33m ([m[1;32miam_tuan[m[33m)[m HEAD@{29}: checkout: moving from iam_tuan to master
+[33md0f9ffe[m[33m ([m[1;32miam_tuan[m[33m)[m HEAD@{30}: checkout: moving from master to iam_tuan
+[33md0f9ffe[m[33m ([m[1;32miam_tuan[m[33m)[m HEAD@{31}: commit: Add untracked files
+[33m4d78585[m HEAD@{32}: commit (initial): init project
