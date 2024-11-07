@@ -79,3 +79,9 @@ Assets/ProjectSetting/
 Assets/Scripts/FireBase/
 Assets/StreamingAssets.meta
 Assets/StreamingAssets/
+
+
+Assets/FireBase/
+Assets/firebase_unity_sdk_12.4.0/
+Assets/ExternalDependencyManager/
+Assets/Editor Default Resources/
