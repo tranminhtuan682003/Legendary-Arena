@@ -15,6 +15,11 @@ public class OptionsButotn : MonoBehaviour
 
     private void HandleClick()
     {
+        UISBManager.Instance.ResetBetAmountDisplay();
+        UISBManager.Instance.StateBetTable(false);
+        BetManager.Instance.ResetBetAmount();
+        UISBManager.Instance.ChangeStateOverBetButton(false);
+        UISBManager.Instance.ChangeStateUnderBetButton(false);
         if (button.name == "ChartButton")
         {
             UISBManager.Instance.ChartState(true);

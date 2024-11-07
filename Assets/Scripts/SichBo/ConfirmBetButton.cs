@@ -15,18 +15,17 @@ public class ConfirmBetButton : MonoBehaviour
 
     private void HandleClick()
     {
+        SichBoManager.Instance.UpdateScoreAfterBet(BetManager.Instance.BetAmount());
         SoundSBManager.Instance.PlayConfirmSound();
-        if (SichBoManager.Instance.playerBalance >= 100)
+        if (SichBoManager.Instance.playerBalance >= 100 && BetManager.Instance.currentBetAmount <= SichBoManager.Instance.playerBalance)
         {
-            ProcessBet();
-
             if (typeConfirm == TypeConfirm.ALLIN)
             {
                 HandleAllIn();
             }
             else if (typeConfirm == TypeConfirm.OK)
             {
-                UISBManager.Instance.UpdateConfirmBetAmountDisplay(BetManager.Instance.currentBetAmount);
+                HandleOK();
             }
             else
             {
@@ -41,25 +40,27 @@ public class ConfirmBetButton : MonoBehaviour
         }
     }
 
-    private void ProcessBet()
-    {
-        SichBoManager.Instance.UpdateScoreAfterBet(BetManager.Instance.BetAmount());
-    }
-
     private void HandleAllIn()
     {
         BetManager.Instance.ResetCurrentBetAmount();
         BetManager.Instance.SetCurrentBetAmount(SichBoManager.Instance.playerBalance);
         BetManager.Instance.SaveBetAmount(BetManager.Instance.CurrentBetAmount());
         SichBoManager.Instance.UpdateScoreAfterBet(-BetManager.Instance.BetAmount());
-        UISBManager.Instance.UpdateConfirmBetAmountDisplay(BetManager.Instance.currentBetAmount);
+        UISBManager.Instance.UpdateConfirmBetAmountDisplay(BetManager.Instance.BetAmount());
+    }
+
+    private void HandleOK()
+    {
+        BetManager.Instance.SaveBetAmount(BetManager.Instance.CurrentBetAmount());
+        SichBoManager.Instance.UpdateScoreAfterBet(-BetManager.Instance.BetAmount());
+        UISBManager.Instance.UpdateConfirmBetAmountDisplay(BetManager.Instance.BetAmount());
     }
 
     private void HandleCancel()
     {
+        BetManager.Instance.currentBetType = BetType.None;
         SichBoManager.Instance.UpdateScoreAfterBet(BetManager.Instance.BetAmount());
         UISBManager.Instance.ResetConfirmBetAmountDisplay();
-        BetManager.Instance.ResetBetAmount();
         UISBManager.Instance.RefeshUI();
     }
 
@@ -67,8 +68,6 @@ public class ConfirmBetButton : MonoBehaviour
     {
         UISBManager.Instance.ChangeStateOverBetButton(false);
         UISBManager.Instance.ChangeStateUnderBetButton(false);
-        BetManager.Instance.SaveBetAmount(BetManager.Instance.CurrentBetAmount());
-        SichBoManager.Instance.UpdateScoreAfterBet(-BetManager.Instance.BetAmount());
         BetManager.Instance.ResetCurrentBetAmount();
         UISBManager.Instance.ResetBetAmountDisplay();
         UISBManager.Instance.StateBetTable(false);
@@ -76,7 +75,11 @@ public class ConfirmBetButton : MonoBehaviour
 
     private void HandleInsufficientFunds()
     {
+        BetManager.Instance.currentBetType = BetType.None;
         UISBManager.Instance.ResetBetAmountDisplay();
+        BetManager.Instance.ResetBetAmount();
+        UISBManager.Instance.ChangeStateOverBetButton(false);
+        UISBManager.Instance.ChangeStateUnderBetButton(false);
         UISBManager.Instance.StateBetTable(false);
         Debug.Log("No Enough Money");
     }

@@ -18,10 +18,12 @@ public class BetManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public void SaveBetAmount(int amount)
     {
         betAmount = amount;
     }
+
     public int BetAmount()
     {
         return betAmount;
@@ -45,6 +47,7 @@ public class BetManager : MonoBehaviour
     public void ResetBetAmount()
     {
         betAmount = 0;
+        currentBetAmount = 0;
         currentBetType = BetType.None;
     }
 

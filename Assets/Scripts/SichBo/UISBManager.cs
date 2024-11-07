@@ -207,6 +207,11 @@ public class UISBManager : MonoBehaviour
         }
     }
 
+    public void ResetResultText()
+    {
+        resultText.text = "";
+    }
+
     public void RefeshUI()
     {
         if (confirmBetAmoutOverText != null) confirmBetAmoutOverText.text = "";
@@ -248,7 +253,7 @@ public class UISBManager : MonoBehaviour
     {
         if (overBetButton != null)
         {
-            overBetButton.gameObject.SetActive(active);
+            overBetButton.interactable = active;
         }
     }
 
@@ -256,9 +261,10 @@ public class UISBManager : MonoBehaviour
     {
         if (underBetButton != null)
         {
-            underBetButton.gameObject.SetActive(active);
+            underBetButton.interactable = active;
         }
     }
+
     #endregion
 
     #region Options manage

@@ -104,20 +104,26 @@ public class SichBoManager : MonoBehaviour
     #region Result Handling
     private void ShowResult()
     {
-        BetType result = Randomizer.Instance.GenerateRandomResult();
-        BetResult betResult = (result == BetManager.Instance.currentBetType) ? BetResult.Win : BetResult.Lose;
-        BetManager.Instance.CalculatePayout(betResult);
-
-        int detailBet = (betResult == BetResult.Win) ? BetManager.Instance.betAmount : -BetManager.Instance.betAmount;
-        string isWinText = (betResult == BetResult.Win) ? "Win" : "Lose";
-
         if (BetManager.Instance.currentBetType != BetType.None)
         {
-            betHistoryManager.AddBetHistory(UISBManager.Instance.idGame.text, BetManager.Instance.betAmount, isWinText, detailBet);
+            UISBManager.Instance.ActiveOverButton(false);
+            UISBManager.Instance.ActiveUnderButton(false);
+            BetType result = Randomizer.Instance.GenerateRandomResult();
+            BetResult betResult = (result == BetManager.Instance.currentBetType) ? BetResult.Win : BetResult.Lose;
+            BetManager.Instance.CalculatePayout(betResult);
+
+            int detailBet = (betResult == BetResult.Win) ? BetManager.Instance.betAmount : -BetManager.Instance.betAmount;
+            string isWinText = (betResult == BetResult.Win) ? "Win" : "Lose";
+
+            if (BetManager.Instance.currentBetType != BetType.None)
+            {
+                betHistoryManager.AddBetHistory(UISBManager.Instance.idGame.text, BetManager.Instance.betAmount, isWinText, detailBet);
+            }
+
+            UISBManager.Instance.ShowResult(betResult);
+            SaveData();
         }
 
-        UISBManager.Instance.ShowResult(betResult);
-        SaveData();
     }
     #endregion
 
@@ -142,10 +148,11 @@ public class SichBoManager : MonoBehaviour
         fakeBetMoneyOver = 100;
         fakeBetMoneyUnder = 100;
 
-        UISBManager.Instance.RefeshUI();
-        BetManager.Instance.ResetBetAmount();
         UISBManager.Instance.ActiveOverButton(true);
         UISBManager.Instance.ActiveUnderButton(true);
+        UISBManager.Instance.ResetResultText();
+        UISBManager.Instance.RefeshUI();
+        BetManager.Instance.ResetBetAmount();
 
         ViewResult = false;
     }
