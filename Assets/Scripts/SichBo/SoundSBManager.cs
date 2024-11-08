@@ -11,6 +11,7 @@ public class SoundSBManager : MonoBehaviour
     public AudioClip loseSound;
     public AudioClip noneSound;
     public AudioClip confirmSound;
+    public AudioClip betTypeSound;
     private AudioSource audioSource;
 
     private void Awake()
@@ -48,5 +49,10 @@ public class SoundSBManager : MonoBehaviour
     public void PlayConfirmSound()
     {
         audioSource.PlayOneShot(confirmSound);
+    }
+
+    public void PlayBetTypeSound()
+    {
+        audioSource.PlayOneShot(betTypeSound);
     }
 }

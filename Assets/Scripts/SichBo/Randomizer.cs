@@ -16,8 +16,8 @@ public class Randomizer : MonoBehaviour
         }
     }
 
-    public BetType GenerateRandomResult()
+    public BetType SetResult(BetType betType)
     {
-        return (Random.Range(0, 2) == 0) ? BetType.Xiu : BetType.Tai;
+        return betType;
     }
 }

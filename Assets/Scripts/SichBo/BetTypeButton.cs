@@ -15,6 +15,7 @@ public class BetTypeButton : MonoBehaviour
 
     private void HandleClick()
     {
+        SoundSBManager.Instance.PlayBetTypeSound();
         if (betType == BetType.Tai)
         {
             UISBManager.Instance.ChangeStateOverBetButton(true);

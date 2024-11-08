@@ -15,7 +15,6 @@ public class ConfirmBetButton : MonoBehaviour
 
     private void HandleClick()
     {
-        SichBoManager.Instance.UpdateScoreAfterBet(BetManager.Instance.BetAmount());
         SoundSBManager.Instance.PlayConfirmSound();
         if (SichBoManager.Instance.playerBalance >= 100 && BetManager.Instance.currentBetAmount <= SichBoManager.Instance.playerBalance)
         {
@@ -51,6 +50,7 @@ public class ConfirmBetButton : MonoBehaviour
 
     private void HandleOK()
     {
+        SichBoManager.Instance.UpdateScoreAfterBet(BetManager.Instance.BetAmount());
         BetManager.Instance.SaveBetAmount(BetManager.Instance.CurrentBetAmount());
         SichBoManager.Instance.UpdateScoreAfterBet(-BetManager.Instance.BetAmount());
         UISBManager.Instance.UpdateConfirmBetAmountDisplay(BetManager.Instance.BetAmount());

@@ -32,6 +32,18 @@ public class UISBManager : MonoBehaviour
     private GameObject chart;
     private GameObject deposit;
     private GameObject setting;
+    private GameObject bowl;
+
+
+    //Dice
+    private GameObject dice;
+    private Image dice1;
+    private Image dice2;
+    private Image dice3;
+
+    //Name Over under
+    private TextMeshProUGUI nameOver;
+    private TextMeshProUGUI nameUnder;
 
     private List<int> generatedIds = new List<int>(); // Danh sách lưu các ID đã tạo
     private const string IdFileName = "GeneratedIds.json"; // Tên file JSON
@@ -96,23 +108,74 @@ public class UISBManager : MonoBehaviour
         chart = GameObject.Find("Chart");
         deposit = GameObject.Find("Deposit");
         setting = GameObject.Find("Setting");
+
+        bowl = GameObject.Find("Bowl");
+
+        dice1 = GameObject.Find("Dice1").GetComponent<Image>();
+        dice2 = GameObject.Find("Dice2").GetComponent<Image>();
+        dice3 = GameObject.Find("Dice3").GetComponent<Image>();
+        dice = GameObject.Find("Dice");
+
+        nameOver = GameObject.Find("NameOver").GetComponent<TextMeshProUGUI>();
+        nameUnder = GameObject.Find("NameUnder").GetComponent<TextMeshProUGUI>();
+
     }
     #endregion
 
     #region Animation
-    public void ChangeAnimationTimer(string nameAnimation)
+    public void ChangeAnimationTimer(bool state, string nameAnimationRun, string nameAnimationIdle)
     {
-        if (animator != null)
+        Animator animator = countdownText.GetComponent<Animator>();
+        string animationToTrigger = state ? nameAnimationRun : nameAnimationIdle;
+        animator.SetTrigger(animationToTrigger);
+    }
+
+    public void ChanAnimationFakeUI(bool state, string nameAnimationRun, string nameAnimationIdle)
+    {
+        string animationToTrigger = state ? nameAnimationRun : nameAnimationIdle;
+
+        Animator[] animator = {
+        fakePlayerOver.GetComponent<Animator>(),
+        fakePlayerUnder.GetComponent<Animator>(),
+        fakebetMoneyOver.GetComponent<Animator>(),
+        fakebetMoneyUnder.GetComponent<Animator>()
+    };
+
+        foreach (var item in animator)
         {
-            animator.ResetTrigger("Idle");
-            animator.ResetTrigger("ShowResult");
-            animator.SetTrigger(nameAnimation);
+            item.SetTrigger(animationToTrigger);
+        }
+    }
+
+    public void ChangeAnimationBowl(bool state, string nameAnimationRun, string nameAnimationIdle, bool active)
+    {
+        Animator animator = bowl.GetComponent<Animator>();
+        if (active)
+        {
+            animator.enabled = true;
+            string animationToTrigger = state ? nameAnimationRun : nameAnimationIdle;
+            animator.SetTrigger(animationToTrigger);
         }
         else
         {
-            Debug.LogError("Animator is null. ChangeAnimationTimer cannot set animation.");
+            animator.enabled = false;
         }
     }
+
+    public void ChangeAnimationDice(bool state, string nameAnimationRun, string nameAnimationIdle)
+    {
+        Animator animator = dice.GetComponent<Animator>();
+        string animationToTrigger = state ? nameAnimationRun : nameAnimationIdle;
+        animator.SetTrigger(animationToTrigger);
+    }
+
+    public void ChangeAnimationNameResult(bool state, bool over)
+    {
+        Animator animator = over ? nameOver.GetComponent<Animator>() : nameUnder.GetComponent<Animator>();
+        string animationToTrigger = state ? "Run" : "Idle";
+        animator.SetTrigger(animationToTrigger);
+    }
+
     #endregion
 
     #region UI Updates
@@ -225,6 +288,15 @@ public class UISBManager : MonoBehaviour
             resultText.text = result == BetResult.Win ? "You Win!" : "You Lose!";
         }
     }
+
+    public void SetImageDice(int dice1, int dice2, int dice3)
+    {
+        string path = "UISB/Dice/";
+        this.dice1.sprite = Resources.Load<Sprite>($"{path}{dice1}");
+        this.dice2.sprite = Resources.Load<Sprite>($"{path}{dice2}");
+        this.dice3.sprite = Resources.Load<Sprite>($"{path}{dice3}");
+    }
+
     #endregion
 
     #region Button States
