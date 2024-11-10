@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/1vs1.unity
     guid: c38026ec84d34004b9fc049bdb685be8
+  - enabled: 1
+    path: Assets/Scenes/SichBo.unity
+    guid: 2c720b2cb2e89a14d93fd231938d6d59
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: b72f7c929600a3d48965c098fe875bc4,
       type: 2}

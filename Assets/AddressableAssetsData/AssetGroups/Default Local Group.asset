@@ -47,6 +47,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3418aae940e824b49a3b0df336958a55
+    m_Address: PipeDataAddress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f55911e92c3947419976527d397b711
+    m_Address: ScreenFlappyDataAdress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
   m_SchemaSet:

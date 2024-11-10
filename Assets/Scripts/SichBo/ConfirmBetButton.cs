@@ -75,12 +75,13 @@ public class ConfirmBetButton : MonoBehaviour
 
     private void HandleInsufficientFunds()
     {
-        BetManager.Instance.currentBetType = BetType.None;
         UISBManager.Instance.ResetBetAmountDisplay();
+        BetManager.Instance.currentBetType = BetType.None;
         BetManager.Instance.ResetBetAmount();
         UISBManager.Instance.ChangeStateOverBetButton(false);
         UISBManager.Instance.ChangeStateUnderBetButton(false);
         UISBManager.Instance.StateBetTable(false);
+
         Debug.Log("No Enough Money");
     }
 }

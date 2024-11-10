@@ -8,6 +8,7 @@ TagManager:
   - TurretBlue
   - PlayerBlue
   - SoldierBlue
+  - Pipe
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - Morgan_A
   - Volumes
   - Tower
-  - 
-  - 
+  - BackgroudFlappyBird
+  - Pipe
   - 
   - 
   - 
@@ -44,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BGFlappyBird
+    uniqueID: 1919610563
+    locked: 0
+  - name: Pipe
+    uniqueID: 2769985647
     locked: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnterGameButton : MonoBehaviour
@@ -29,7 +30,7 @@ public class EnterGameButton : MonoBehaviour
                 UIManager.Instance.ShowScreen("PickHero");
                 break;
             case "UpDown":
-                UIManager.Instance.ShowScreen("UpDown");
+                SceneManager.LoadScene("SichBo");
                 break;
             case "XXX":
                 UIManager.Instance.ShowScreen("UpDown");
