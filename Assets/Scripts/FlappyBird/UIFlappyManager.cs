@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,16 +10,20 @@ public class UIFlappyManager : MonoBehaviour
     public static UIFlappyManager Instance;
     private FlappyBirdDatabase pipeData;
     private Canvas canvas;
-
+    //screen
     private GameObject loadScreen;
     private GameObject playScreen;
     private GameObject gameOver;
+
+    //Flappy bird and pipe
     private GameObject flappyBird;
     private GameObject pipe1;
     private GameObject pipe2;
     private GameObject pipe3;
     private GameObject spawnPoint;
-    private List<GameObject> pipePrefabs = new List<GameObject>(); // Khởi tạo danh sách
+    private List<GameObject> pipePrefabs = new List<GameObject>();
+
+
 
     private void OnEnable()
     {
@@ -31,12 +36,7 @@ public class UIFlappyManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            canvas = FindObjectOfType<Canvas>();
-            spawnPoint = GameObject.Find("SpawnPoint");
-            if (canvas == null)
-            {
-                Debug.LogError("Canvas not found in the scene!");
-            }
+            InitLize();
         }
         else
         {
@@ -48,6 +48,12 @@ public class UIFlappyManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(LoadPipeData());
+    }
+
+    private void InitLize()
+    {
+        canvas = FindObjectOfType<Canvas>();
+        spawnPoint = GameObject.Find("SpawnPoint");
     }
 
     private IEnumerator LoadPipeData()
@@ -87,6 +93,7 @@ public class UIFlappyManager : MonoBehaviour
         playScreen.SetActive(false);
         gameOver.SetActive(false);
 
+        //pipe
         pipe1 = GetPrefabByName("Pipe1");
         pipe2 = GetPrefabByName("Pipe2");
         pipe3 = GetPrefabByName("Pipe3");
@@ -94,6 +101,7 @@ public class UIFlappyManager : MonoBehaviour
         pipePrefabs.Add(pipe2);
         pipePrefabs.Add(pipe3);
         CreatePipe();
+
     }
 
     public void CreateFlappyBird()
@@ -151,3 +159,7 @@ public class UIFlappyManager : MonoBehaviour
         FlappyBirdEventManager.OnGameOver -= HandleGameOver;
     }
 }
+
+
+
+// them text score vao 

@@ -31,14 +31,10 @@ public class FlappyBirdController : MonoBehaviour
 
     private void HandleMove()
     {
+        SoundFlappyManager.Instance.PlayWingBet();
         rigitbody.velocity = Vector2.zero;
 
         rigitbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Flap");
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
