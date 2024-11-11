@@ -32,3 +32,15 @@ MonoBehaviour:
   - name: Pipe3
     prefab: {fileID: 2577774294469924352, guid: 281235cd325ccc04299d20c6887e692a,
       type: 3}
+  - name: PlayGameAgain
+    prefab: {fileID: 7821877162818923606, guid: 13e8e5208d6cded46a8404d6e047342a,
+      type: 3}
+  - name: Pipe4
+    prefab: {fileID: 4312095957980724090, guid: febb43a77b23af741a21ee8c93b50750,
+      type: 3}
+  - name: Pipe5
+    prefab: {fileID: 5464671814494706866, guid: 4c970fee9eb81d444ab75addc2748680,
+      type: 3}
+  - name: Pipe6
+    prefab: {fileID: 6421021163103009105, guid: afe2bb25ffa180548b5a1e3d1be9fa9b,
+      type: 3}

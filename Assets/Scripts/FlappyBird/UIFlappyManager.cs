@@ -14,12 +14,16 @@ public class UIFlappyManager : MonoBehaviour
     private GameObject loadScreen;
     private GameObject playScreen;
     private GameObject gameOver;
+    private GameObject playAgain;
 
     //Flappy bird and pipe
     private GameObject flappyBird;
     private GameObject pipe1;
     private GameObject pipe2;
     private GameObject pipe3;
+    private GameObject pipe4;
+    private GameObject pipe5;
+    private GameObject pipe6;
     private GameObject spawnPoint;
     private List<GameObject> pipePrefabs = new List<GameObject>();
 
@@ -88,18 +92,26 @@ public class UIFlappyManager : MonoBehaviour
         loadScreen = Instantiate(GetPrefabByName("LoadScreen"), canvas.transform);
         playScreen = Instantiate(GetPrefabByName("PlayScreen"), canvas.transform);
         gameOver = Instantiate(GetPrefabByName("GameOver"), canvas.transform);
+        playAgain = Instantiate(GetPrefabByName("PlayGameAgain"), canvas.transform);
         // Đặt các màn hình ban đầu là không hoạt động  
         loadScreen.SetActive(false);
         playScreen.SetActive(false);
         gameOver.SetActive(false);
+        playAgain.SetActive(false);
 
         //pipe
         pipe1 = GetPrefabByName("Pipe1");
         pipe2 = GetPrefabByName("Pipe2");
         pipe3 = GetPrefabByName("Pipe3");
+        pipe4 = GetPrefabByName("Pipe4");
+        pipe5 = GetPrefabByName("Pipe5");
+        pipe6 = GetPrefabByName("Pipe6");
         pipePrefabs.Add(pipe1);
         pipePrefabs.Add(pipe2);
         pipePrefabs.Add(pipe3);
+        pipePrefabs.Add(pipe4);
+        pipePrefabs.Add(pipe5);
+        pipePrefabs.Add(pipe6);
         CreatePipe();
 
     }
@@ -115,6 +127,9 @@ public class UIFlappyManager : MonoBehaviour
         PoolPipeManager.Instance.CreatePool(pipe1);
         PoolPipeManager.Instance.CreatePool(pipe2);
         PoolPipeManager.Instance.CreatePool(pipe3);
+        PoolPipeManager.Instance.CreatePool(pipe4);
+        PoolPipeManager.Instance.CreatePool(pipe5);
+        PoolPipeManager.Instance.CreatePool(pipe6);
     }
 
     public void GetPipe()
@@ -127,7 +142,7 @@ public class UIFlappyManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("pipePrefabs list is empty!");
+            Debug.LogWarning("pipePrefabs list is empty : " + pipePrefabs.Count);
         }
     }
 
@@ -147,8 +162,15 @@ public class UIFlappyManager : MonoBehaviour
         gameOver.SetActive(state);
     }
 
+    public void ChangeStateScreenPlayAgain(bool state)
+    {
+        playAgain.SetActive(state);
+    }
+
+
     private void HandleGameOver()
     {
+        ChangeStateScreenPlay(false);
         ChangeStateScreenGameOver(true);
     }
 
@@ -159,7 +181,3 @@ public class UIFlappyManager : MonoBehaviour
         FlappyBirdEventManager.OnGameOver -= HandleGameOver;
     }
 }
-
-
-
-// them text score vao 

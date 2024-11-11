@@ -9,6 +9,8 @@ TagManager:
   - PlayerBlue
   - SoldierBlue
   - Pipe
+  - PipeScore
+  - FlappyBird
   layers:
   - Default
   - TransparentFX

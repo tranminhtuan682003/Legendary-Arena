@@ -1,16 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class FlappyBirdGameManager : MonoBehaviour
 {
     public static FlappyBirdGameManager Instance;
     private int score = 0;
     private int bestScore;
-    private TextMeshProUGUI textScore;
+    private float speedPipe = 1f;
+    private float speedSpawn = 2.5f;
+    private bool isGameOver = false;
 
     private void Awake()
     {
@@ -25,16 +24,65 @@ public class FlappyBirdGameManager : MonoBehaviour
         }
     }
 
-    public void SetTextScore(TextMeshProUGUI textScore)
+    private void OnEnable()
     {
-        this.textScore = textScore;
-        UpdateTextScore(); // Cập nhật ngay khi set để hiển thị đúng
+        FlappyBirdEventManager.OnGameStart += HandleStart;
+        FlappyBirdEventManager.OnGameOver += HandleGameOver;
+
+        // Tải bestScore từ PlayerPrefs
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+    }
+
+    private void OnDisable()
+    {
+        FlappyBirdEventManager.OnGameStart -= HandleStart;
+        FlappyBirdEventManager.OnGameOver -= HandleGameOver;
+    }
+
+    private void HandleStart()
+    {
+        isGameOver = false; // Đặt lại trạng thái game
+        score = 0;
+        speedPipe = 1f;
+        speedSpawn = 2.5f;
+        StartCoroutine(IncreaseSpeedOverTime()); // Tăng tốc độ mỗi 10 giây
+        Debug.Log("Game started!");
+    }
+
+    private void HandleGameOver()
+    {
+        if (!isGameOver) // Chỉ xử lý nếu chưa game over
+        {
+            isGameOver = true;
+            StopAllCoroutines(); // Dừng các coroutine khi game over
+            SetBestScore();
+            Debug.Log("Game over!");
+        }
+    }
+
+    private IEnumerator IncreaseSpeedOverTime()
+    {
+        while (!isGameOver) // Kiểm tra cờ để tiếp tục tăng tốc độ
+        {
+            yield return new WaitForSeconds(10f);
+            speedPipe *= 1.1f;
+            speedSpawn /= 1.1f;
+            Debug.Log("Current pipe speed and curent speedSpawn: " + speedPipe + speedSpawn);
+        }
+    }
+
+    public float GetCurrentPipeSpeed()
+    {
+        return speedPipe; // speedPipe là biến lưu tốc độ hiện tại của cột trong FlappyBirdGameManager
+    }
+    public float GetCurrentSpeedSpawnPipe()
+    {
+        return speedSpawn;
     }
 
     public void SetScore(int score)
     {
         this.score += score;
-        UpdateTextScore();
     }
 
     public int GetScore()
@@ -45,27 +93,21 @@ public class FlappyBirdGameManager : MonoBehaviour
     public void ResetScore()
     {
         score = 0;
-        if (textScore != null)
-        {
-            textScore.text = score.ToString();
-        }
     }
 
-    public void SetBestScore(int bestScore)
+    public void SetBestScore()
     {
-        this.bestScore = bestScore;
+        if (bestScore < score)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("BestScore", bestScore); // Lưu bestScore vào PlayerPrefs
+            PlayerPrefs.Save(); // Lưu lại thay đổi ngay lập tức
+        }
+        Debug.Log("Best score is: " + bestScore);
     }
 
     public int GetBestScore()
     {
         return bestScore;
-    }
-
-    private void UpdateTextScore()
-    {
-        if (textScore != null)
-        {
-            textScore.text = score.ToString();
-        }
     }
 }

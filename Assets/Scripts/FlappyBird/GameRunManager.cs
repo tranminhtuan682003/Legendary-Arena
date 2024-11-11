@@ -1,37 +1,63 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameRunManager : MonoBehaviour
 {
     private float timeSpawn = 2.5f;
     private TextMeshProUGUI textScore;
+    private bool isGameOver = false;
+    private Coroutine spawnPipeCoroutine; // Tham chiếu đến Coroutine spawnPipe
 
-    void Awake()
+    private void Awake()
     {
         textScore = GameObject.Find("TextScore")?.GetComponent<TextMeshProUGUI>();
-        if (textScore == null)
+    }
+
+
+
+    private void Update()
+    {
+        if (textScore != null && FlappyBirdGameManager.Instance != null)
         {
-            Debug.LogError("TextScore object not found or missing TextMeshProUGUI component.");
+            textScore.text = FlappyBirdGameManager.Instance.GetScore().ToString();
+        }
+        else
+        {
+            Debug.LogError("textScore or FlappyBirdGameManager.Instance is null.");
         }
     }
 
-    void Start()
+    private void OnEnable()
     {
-        StartCoroutine(SpawnPipe());
-        if (textScore != null && FlappyBirdGameManager.Instance != null)
-        {
-            FlappyBirdGameManager.Instance.SetTextScore(textScore);
-        }
+        isGameOver = false;
+        spawnPipeCoroutine = StartCoroutine(SpawnPipe()); // Khởi động lại Coroutine
+        FlappyBirdEventManager.OnGameOver += HandleGameOver; // Đăng ký sự kiện
+        FlappyBirdEventManager.TriggerGameStart();
+        timeSpawn = FlappyBirdGameManager.Instance.GetCurrentSpeedSpawnPipe();
+    }
+
+    private void OnDisable()
+    {
+        FlappyBirdEventManager.OnGameOver -= HandleGameOver; // Hủy đăng ký sự kiện
     }
 
     private IEnumerator SpawnPipe()
     {
-        while (true)
+        while (!isGameOver)
         {
             UIFlappyManager.Instance.GetPipe();
             yield return new WaitForSeconds(timeSpawn);
+        }
+    }
+
+    private void HandleGameOver()
+    {
+        isGameOver = true;
+        if (spawnPipeCoroutine != null)
+        {
+            StopCoroutine(spawnPipeCoroutine); // Dừng chỉ Coroutine spawnPipe
         }
     }
 }

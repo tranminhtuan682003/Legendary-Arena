@@ -19,6 +19,7 @@ public class PlayGameFlappyButton : MonoBehaviour
         UIFlappyManager.Instance.ChangeStateScreenPlay(true);
         UIFlappyManager.Instance.ChangeStateScreenLoad(false);
         UIFlappyManager.Instance.ChangeStateScreenGameOver(false);
+        UIFlappyManager.Instance.ChangeStateScreenPlayAgain(false);
         UIFlappyManager.Instance.CreateFlappyBird();
     }
 }

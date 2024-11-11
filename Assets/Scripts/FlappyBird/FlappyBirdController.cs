@@ -43,8 +43,9 @@ public class FlappyBirdController : MonoBehaviour
         {
             isDead = true;
             gameObject.SetActive(false);
-
+            SoundFlappyManager.Instance.PlayDieSound();
             FlappyBirdEventManager.TriggerGameOver();
         }
     }
+
 }
