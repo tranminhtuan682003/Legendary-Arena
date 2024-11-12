@@ -29,10 +29,10 @@ MonoBehaviour:
     screenPrefab: {fileID: 3754449141831162044, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
       type: 3}
   - screenName: Game
-    screenPrefab: {fileID: 8792086164862659735, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
+    screenPrefab: {fileID: 8105930612091625750, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
       type: 3}
   - screenName: PickHero
-    screenPrefab: {fileID: 4796202814706305400, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
+    screenPrefab: {fileID: 8224656060654732329, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
       type: 3}
   - screenName: UpDown
     screenPrefab: {fileID: 6471043361029650870, guid: 62bce7886d8ab7d43838321b00f084b6,

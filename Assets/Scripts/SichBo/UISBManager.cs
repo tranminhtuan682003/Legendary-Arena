@@ -45,6 +45,9 @@ public class UISBManager : MonoBehaviour
     private TextMeshProUGUI nameOver;
     private TextMeshProUGUI nameUnder;
 
+    //SceneTransition
+    private GameObject sceneTransition;
+
     private List<int> generatedIds = new List<int>(); // Danh sách lưu các ID đã tạo
     private const string IdFileName = "GeneratedIds.json"; // Tên file JSON
 
@@ -65,6 +68,7 @@ public class UISBManager : MonoBehaviour
         ChartState(false);
         DepositState(false);
         SettingState(false);
+        SceneTransitionState(false);
         LoadGeneratedIds();
     }
 
@@ -118,6 +122,8 @@ public class UISBManager : MonoBehaviour
 
         nameOver = GameObject.Find("NameOver").GetComponent<TextMeshProUGUI>();
         nameUnder = GameObject.Find("NameUnder").GetComponent<TextMeshProUGUI>();
+
+        sceneTransition = GameObject.Find("SceneTransition");
 
     }
     #endregion
@@ -371,6 +377,14 @@ public class UISBManager : MonoBehaviour
         if (deposit != null)
         {
             deposit.SetActive(state);
+        }
+    }
+
+    public void SceneTransitionState(bool state)
+    {
+        if (sceneTransition != null)
+        {
+            sceneTransition.SetActive(state);
         }
     }
 

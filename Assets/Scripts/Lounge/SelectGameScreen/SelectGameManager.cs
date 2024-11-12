@@ -4,10 +4,33 @@ using UnityEngine.UI;
 
 public class SelectGameManager : MonoBehaviour
 {
+    public static SelectGameManager Instance;
     private Image background;
     private GameObject gameMode;  // Chỉ sử dụng một GameObject cho mọi chế độ
     private string previousGameMode;  // Biến để lưu giá trị trước đó của nameGame
     private Dictionary<string, Sprite> backgrounds;
+
+    //SceneTransition
+    private GameObject sceneTransition;
+    private GameObject ready;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        sceneTransition = GameObject.Find("SceneTransition");
+        ready = GameObject.Find("Ready");
+
+        SceneTransitionState(false);
+        ReadyScreenState(false);
+
+    }
 
     void Start()
     {
@@ -93,6 +116,22 @@ public class SelectGameManager : MonoBehaviour
             default:
                 gameMode.SetActive(false);
                 break;
+        }
+    }
+
+    public void SceneTransitionState(bool state)
+    {
+        if (sceneTransition != null)
+        {
+            sceneTransition.SetActive(state);
+        }
+    }
+
+    public void ReadyScreenState(bool state)
+    {
+        if (ready != null)
+        {
+            ready.SetActive(state);
         }
     }
 }
