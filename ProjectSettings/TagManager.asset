@@ -54,3 +54,9 @@ TagManager:
   - name: Pipe
     uniqueID: 2769985647
     locked: 0
+  - name: BGCandyCrush
+    uniqueID: 1080209113
+    locked: 0
+  - name: Candy
+    uniqueID: 2155967517
+    locked: 0

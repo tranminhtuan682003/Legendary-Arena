@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60202b5776b5c4f4487eaa0a3d46aa50, type: 3}
+  m_Name: CandyDataBase
+  m_EditorClassIdentifier: 
+  datas:
+  - screenName: CandyRed1
+    screenPrefab: {fileID: 499710466352081104, guid: 9ee2c6adf9b05b945a9ed2f05a70381e,
+      type: 3}
+  - screenName: CandyYellow1
+    screenPrefab: {fileID: 1234596133601594111, guid: be28627e6f9b3024098fb2b5c2536d48,
+      type: 3}
+  - screenName: CandyGreen1
+    screenPrefab: {fileID: 9116496873116895150, guid: 5eb60985caceed1499dc789391974fbd,
+      type: 3}
+  - screenName: CandyBlue1
+    screenPrefab: {fileID: 3071729832018414582, guid: f7e3b04fa7cd73a4ab765eae6bad20ea,
+      type: 3}
+  - screenName: CandyOrange1
+    screenPrefab: {fileID: 5153720615000480969, guid: 42d2be2034abe674ba714fa0e0e0015d,
+      type: 3}

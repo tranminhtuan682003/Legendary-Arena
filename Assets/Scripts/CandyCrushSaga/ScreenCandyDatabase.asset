@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60202b5776b5c4f4487eaa0a3d46aa50, type: 3}
+  m_Name: ScreenCandyDatabase
+  m_EditorClassIdentifier: 
+  datas:
+  - screenName: StartScreen
+    screenPrefab: {fileID: 2736483546678771481, guid: 60ee3071c47f35947a08fcf84fcc01fa,
+      type: 3}

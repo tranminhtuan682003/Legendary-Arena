@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60202b5776b5c4f4487eaa0a3d46aa50, type: 3}
+  m_Name: BackgroundCandyData
+  m_EditorClassIdentifier: 
+  datas:
+  - screenName: Buble
+    screenPrefab: {fileID: 2163048519577292491, guid: f5edf78c429376c4bb355d55e975df3a,
+      type: 3}
+  - screenName: Grass1
+    screenPrefab: {fileID: 1007617517520387492, guid: df3fdf54231b5a04fb446a6fde57e139,
+      type: 3}
+  - screenName: Grass2
+    screenPrefab: {fileID: 9044594337467485697, guid: f1b6ccea0c0162c4096884da20121c0d,
+      type: 3}
+  - screenName: Grass3
+    screenPrefab: {fileID: 8466458975895687180, guid: ab8f28db2a993cf4297961df77396fb1,
+      type: 3}
