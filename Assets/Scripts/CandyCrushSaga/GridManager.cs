@@ -110,6 +110,8 @@ public class GridManager : MonoBehaviour
         {
             gridArray[pos.x, pos.y] = null;
         }
+        SoundCandyManager.Instance.PlayDestroySound();
+        SoundCandyManager.Instance.PlayPointSound();
         candy.SetActive(false);
     }
 

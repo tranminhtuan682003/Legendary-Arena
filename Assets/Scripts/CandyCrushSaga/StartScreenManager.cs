@@ -31,11 +31,13 @@ public class StartScreenManager : MonoBehaviour
 
     private void HandlePlayButton()
     {
+        SoundCandyManager.Instance.PlayButtonClickSound();
         UICandyManager.instance.ChangeStateStartScreen(false);
     }
 
     private void HandleMenuButton()
     {
+        SoundCandyManager.Instance.PlayButtonClickSound();
         Debug.Log("Menu butotn clicked");
     }
 }

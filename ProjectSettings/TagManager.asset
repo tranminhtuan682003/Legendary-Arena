@@ -60,3 +60,9 @@ TagManager:
   - name: Candy
     uniqueID: 2155967517
     locked: 0
+  - name: BGHollowKnight
+    uniqueID: 2749762139
+    locked: 0
+  - name: Knight
+    uniqueID: 1600463625
+    locked: 0
