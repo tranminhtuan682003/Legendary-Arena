@@ -16,6 +16,7 @@ public class UIFlappyManager : MonoBehaviour
     private GameObject gameOver;
     private GameObject playAgain;
     private GameObject setting;
+    private GameObject informationScreen;
 
     //Flappy bird and pipe
     private GameObject flappyBird;
@@ -94,12 +95,14 @@ public class UIFlappyManager : MonoBehaviour
         playScreen = Instantiate(GetPrefabByName("PlayScreen"), canvas.transform);
         gameOver = Instantiate(GetPrefabByName("GameOver"), canvas.transform);
         playAgain = Instantiate(GetPrefabByName("PlayGameAgain"), canvas.transform);
+        informationScreen = Instantiate(GetPrefabByName("Information"), canvas.transform);
         setting = Instantiate(GetPrefabByName("Setting"), canvas.transform);
         // Đặt các màn hình ban đầu là không hoạt động  
         loadScreen.SetActive(false);
         playScreen.SetActive(false);
         gameOver.SetActive(false);
         playAgain.SetActive(false);
+        informationScreen.SetActive(false);
 
         //pipe
         pipe1 = GetPrefabByName("Pipe1");
@@ -169,10 +172,17 @@ public class UIFlappyManager : MonoBehaviour
         playAgain.SetActive(state);
     }
 
+    public void ChangeStateInformationScreen(bool state)
+    {
+        informationScreen.SetActive(state);
+    }
+
+
     public void ChangeAnimationSetting(string nameAnimation)
     {
         setting.GetComponent<Animator>().SetTrigger(nameAnimation);
     }
+
 
 
     private void HandleGameOver()

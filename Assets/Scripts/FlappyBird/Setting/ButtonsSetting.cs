@@ -20,7 +20,7 @@ public class ButtonsSetting : MonoBehaviour
         {
             { "MicButton", () => SoundFlappyManager.Instance.PlayMusicSound(true) },
             { "MuteButton", () => SoundFlappyManager.Instance.PlayMusicSound(false) },
-            { "InforButton", () => Debug.Log("Info button clicked.") },
+            { "InforButton", () => UIFlappyManager.Instance.ChangeStateInformationScreen(true) },
             { "ExitButton", () => FlappyBirdGameManager.Instance.ExitGame() },
             { "SettingButton", ToggleSettingAnimation }
         };

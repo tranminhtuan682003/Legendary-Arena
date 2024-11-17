@@ -15,6 +15,11 @@ public class FlappyBirdController : MonoBehaviour
         InitLize();
     }
 
+    private void Start()
+    {
+        UIFlappyManager.Instance.ChangeAnimationSetting("Idle");
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && !isDead)

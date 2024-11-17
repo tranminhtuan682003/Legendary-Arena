@@ -44,6 +44,9 @@ MonoBehaviour:
   - name: Pipe6
     prefab: {fileID: 6421021163103009105, guid: afe2bb25ffa180548b5a1e3d1be9fa9b,
       type: 3}
+  - name: Information
+    prefab: {fileID: 2569814825110115481, guid: e81202e36991e9e44a7847198d7a3ec8,
+      type: 3}
   - name: Setting
     prefab: {fileID: 1962413606862167110, guid: 52590bbf6d396e1489f506fa1b122fa8,
       type: 3}

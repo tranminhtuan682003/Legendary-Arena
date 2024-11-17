@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class GameKnightManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameKnightManager instance;
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+    private void Start()
+    {
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+
     }
 }
