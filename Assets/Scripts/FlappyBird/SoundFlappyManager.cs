@@ -29,7 +29,7 @@ public class SoundFlappyManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusicSound();
+        PlayMusicSound(true);
     }
 
     public void PlayDieSound()
@@ -51,12 +51,30 @@ public class SoundFlappyManager : MonoBehaviour
     {
         audioSource.PlayOneShot(wing);
     }
-    public void PlayMusicSound()
+    public void PlayMusicSound(bool state)
     {
-        audioSource.clip = music;
-        audioSource.loop = true;
-        audioSource.Play();
+        if (audioSource.clip != music)
+        {
+            audioSource.clip = music;
+        }
+
+        if (state)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
+
 
     public void PlayPointSound()
     {

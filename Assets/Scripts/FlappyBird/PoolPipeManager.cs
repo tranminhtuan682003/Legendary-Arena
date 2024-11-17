@@ -56,4 +56,18 @@ public class PoolPipeManager : MonoBehaviour
         return newObject;
     }
 
+    public void DeactivateAllObjects()
+    {
+        foreach (var pool in poolDictionary)
+        {
+            foreach (var pooledObject in pool.Value)
+            {
+                if (pooledObject.activeInHierarchy)
+                {
+                    pooledObject.SetActive(false);
+                }
+            }
+        }
+    }
+
 }

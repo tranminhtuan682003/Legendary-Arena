@@ -30,7 +30,7 @@ public class PipeController : MonoBehaviour
         gameObject.SetActive(false); // Vô hiệu hóa Pipe để tái sử dụng từ pool
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("FlappyBird") && !hasPassed)
         {

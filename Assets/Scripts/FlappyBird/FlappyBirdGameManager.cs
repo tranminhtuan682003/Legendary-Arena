@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FlappyBirdGameManager : MonoBehaviour
 {
@@ -26,7 +27,6 @@ public class FlappyBirdGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        FlappyBirdEventManager.OnGameStart += HandleStart;
         FlappyBirdEventManager.OnGameOver += HandleGameOver;
 
         // Tải bestScore từ PlayerPrefs
@@ -35,11 +35,10 @@ public class FlappyBirdGameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        FlappyBirdEventManager.OnGameStart -= HandleStart;
         FlappyBirdEventManager.OnGameOver -= HandleGameOver;
     }
 
-    private void HandleStart()
+    public void HandleStart()
     {
         isGameOver = false; // Đặt lại trạng thái game
         score = 0;
@@ -56,6 +55,7 @@ public class FlappyBirdGameManager : MonoBehaviour
             isGameOver = true;
             StopAllCoroutines(); // Dừng các coroutine khi game over
             SetBestScore();
+            PoolPipeManager.Instance.DeactivateAllObjects();
             Debug.Log("Game over!");
         }
     }
@@ -65,8 +65,8 @@ public class FlappyBirdGameManager : MonoBehaviour
         while (!isGameOver) // Kiểm tra cờ để tiếp tục tăng tốc độ
         {
             yield return new WaitForSeconds(10f);
-            speedPipe *= 1.1f;
-            speedSpawn /= 1.1f;
+            speedPipe *= 1.01f;
+            speedSpawn /= 1.01f;
             Debug.Log("Current pipe speed and curent speedSpawn: " + speedPipe + speedSpawn);
         }
     }
@@ -109,5 +109,10 @@ public class FlappyBirdGameManager : MonoBehaviour
     public int GetBestScore()
     {
         return bestScore;
+    }
+
+    public void ExitGame()
+    {
+        SceneManager.LoadScene("Lounge");
     }
 }

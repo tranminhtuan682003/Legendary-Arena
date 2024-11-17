@@ -7,6 +7,10 @@ public class PlayGameFlappyButton : MonoBehaviour
 {
     private Button button;
 
+    private void OnEnable()
+    {
+        FlappyBirdEventManager.OnGameStart += HandleStart;
+    }
     private void Start()
     {
         button = GetComponent<Button>();
@@ -21,5 +25,15 @@ public class PlayGameFlappyButton : MonoBehaviour
         UIFlappyManager.Instance.ChangeStateScreenGameOver(false);
         UIFlappyManager.Instance.ChangeStateScreenPlayAgain(false);
         UIFlappyManager.Instance.CreateFlappyBird();
+    }
+
+    private void HandleStart()
+    {
+        FlappyBirdGameManager.Instance.HandleStart();
+    }
+
+    private void OnDisable()
+    {
+        FlappyBirdEventManager.OnGameStart -= HandleStart;
     }
 }

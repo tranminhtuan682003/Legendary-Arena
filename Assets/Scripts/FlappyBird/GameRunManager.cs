@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameRunManager : MonoBehaviour
 {
-    private float timeSpawn = 2.5f;
+    private float timeSpawn = 3f;
     private TextMeshProUGUI textScore;
     private bool isGameOver = false;
     private Coroutine spawnPipeCoroutine; // Tham chiếu đến Coroutine spawnPipe
