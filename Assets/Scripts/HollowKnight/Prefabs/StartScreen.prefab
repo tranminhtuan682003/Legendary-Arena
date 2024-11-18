@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2871107415372047985}
   - component: {fileID: 5279108677139842188}
   - component: {fileID: 5900768174944917255}
+  - component: {fileID: 6102065172334683570}
   m_Layer: 5
   m_Name: StartScreen
   m_TagString: Untagged
@@ -76,6 +77,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6102065172334683570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178690914029802408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f378b02fb186c944baade622eb0bd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7592023031447801658
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +102,7 @@ GameObject:
   - component: {fileID: 3960615822595544319}
   - component: {fileID: 3019474234114271136}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: PlayGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

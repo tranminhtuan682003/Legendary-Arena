@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class KnightIdleState : MonoBehaviour
+public class KnightIdleState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly KnightController knightController;
+
+    public KnightIdleState(KnightController knightController)
     {
-        
+        this.knightController = knightController;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Enter()
     {
-        
+        knightController.StopMovement(); // Dừng mọi di chuyển
+    }
+
+    public void Execute()
+    {
+        if (knightController.IsMoving())
+        {
+            knightController.ChangeState(new KnightMoveState(knightController));
+        }
+        if (knightController.IsAttacking())
+        {
+            knightController.ChangeState(new KnightAttackState(knightController));
+        }
+    }
+
+    public void Exit()
+    {
     }
 }

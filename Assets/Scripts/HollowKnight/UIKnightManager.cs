@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Zenject;
 
 public class UIKnightManager : MonoBehaviour
 {
-    public static UIKnightManager instance;
     private KnightDatabase knightDatabase;
     private GameObject startScreen;
     private GameObject playScreen;
@@ -15,21 +15,21 @@ public class UIKnightManager : MonoBehaviour
     private GameObject informationScreen;
 
     private Canvas canvas;
+    private DiContainer container;
+
+    [Inject]
+    public void Construct(DiContainer container)
+    {
+        this.container = container;
+    }
+
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        InitLize();
+        StartCoroutine(LoadScreenData());
     }
     private void Start()
     {
-
     }
 
     private void InitLize()
@@ -37,7 +37,7 @@ public class UIKnightManager : MonoBehaviour
         canvas = FindObjectOfType<Canvas>();
     }
 
-    private IEnumerator LoadPipeData()
+    private IEnumerator LoadScreenData()
     {
         AsyncOperationHandle<KnightDatabase> handle = Addressables.LoadAssetAsync<KnightDatabase>("KnightScreenDatabase");
         yield return handle;
@@ -45,6 +45,7 @@ public class UIKnightManager : MonoBehaviour
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             knightDatabase = handle.Result;
+            CreatePrefab();
         }
         else
         {
@@ -67,13 +68,37 @@ public class UIKnightManager : MonoBehaviour
 
     private void CreatePrefab()
     {
-        startScreen = Instantiate(GetPrefabByName("StartScreen"), canvas.transform);
 
-        ChangeStateStartScreen(false);
+        playScreen = container.InstantiatePrefab(GetPrefabByName("PlayScreen"), canvas.transform);
+        startScreen = container.InstantiatePrefab(GetPrefabByName("StartScreen"), canvas.transform);
+
+        ChangeStatePlayScreen(false);
     }
+
 
     public void ChangeStateStartScreen(bool state)
     {
-        startScreen.SetActive(state);
+        if (startScreen == null)
+        {
+            Debug.Log("Null");
+        }
+        else
+        {
+            startScreen.SetActive(state);
+        }
+    }
+
+    public void ChangeStatePlayScreen(bool state)
+    {
+        playScreen.SetActive(state);
+    }
+
+    public GameObject GetKnightStartScreenPrefab()
+    {
+        return GetPrefabByName("StartScreen");
+    }
+    public GameObject GetKnightPlayScreenPrefab()
+    {
+        return GetPrefabByName("PlayScreen");
     }
 }

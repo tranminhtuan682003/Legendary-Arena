@@ -16,6 +16,6 @@ MonoBehaviour:
   - name: StartScreen
     prefab: {fileID: 1178690914029802408, guid: c3042227d4cf6e74d9094004c686d3a1,
       type: 3}
-  - name: GameScreen
-    prefab: {fileID: 1178690914029802408, guid: c3042227d4cf6e74d9094004c686d3a1,
+  - name: PlayScreen
+    prefab: {fileID: 8993135383843585270, guid: 5cc051dde1f0bd448a52cee559db8068,
       type: 3}

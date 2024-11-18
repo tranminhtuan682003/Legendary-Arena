@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnightMoveState : MonoBehaviour
+public class KnightMoveState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly KnightController knightController;
+
+    public KnightMoveState(KnightController knightController)
     {
-        
+        this.knightController = knightController;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Enter()
     {
-        
+    }
+
+    public void Execute()
+    {
+        knightController.HandleMove();
+
+        // Quay về trạng thái Idle nếu không có input
+        if (!knightController.IsMoving())
+        {
+            knightController.ChangeState(new KnightIdleState(knightController));
+        }
+        if (knightController.IsAttacking())
+        {
+            knightController.ChangeState(new KnightAttackState(knightController));
+        }
+    }
+
+    public void Exit()
+    {
     }
 }
