@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -6,128 +5,153 @@ using Zenject;
 public class KnightController : MonoBehaviour
 {
     private IState currentState;
-    [Inject] private ButtonPlayKnightManager buttonKnightManager;
+    [Inject] private ButtonControlManager buttonManager;
+    [Inject] private UIKnightManager uIKnightManager;
+    [Inject] private KnightPlayScreenManager knightPlayScreenManager;
     private Animator animator;
     private Rigidbody2D rb;
-    [Header("Move")]
-    private Vector2 moveDirection = Vector2.zero;
-    private float speed = 10f;
-    private bool isGrounded = false;
-    private bool hasJumped = false;
 
-    [Header("Attack")]
-    public TypeSkill skill;
+    [Header("Move Settings")]
+    private int currentHealth;
+    private int maxHealth;
 
+    [Header("Move Settings")]
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float jumpForce = 10f;
+    private bool isGrounded;
+    private bool hasJumped;
+    public TypeMove currentMove;
+
+    private Vector2 moveDirection;
+
+    [Header("Attack Settings")]
+    public TypeSkill currentSkill;
+    [SerializeField] private float cooldown;
+    private Transform spawnPoint;
+    [Header("Dead Settings")]
+    public bool isDead;
 
     private void Awake()
     {
         Initialize();
     }
 
+    private void OnEnable()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+    }
+
     private void Start()
     {
-        // Bắt đầu với trạng thái Idle
         ChangeState(new KnightIdleState(this));
     }
 
     private void Update()
     {
-        currentState?.Execute();
+        currentState?.Execute(); // Gọi logic state hiện tại
     }
 
     public void ChangeState(IState newState)
     {
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
+        currentState?.Exit(); // Thoát state hiện tại
+        currentState = newState; // Gán state mới
+        currentState.Enter(); // Khởi động state mới
     }
 
     private void Initialize()
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    public void HandleMove()
-    {
-        moveDirection = buttonKnightManager.CurrentMoveDirection;
-
-        if (moveDirection == Vector2.left || moveDirection == Vector2.right)
+        maxHealth = 1000;
+        spawnPoint = transform.Find("SpawnPoint");
+        if (knightPlayScreenManager != null)
         {
-            MoveHorizontally();
-        }
-        else if (moveDirection == Vector2.up)
-        {
-            HandleUpAction();
-        }
-        else if (moveDirection == Vector2.down)
-        {
-            HandleDownAction();
+            Debug.Log("khong Null");
+            knightPlayScreenManager.SetMaxHealthBar(maxHealth);
         }
         else
         {
-            StopMovement();
+            Debug.Log("Null");
         }
     }
 
-
-    private void MoveHorizontally()
+    #region Handle Move Logic
+    public void HandleMovement()
     {
-        if (moveDirection != Vector2.zero)
+        // Gọi các hàm xử lý dựa trên hướng hiện tại
+        switch (currentMove)
         {
-            FlipCharacter(moveDirection.x);
-            Vector2 horizontalVelocity = new Vector2(moveDirection.x * speed, rb.velocity.y); // Giữ y (trọng lực)
-            rb.velocity = horizontalVelocity;
+            case TypeMove.Left: MoveHorizontally(-1); break;
+            case TypeMove.Right: MoveHorizontally(1); break;
+            case TypeMove.Up: Jump(); break;
+            case TypeMove.Down: Crouch(); break;
+            case TypeMove.None: StopMovement(); break;
         }
     }
 
-    private void FlipCharacter(float direction)
+    private void MoveHorizontally(float direction)
     {
-        if (direction != 0)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * -Mathf.Sign(direction);
-            transform.localScale = scale;
-        }
+        moveDirection = new Vector2(direction, 0);
+        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+        FlipCharacter(direction);
     }
 
-
-
-    private void HandleUpAction()
+    private void Jump()
     {
         if (isGrounded && !hasJumped)
         {
-            rb.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
-            ChangeAnimation("Jump");
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            PlayAnimation("Jump");
             hasJumped = true;
         }
     }
 
-
-    private void HandleDownAction()
+    private void Crouch()
     {
-        Debug.Log("Handling Down Action");
-    }
-
-    public bool IsMoving()
-    {
-        return buttonKnightManager.CurrentMoveDirection != Vector2.zero;
+        if (isGrounded)
+        {
+            Debug.Log("Knight is crouching");
+        }
     }
 
     public void StopMovement()
     {
         moveDirection = Vector2.zero;
         rb.velocity = new Vector2(0, rb.velocity.y);
+        if (isGrounded)
+        {
+            PlayAnimation("Idle");
+        }
     }
 
+    private void FlipCharacter(float direction)
+    {
+        if (direction == 0) return;
+
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(-direction);
+        transform.localScale = scale;
+
+        // Cập nhật spawnPoint
+        UpdateSpawnPointDirection(direction);
+    }
+
+    private void UpdateSpawnPointDirection(float direction)
+    {
+        if (spawnPoint != null)
+        {
+            spawnPoint.localRotation = Quaternion.Euler(0, direction > 0 ? 0 : 180, 0);
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("GroundKnight"))
         {
-            ChangeAnimation("Idle");
             isGrounded = true;
             hasJumped = false;
+            PlayAnimation("Idle");
         }
     }
 
@@ -138,53 +162,32 @@ public class KnightController : MonoBehaviour
             isGrounded = false;
         }
     }
+    #endregion
 
-    public void ChangeAnimation(string nameAnimation)
-    {
-        animator.ResetTrigger("Idle");
-        // animator?.ResetTrigger("Run");
-        animator.ResetTrigger("Jump");
-        // animator?.ResetTrigger("Dead");
-        animator.ResetTrigger("Throw");
-
-        animator.SetTrigger(nameAnimation);
-    }
-
-    #region Handle Skills
+    #region Handle Attack Logic
+    private bool isOnCooldown = false;
 
     public void HandleAttack()
     {
-        skill = buttonKnightManager.typeSkill;
-        switch (skill)
+        if (isOnCooldown) return; // Nếu đang cooldown, bỏ qua
+        isOnCooldown = true;
+
+        currentSkill = buttonManager.currentSkill;
+
+        switch (currentSkill)
         {
             case TypeSkill.Attack:
                 StartCoroutine(PerformBasicAttack());
                 break;
-
             case TypeSkill.Skill1:
-                UseSkill1();
+                UseSkill("Skill1");
                 break;
-
             case TypeSkill.Skill2:
-                UseSkill2();
+                UseSkill("Skill2");
                 break;
-
             case TypeSkill.Skill3:
-                UseSkill3();
+                UseSkill("Skill3");
                 break;
-
-            case TypeSkill.Heal:
-                HealKnight();
-                break;
-
-            case TypeSkill.Recall:
-                RecallToBase();
-                break;
-
-            case TypeSkill.Supplymentary:
-                ApplySupplementaryEffect();
-                break;
-
             default:
                 break;
         }
@@ -192,48 +195,52 @@ public class KnightController : MonoBehaviour
 
     private IEnumerator PerformBasicAttack()
     {
-        ChangeAnimation("Throw");
-        buttonKnightManager.OnButtonAttackReleased();
-        yield return new WaitForSeconds(5 / 6f);
-        ChangeState(new KnightIdleState(this));
+        PlayAnimation("Throw");
+        yield return new WaitForSeconds(GetCooldown() / 2);
+        uIKnightManager.GetBulletThrow(spawnPoint);
+
+        yield return new WaitForSeconds(GetCooldown() / 2);
+        isOnCooldown = false; // Reset cooldown sau khi hoàn thành
     }
 
 
-    private void UseSkill1()
+    private void UseSkill(string skillAnimation)
     {
-        Debug.Log("Using Skill 1");
+        // PlayAnimation(skillAnimation);
+        Debug.Log("Used Skill: " + skillAnimation);
     }
+    #endregion
 
-    private void UseSkill2()
+    #region Utility Methods
+    public void UpdateCurrentMove() => currentMove = buttonManager.currentMove;
+    public void UpdateCurrentSkill() => currentSkill = buttonManager.currentSkill;
+    public void SetCooldown() => cooldown = buttonManager.currentCooldown;
+    public float GetCooldown() => cooldown;
+
+    public void PlayAnimation(string animationName)
     {
-        Debug.Log("Using Skill 2");
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Jump");
+        animator.ResetTrigger("Throw");
+        animator.SetTrigger(animationName);
     }
+    #endregion
 
-    private void UseSkill3()
+    #region Utility Methods
+    public void TakeDamage(int amount)
     {
-        Debug.Log("Using Skill 3");
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            ChangeState(new KnightDeadState(this));
+        }
     }
 
-    private void HealKnight()
+    public void Dead()
     {
-        Debug.Log("Healing Knight");
+        isDead = true;
+        gameObject.SetActive(false);
     }
-
-    private void RecallToBase()
-    {
-        Debug.Log("Recalling to base");
-    }
-
-    private void ApplySupplementaryEffect()
-    {
-        Debug.Log("Applying supplementary effect");
-    }
-
-    public bool IsAttacking()
-    {
-        return buttonKnightManager.typeSkill != TypeSkill.None;
-    }
-
     #endregion
 
 }

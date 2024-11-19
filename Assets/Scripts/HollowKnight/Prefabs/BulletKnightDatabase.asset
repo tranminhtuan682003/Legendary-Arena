@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2999ce6ecde1a5142aeb02285b2d777b, type: 3}
+  m_Name: BulletKnightDatabase
+  m_EditorClassIdentifier: 
+  data:
+  - name: Throw
+    prefab: {fileID: 8730055836030038824, guid: ec5656e6024bf5841bda401190ad0a73,
+      type: 3}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnightSkill2 : AttackButtonAction
+public class KnightSkill2 : SkillKnightBase
 {
     protected override void Awake()
     {

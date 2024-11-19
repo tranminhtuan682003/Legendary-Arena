@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnightSkill3 : AttackButtonAction
+public class KnightSkill3 : SkillKnightBase
 {
     protected override void Awake()
     {
         base.Awake();
-        InitLize(cooldown: 5 / 6f, typeSkill: TypeSkill.Skill3);
+        InitLize(cooldown: 0.5f, typeSkill: TypeSkill.Skill3);
     }
 }

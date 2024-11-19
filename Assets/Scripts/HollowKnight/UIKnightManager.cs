@@ -8,19 +8,27 @@ using Zenject;
 public class UIKnightManager : MonoBehaviour
 {
     private KnightDatabase knightDatabase;
+    private KnightDatabase bulletDatabase;
+
+    private GameObject knight;
+
     private GameObject startScreen;
     private GameObject playScreen;
     private GameObject gameOverScreen;
     private GameObject settingScreen;
     private GameObject informationScreen;
 
+    private GameObject bulletThrow;
+
     private Canvas canvas;
     private DiContainer container;
+    private PoolKnightManager poolKnightManager;
 
     [Inject]
-    public void Construct(DiContainer container)
+    public void Construct(DiContainer container, PoolKnightManager poolKnightManager)
     {
         this.container = container;
+        this.poolKnightManager = poolKnightManager;
     }
 
     private void Awake()
@@ -39,21 +47,35 @@ public class UIKnightManager : MonoBehaviour
 
     private IEnumerator LoadScreenData()
     {
-        AsyncOperationHandle<KnightDatabase> handle = Addressables.LoadAssetAsync<KnightDatabase>("KnightScreenDatabase");
-        yield return handle;
+        AsyncOperationHandle<KnightDatabase> handleScreen = Addressables.LoadAssetAsync<KnightDatabase>("KnightScreenDatabase");
+        AsyncOperationHandle<KnightDatabase> handleBullet = Addressables.LoadAssetAsync<KnightDatabase>("KnightBulletDatabase");
 
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        yield return handleScreen;
+        yield return handleBullet;
+
+        if (handleScreen.Status == AsyncOperationStatus.Succeeded)
         {
-            knightDatabase = handle.Result;
-            CreatePrefab();
+            knightDatabase = handleScreen.Result;
+            CreateScreen();
         }
         else
         {
-            Debug.LogError("Failed to load PipeData from Addressables.");
+            Debug.LogError("Failed to load KnightScreenDatabase");
+            yield break; // Dừng nếu không tải được ScreenDatabase
+        }
+
+        if (handleBullet.Status == AsyncOperationStatus.Succeeded)
+        {
+            bulletDatabase = handleBullet.Result;
+            CreateItem();
+        }
+        else
+        {
+            Debug.LogError("Failed to load KnightBulletDatabase");
         }
     }
 
-    private GameObject GetPrefabByName(string name)
+    private GameObject GetScreenByName(string name)
     {
         foreach (var item in knightDatabase.data)
         {
@@ -66,15 +88,46 @@ public class UIKnightManager : MonoBehaviour
         return null;
     }
 
-    private void CreatePrefab()
+    private GameObject GetBulletByName(string name)
     {
+        foreach (var item in bulletDatabase.data)
+        {
+            if (item.name == name)
+            {
+                return item.prefab;
+            }
+        }
+        Debug.Log("none prefabs with name");
+        return null;
+    }
 
-        playScreen = container.InstantiatePrefab(GetPrefabByName("PlayScreen"), canvas.transform);
-        startScreen = container.InstantiatePrefab(GetPrefabByName("StartScreen"), canvas.transform);
+
+
+    private void CreateScreen()
+    {
+        playScreen = container.InstantiatePrefab(GetScreenByName("PlayScreen"), canvas.transform);
+        startScreen = container.InstantiatePrefab(GetScreenByName("StartScreen"), canvas.transform);
 
         ChangeStatePlayScreen(false);
     }
+    public void CreateKnight()
+    {
+        var prefab = GetScreenByName("Knight"); // Lấy prefab
+        knight = container.InstantiatePrefab(prefab);
+    }
 
+    private void CreateItem()
+    {
+        GameObject bulletPrefab = GetBulletByName("Throw");
+        bulletThrow = bulletPrefab;
+        poolKnightManager.CreatePool(bulletThrow);
+    }
+
+
+    public void GetBulletThrow(Transform spawnPoint)
+    {
+        poolKnightManager.GetFromPool(bulletThrow, spawnPoint.transform.position, spawnPoint.transform.rotation);
+    }
 
     public void ChangeStateStartScreen(bool state)
     {
@@ -95,10 +148,10 @@ public class UIKnightManager : MonoBehaviour
 
     public GameObject GetKnightStartScreenPrefab()
     {
-        return GetPrefabByName("StartScreen");
+        return GetScreenByName("StartScreen");
     }
     public GameObject GetKnightPlayScreenPrefab()
     {
-        return GetPrefabByName("PlayScreen");
+        return GetScreenByName("PlayScreen");
     }
 }

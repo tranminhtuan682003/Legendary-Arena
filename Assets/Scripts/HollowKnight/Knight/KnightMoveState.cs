@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KnightMoveState : IState
@@ -13,18 +11,21 @@ public class KnightMoveState : IState
 
     public void Enter()
     {
+        knightController.PlayAnimation("Run");
     }
 
     public void Execute()
     {
-        knightController.HandleMove();
+        knightController.UpdateCurrentMove();
+        knightController.UpdateCurrentSkill();
 
-        // Quay về trạng thái Idle nếu không có input
-        if (!knightController.IsMoving())
+        knightController.HandleMovement();
+
+        if (knightController.currentMove == TypeMove.None && !knightController.isDead)
         {
             knightController.ChangeState(new KnightIdleState(knightController));
         }
-        if (knightController.IsAttacking())
+        else if (knightController.currentSkill != TypeSkill.None && !knightController.isDead)
         {
             knightController.ChangeState(new KnightAttackState(knightController));
         }
@@ -32,5 +33,6 @@ public class KnightMoveState : IState
 
     public void Exit()
     {
+        knightController.StopMovement();
     }
 }

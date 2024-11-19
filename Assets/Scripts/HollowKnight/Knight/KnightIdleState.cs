@@ -11,16 +11,19 @@ public class KnightIdleState : IState
 
     public void Enter()
     {
-        knightController.StopMovement(); // Dừng mọi di chuyển
+        knightController.StopMovement();
     }
 
     public void Execute()
     {
-        if (knightController.IsMoving())
+        knightController.UpdateCurrentMove();
+
+        knightController.UpdateCurrentSkill();
+        if (knightController.currentMove != TypeMove.None && !knightController.isDead)
         {
             knightController.ChangeState(new KnightMoveState(knightController));
         }
-        if (knightController.IsAttacking())
+        else if (knightController.currentSkill != TypeSkill.None && !knightController.isDead)
         {
             knightController.ChangeState(new KnightAttackState(knightController));
         }

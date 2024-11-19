@@ -1,80 +1,147 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class KnightPlayScreenManager : MonoBehaviour, IScreenKnightManager
+public class KnightPlayScreenManager : MonoBehaviour
 {
-    private ButtonPlayKnightManager buttonKnightManager;
-    private List<Button> skillButtons = new List<Button>();
+    private readonly string[] skillNames = { "Attack", "Skill1", "Skill2", "Skill3", "Heal", "Sup", "Recall" };
+    private readonly string[] moveNames = { "Up", "Down", "Right", "Left" };
+    private HealthBarKnightController healthBar;
+    private ButtonControlManager buttonKnightManager;
+    private UIKnightManager uIKnightManager;
 
     [Inject]
-    public void Construct(ButtonPlayKnightManager buttonKnightManager)
+    public void Construct(ButtonControlManager buttonKnightManager, UIKnightManager uIKnightManager)
     {
         this.buttonKnightManager = buttonKnightManager;
-        SetupMoveButtons();
-        SetupSkillButtons();
+        this.uIKnightManager = uIKnightManager;
     }
-
-    // Setup các nút di chuyển
-    private void SetupMoveButtons()
+    private void Awake()
     {
-        var moveButtons = GetComponentsInChildren<MoveButtonAction>(true); // Tìm cả nút ẩn
-        foreach (var button in moveButtons)
-        {
-            button.SetButtonKnightManager(buttonKnightManager);
-        }
+        SetupSkillButtons();
+        SetupMoveButtons();
+        FindHealthBar();
     }
 
-    // Tìm và cài đặt các nút kỹ năng
+    // Thiết lập các button skill
     private void SetupSkillButtons()
     {
-        // Tạo danh sách các kỹ năng và class tương ứng
-        var skillMappings = new Dictionary<string, Type>
+        foreach (string buttonName in skillNames)
         {
-            { "Attack", typeof(KnightAttack) },
-            { "Skill1", typeof(KnightSkill1) },
-            { "Skill2", typeof(KnightSkill2) },
-            { "Skill3", typeof(KnightSkill3) },
-            { "Heal", typeof(KnightHeal) },
-            { "Sup", typeof(KnightSup) },
-            { "Recall", typeof(KnightRecall) }
-        };
-
-        foreach (var skill in skillMappings)
-        {
-            var buttonTransform = transform.Find(skill.Key);
-            if (buttonTransform != null)
+            var button = FindButton(buttonName);
+            if (button == null)
             {
-                var button = buttonTransform.GetComponent<Button>();
-                if (button != null)
-                {
-                    // Gắn ButtonKnightManager cho AttackButtonAction
-                    var attackAction = button.GetComponent<AttackButtonAction>();
-                    if (attackAction == null)
-                    {
-                        attackAction = button.gameObject.AddComponent<AttackButtonAction>();
-                    }
-                    attackAction.SetButtonKnightManager(buttonKnightManager);
-
-                    // Gắn class xử lý kỹ năng (KnightSkillX)
-                    if (!button.gameObject.TryGetComponent(skill.Value, out _))
-                    {
-                        button.gameObject.AddComponent(skill.Value); // Thêm script class nếu chưa có
-                    }
-
-                    skillButtons.Add(button);
-                }
-                else
-                {
-                    Debug.LogWarning($"Button component missing on '{skill.Key}' object.");
-                }
+                continue;
             }
-            else
+
+            // Gán script tương ứng dựa trên tên button
+            Type actionType = GetSkillActionType(buttonName);
+            if (actionType != null)
             {
-                Debug.LogWarning($"Button '{skill.Key}' not found in the hierarchy.");
+                var action = button.gameObject.AddComponent(actionType) as SkillKnightBase;
+                if (action != null)
+                {
+                    action.SetButtonKnightManager(buttonKnightManager);
+                }
             }
         }
     }
+
+    // Thiết lập các nút di chuyển
+    private void SetupMoveButtons()
+    {
+        foreach (string buttonName in moveNames)
+        {
+            var button = FindButton(buttonName);
+            if (button == null)
+            {
+                continue;
+            }
+
+            // Gán script tương ứng dựa trên tên button
+            Type moveType = GetMoveActionType(buttonName);
+            if (moveType != null)
+            {
+                var moveAction = button.gameObject.AddComponent(moveType) as MoveKnightBase;
+                if (moveAction != null)
+                {
+                    moveAction.SetButtonKnightManager(buttonKnightManager);
+                }
+            }
+        }
+    }
+
+    // Tìm button theo tên (bao gồm cả button Inactive)
+    private Button FindButton(string name)
+    {
+        var buttons = GetComponentsInChildren<Button>(true);
+        foreach (var button in buttons)
+        {
+            if (button.name == name)
+            {
+                return button;
+            }
+        }
+        return null;
+    }
+
+    // Lấy script hành động tương ứng với tên skill button
+    private Type GetSkillActionType(string buttonName)
+    {
+        return buttonName switch
+        {
+            "Attack" => typeof(KnightAttack),
+            "Skill1" => typeof(KnightSkill1),
+            "Skill2" => typeof(KnightSkill2),
+            "Skill3" => typeof(KnightSkill3),
+            "Heal" => typeof(KnightHeal),
+            "Sup" => typeof(KnightSup),
+            "Recall" => typeof(KnightRecall),
+            _ => null
+        };
+    }
+
+    // Lấy script hành động tương ứng với tên move button
+    private Type GetMoveActionType(string buttonName)
+    {
+        return buttonName switch
+        {
+            "Up" => typeof(KnightMoveUp),
+            "Down" => typeof(KnightMoveDown),
+            "Right" => typeof(KnightMoveRight),
+            "Left" => typeof(KnightMoveLeft),
+            _ => null
+        };
+    }
+
+    private void FindHealthBar()
+    {
+        healthBar = GetComponentInChildren<HealthBarKnightController>(true);
+    }
+
+    public void SetMaxHealthBar(int maxHealth)
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth); // Gọi phương thức từ HealthBar script
+        }
+        else
+        {
+            Debug.LogError("HealthBar reference is missing!");
+        }
+    }
+
+    public void SetValueHealthBar(int health)
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health); // Gọi phương thức từ HealthBar script
+        }
+        else
+        {
+            Debug.LogError("HealthBar reference is missing!");
+        }
+    }
+
 }

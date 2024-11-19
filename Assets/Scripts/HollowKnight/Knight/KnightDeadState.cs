@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnightDeadState : MonoBehaviour
+public class KnightDeadState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    private KnightController knightController;
+    public KnightDeadState(KnightController knightController)
     {
-        
+        this.knightController = knightController;
+    }
+    public void Enter()
+    {
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Execute()
     {
-        
     }
+
+    public void Exit()
+    {
+    }
+
 }

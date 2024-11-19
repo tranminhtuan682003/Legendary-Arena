@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using Zenject;
 using System.Collections;
 
-public class KnightStartScreenManager : MonoBehaviour, IScreenKnightManager
+public class KnightStartScreenManager : MonoBehaviour
 {
     private Button playGameButton;
 
@@ -36,5 +36,6 @@ public class KnightStartScreenManager : MonoBehaviour, IScreenKnightManager
         Debug.Log("PlayGame Button clicked, transitioning screens...");
         uiKnightManager.ChangeStateStartScreen(false);
         uiKnightManager.ChangeStatePlayScreen(true);
+        uiKnightManager.CreateKnight();
     }
 }

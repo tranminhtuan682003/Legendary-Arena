@@ -16,5 +16,6 @@ public enum TypeMove
     Up,
     Down,
     Right,
-    Left
+    Left,
+    None
 }
