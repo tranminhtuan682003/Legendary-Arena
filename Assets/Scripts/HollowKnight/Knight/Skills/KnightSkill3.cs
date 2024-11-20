@@ -7,6 +7,6 @@ public class KnightSkill3 : SkillKnightBase
     protected override void Awake()
     {
         base.Awake();
-        InitLize(cooldown: 0.5f, typeSkill: TypeSkill.Skill3);
+        InitLize(cooldown: 10f, typeSkill: TypeSkill.Skill3, executionTime: 5 / 6f);
     }
 }

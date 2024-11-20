@@ -11,6 +11,7 @@ TagManager:
   - Pipe
   - PipeScore
   - FlappyBird
+  - Knight
   layers:
   - Default
   - TransparentFX

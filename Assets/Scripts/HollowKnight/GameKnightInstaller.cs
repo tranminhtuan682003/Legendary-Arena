@@ -12,6 +12,20 @@ public class GameKnightInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
+        // Bind PoolKnightSoundManager
+        Container.Bind<PoolSoundKnightManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("PoolSoundKnightManager")
+            .AsSingle()
+            .NonLazy();
+
+        // Bind SoundKnightManager
+        Container.Bind<SoundKnightManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("SoundKnightManager")
+            .AsSingle()
+            .NonLazy();
+
         // Bind GameKnightManager
         Container.Bind<GameKnightManager>()
             .FromNewComponentOnNewGameObject()
@@ -30,13 +44,6 @@ public class GameKnightInstaller : MonoInstaller
         Container.Bind<UIKnightManager>()
             .FromNewComponentOnNewGameObject()
             .WithGameObjectName("UIKnightManager")
-            .AsSingle()
-            .NonLazy();
-
-        // Bind SoundKnightManager
-        Container.Bind<SoundKnightManager>()
-            .FromNewComponentOnNewGameObject()
-            .WithGameObjectName("SoundKnightManager")
             .AsSingle()
             .NonLazy();
 

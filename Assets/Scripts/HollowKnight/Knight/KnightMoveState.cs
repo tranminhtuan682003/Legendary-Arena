@@ -3,32 +3,21 @@ using UnityEngine;
 public class KnightMoveState : IState
 {
     private readonly KnightController knightController;
+    private readonly TypeMove typeMove;
 
-    public KnightMoveState(KnightController knightController)
+    public KnightMoveState(KnightController knightController, TypeMove typeMove)
     {
         this.knightController = knightController;
+        this.typeMove = typeMove;
     }
 
     public void Enter()
     {
-        knightController.PlayAnimation("Run");
     }
 
     public void Execute()
     {
-        knightController.UpdateCurrentMove();
-        knightController.UpdateCurrentSkill();
-
-        knightController.HandleMovement();
-
-        if (knightController.currentMove == TypeMove.None && !knightController.isDead)
-        {
-            knightController.ChangeState(new KnightIdleState(knightController));
-        }
-        else if (knightController.currentSkill != TypeSkill.None && !knightController.isDead)
-        {
-            knightController.ChangeState(new KnightAttackState(knightController));
-        }
+        knightController.HandleMoveState(typeMove);
     }
 
     public void Exit()

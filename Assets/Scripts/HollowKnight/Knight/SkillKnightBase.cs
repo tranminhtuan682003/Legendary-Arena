@@ -4,45 +4,25 @@ using System.Collections;
 
 public abstract class SkillKnightBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private ButtonControlManager buttonKnightManager;
+    private float executionTime;
     private float cooldown;
     private TypeSkill typeSkill;
-    private bool isCooldownActive;
 
     protected virtual void Awake() { }
 
-    protected void InitLize(float cooldown, TypeSkill typeSkill)
+    protected void InitLize(float cooldown, TypeSkill typeSkill, float executionTime)
     {
         this.cooldown = cooldown;
         this.typeSkill = typeSkill;
-    }
-
-    public void SetButtonKnightManager(ButtonControlManager manager)
-    {
-        buttonKnightManager = manager;
+        this.executionTime = executionTime;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (buttonKnightManager != null && !isCooldownActive)
-        {
-            buttonKnightManager.OnButtonAttackPressed(typeSkill, cooldown);
-            StartCoroutine(CooldownRoutine());
-        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (buttonKnightManager != null)
-        {
-            buttonKnightManager.OnButtonAttackReleased();
-        }
-    }
-
-    private IEnumerator CooldownRoutine()
-    {
-        isCooldownActive = true;
-        yield return new WaitForSeconds(cooldown); // Chờ thời gian cooldown
-        isCooldownActive = false;
+        KnightEventManager.InvokeUpdateSkill(typeSkill, cooldown, executionTime);
     }
 }

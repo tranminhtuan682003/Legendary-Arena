@@ -10,7 +10,10 @@ public class UIKnightManager : MonoBehaviour
     private KnightDatabase knightDatabase;
     private KnightDatabase bulletDatabase;
 
+    //gameplay
+    private GameObject map1;
     private GameObject knight;
+    private GameObject cam;
 
     private GameObject startScreen;
     private GameObject playScreen;
@@ -58,20 +61,10 @@ public class UIKnightManager : MonoBehaviour
             knightDatabase = handleScreen.Result;
             CreateScreen();
         }
-        else
-        {
-            Debug.LogError("Failed to load KnightScreenDatabase");
-            yield break; // Dừng nếu không tải được ScreenDatabase
-        }
-
         if (handleBullet.Status == AsyncOperationStatus.Succeeded)
         {
             bulletDatabase = handleBullet.Result;
             CreateItem();
-        }
-        else
-        {
-            Debug.LogError("Failed to load KnightBulletDatabase");
         }
     }
 
@@ -110,9 +103,13 @@ public class UIKnightManager : MonoBehaviour
 
         ChangeStatePlayScreen(false);
     }
-    public void CreateKnight()
+    public void CreateGamePlay1()
     {
-        var prefab = GetScreenByName("Knight"); // Lấy prefab
+        var mapGame1 = GetScreenByName("Map1");
+        map1 = container.InstantiatePrefab(mapGame1);
+        var prefabCamera = GetScreenByName("Camera");
+        cam = container.InstantiatePrefab(prefabCamera);
+        var prefab = GetScreenByName("Knight");
         knight = container.InstantiatePrefab(prefab);
     }
 

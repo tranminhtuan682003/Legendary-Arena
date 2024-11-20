@@ -4,42 +4,39 @@ using UnityEngine;
 
 public class BulletKnightController : MonoBehaviour
 {
-    private float speed;
+    private float speed = 25f;
     private Rigidbody2D rb;
 
     private void Awake()
     {
-        InitLize();
-    }
-
-    private void Update()
-    {
-        HandleMove();
-    }
-
-    private void InitLize()
-    {
-        speed = 20f;
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void HandleMove()
+    private void OnEnable()
     {
         rb.velocity = transform.right * speed;
     }
-
 
     private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        var knight = other.GetComponent<KnightController>();
         if (other.CompareTag("Knight"))
         {
-            knight.TakeDamage(100);
+            var knight = other.GetComponent<KnightController>();
+            if (knight != null)
+            {
+                knight.TakeDamage(100);
+            }
+
+            gameObject.SetActive(false);
+        }
+        else if (other.CompareTag("Wall") || other.CompareTag("Obstacle"))
+        {
+            gameObject.SetActive(false);
         }
     }
 }

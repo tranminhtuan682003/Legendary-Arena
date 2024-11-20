@@ -1,13 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using Zenject;
+using System.Collections.Generic;
 
 public class KnightController : MonoBehaviour
 {
     private IState currentState;
-    [Inject] private ButtonControlManager buttonManager;
     [Inject] private UIKnightManager uIKnightManager;
-    [Inject] private KnightPlayScreenManager knightPlayScreenManager;
     private Animator animator;
     private Rigidbody2D rb;
 
@@ -20,13 +19,11 @@ public class KnightController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     private bool isGrounded;
     private bool hasJumped;
-    public TypeMove currentMove;
-
     private Vector2 moveDirection;
 
     [Header("Attack Settings")]
-    public TypeSkill currentSkill;
-    [SerializeField] private float cooldown;
+    private Dictionary<TypeSkill, float> skillCooldowns = new Dictionary<TypeSkill, float>();
+    public bool isExecuting = false;
     private Transform spawnPoint;
     [Header("Dead Settings")]
     public bool isDead;
@@ -38,6 +35,11 @@ public class KnightController : MonoBehaviour
 
     private void OnEnable()
     {
+        KnightEventManager.TriggerKnightEnable(transform);
+        KnightEventManager.InvokeSetHealthBar(this);
+        KnightEventManager.OnMoveActived += HandleMovement;
+        KnightEventManager.OnSkillActived += HandleAttack;
+
         currentHealth = maxHealth;
         isDead = false;
     }
@@ -49,14 +51,14 @@ public class KnightController : MonoBehaviour
 
     private void Update()
     {
-        currentState?.Execute(); // Gọi logic state hiện tại
+        currentState?.Execute();
     }
 
     public void ChangeState(IState newState)
     {
-        currentState?.Exit(); // Thoát state hiện tại
-        currentState = newState; // Gán state mới
-        currentState.Enter(); // Khởi động state mới
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
     }
 
     private void Initialize()
@@ -65,28 +67,42 @@ public class KnightController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         maxHealth = 1000;
         spawnPoint = transform.Find("SpawnPoint");
-        if (knightPlayScreenManager != null)
+        foreach (TypeSkill skill in System.Enum.GetValues(typeof(TypeSkill)))
         {
-            Debug.Log("khong Null");
-            knightPlayScreenManager.SetMaxHealthBar(maxHealth);
-        }
-        else
-        {
-            Debug.Log("Null");
+            skillCooldowns[skill] = 0f;
         }
     }
 
-    #region Handle Move Logic
-    public void HandleMovement()
+    public int GetMaxHealth()
     {
-        // Gọi các hàm xử lý dựa trên hướng hiện tại
-        switch (currentMove)
+        return maxHealth;
+    }
+    public int GetHealth()
+    {
+        return currentHealth;
+    }
+
+    #region Handle Move Logic
+    public void HandleMovement(TypeMove typeMove)
+    {
+        if (typeMove != TypeMove.None)
+        {
+            ChangeState(new KnightMoveState(this, typeMove));
+        }
+        else
+        {
+            ChangeState(new KnightIdleState(this));
+            StopMovement();
+        }
+    }
+    public void HandleMoveState(TypeMove typeMove)
+    {
+        switch (typeMove)
         {
             case TypeMove.Left: MoveHorizontally(-1); break;
             case TypeMove.Right: MoveHorizontally(1); break;
             case TypeMove.Up: Jump(); break;
             case TypeMove.Down: Crouch(); break;
-            case TypeMove.None: StopMovement(); break;
         }
     }
 
@@ -119,10 +135,6 @@ public class KnightController : MonoBehaviour
     {
         moveDirection = Vector2.zero;
         rb.velocity = new Vector2(0, rb.velocity.y);
-        if (isGrounded)
-        {
-            PlayAnimation("Idle");
-        }
     }
 
     private void FlipCharacter(float direction)
@@ -132,8 +144,6 @@ public class KnightController : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(-direction);
         transform.localScale = scale;
-
-        // Cập nhật spawnPoint
         UpdateSpawnPointDirection(direction);
     }
 
@@ -165,63 +175,67 @@ public class KnightController : MonoBehaviour
     #endregion
 
     #region Handle Attack Logic
-    private bool isOnCooldown = false;
 
-    public void HandleAttack()
+    public void HandleAttack(TypeSkill typeSkill, float cooldown, float executionTime)
     {
-        if (isOnCooldown) return; // Nếu đang cooldown, bỏ qua
-        isOnCooldown = true;
+        if (isExecuting)
+        {
+            Debug.LogWarning("khong the su dung ");
+            return;
+        }
+        if (Time.time < skillCooldowns[typeSkill])
+        {
+            Debug.LogWarning($"Skill {typeSkill} is on cooldown. Remaining: {skillCooldowns[typeSkill] - Time.time:0.00}s");
+            return;
+        }
+        ChangeState(new KnightAttackState(this, typeSkill, cooldown, executionTime));
+    }
 
-        currentSkill = buttonManager.currentSkill;
+    public void SetSkillCooldown(TypeSkill typeSkill, float cooldown)
+    {
+        skillCooldowns[typeSkill] = Time.time + cooldown;
+    }
 
-        switch (currentSkill)
+    public void HandleAttackState(TypeSkill typeSkill, float cooldown)
+    {
+        isExecuting = true;
+        switch (typeSkill)
         {
             case TypeSkill.Attack:
-                StartCoroutine(PerformBasicAttack());
+                StartCoroutine(PerformBasicAttack(cooldown));
                 break;
             case TypeSkill.Skill1:
-                UseSkill("Skill1");
                 break;
             case TypeSkill.Skill2:
-                UseSkill("Skill2");
                 break;
             case TypeSkill.Skill3:
-                UseSkill("Skill3");
+                UseSkill("Skill1");
                 break;
             default:
                 break;
         }
     }
 
-    private IEnumerator PerformBasicAttack()
+    private IEnumerator PerformBasicAttack(float cooldown)
     {
         PlayAnimation("Throw");
-        yield return new WaitForSeconds(GetCooldown() / 2);
+        yield return new WaitForSeconds(cooldown / 2);
         uIKnightManager.GetBulletThrow(spawnPoint);
-
-        yield return new WaitForSeconds(GetCooldown() / 2);
-        isOnCooldown = false; // Reset cooldown sau khi hoàn thành
     }
-
 
     private void UseSkill(string skillAnimation)
     {
-        // PlayAnimation(skillAnimation);
-        Debug.Log("Used Skill: " + skillAnimation);
+        PlayAnimation(skillAnimation);
     }
     #endregion
 
     #region Utility Methods
-    public void UpdateCurrentMove() => currentMove = buttonManager.currentMove;
-    public void UpdateCurrentSkill() => currentSkill = buttonManager.currentSkill;
-    public void SetCooldown() => cooldown = buttonManager.currentCooldown;
-    public float GetCooldown() => cooldown;
-
     public void PlayAnimation(string animationName)
     {
         animator.ResetTrigger("Idle");
         animator.ResetTrigger("Jump");
         animator.ResetTrigger("Throw");
+        animator.ResetTrigger("Skill1");
         animator.SetTrigger(animationName);
     }
     #endregion
@@ -230,6 +244,7 @@ public class KnightController : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        KnightEventManager.InvokeUpdateHealthBar(this);
         if (currentHealth <= 0)
         {
             ChangeState(new KnightDeadState(this));
@@ -242,5 +257,11 @@ public class KnightController : MonoBehaviour
         gameObject.SetActive(false);
     }
     #endregion
+
+    private void OnDisable()
+    {
+        KnightEventManager.OnMoveActived -= HandleMovement;
+        KnightEventManager.OnSkillActived -= HandleAttack;
+    }
 
 }

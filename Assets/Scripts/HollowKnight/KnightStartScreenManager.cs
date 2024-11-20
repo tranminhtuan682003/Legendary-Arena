@@ -36,6 +36,6 @@ public class KnightStartScreenManager : MonoBehaviour
         Debug.Log("PlayGame Button clicked, transitioning screens...");
         uiKnightManager.ChangeStateStartScreen(false);
         uiKnightManager.ChangeStatePlayScreen(true);
-        uiKnightManager.CreateKnight();
+        uiKnightManager.CreateGamePlay1();
     }
 }

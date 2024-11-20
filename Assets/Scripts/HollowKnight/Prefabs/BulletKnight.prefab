@@ -156,9 +156,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &7842709032143513667
 MonoBehaviour:
@@ -172,3 +172,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea969702a05a324d9cfe723e9dd85f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 20

@@ -7,6 +7,6 @@ public class KnightHeal : SkillKnightBase
     protected override void Awake()
     {
         base.Awake();
-        InitLize(cooldown: 5 / 6f, typeSkill: TypeSkill.Heal);
+        InitLize(cooldown: 5 / 6f, typeSkill: TypeSkill.Heal, executionTime: 5 / 6f);
     }
 }

@@ -1,14 +1,16 @@
 using UnityEngine;
+using Zenject;
 
 public class GameKnightManager : MonoBehaviour
 {
-    private void Start()
+    private SoundKnightManager soundKnightManager;
+    [Inject]
+    public void Construct(SoundKnightManager soundKnightManager)
     {
-        Debug.Log("GameKnightManager started.");
+        this.soundKnightManager = soundKnightManager;
     }
 
-    private void Update()
+    private void Start()
     {
-        // Logic update của GameKnightManager
     }
 }

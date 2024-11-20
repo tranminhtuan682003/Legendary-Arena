@@ -7,9 +7,10 @@ public class KnightPlayScreenManager : MonoBehaviour
 {
     private readonly string[] skillNames = { "Attack", "Skill1", "Skill2", "Skill3", "Heal", "Sup", "Recall" };
     private readonly string[] moveNames = { "Up", "Down", "Right", "Left" };
-    private HealthBarKnightController healthBar;
+
     private ButtonControlManager buttonKnightManager;
     private UIKnightManager uIKnightManager;
+    private HealthBarKnightController HealthBarKnightController;
 
     [Inject]
     public void Construct(ButtonControlManager buttonKnightManager, UIKnightManager uIKnightManager)
@@ -17,11 +18,12 @@ public class KnightPlayScreenManager : MonoBehaviour
         this.buttonKnightManager = buttonKnightManager;
         this.uIKnightManager = uIKnightManager;
     }
+
     private void Awake()
     {
         SetupSkillButtons();
         SetupMoveButtons();
-        FindHealthBar();
+        SetupHealthBar(); // Thiết lập Health Bar
     }
 
     // Thiết lập các button skill
@@ -40,10 +42,10 @@ public class KnightPlayScreenManager : MonoBehaviour
             if (actionType != null)
             {
                 var action = button.gameObject.AddComponent(actionType) as SkillKnightBase;
-                if (action != null)
-                {
-                    action.SetButtonKnightManager(buttonKnightManager);
-                }
+                // if (action != null)
+                // {
+                //     action.SetButtonKnightManager(buttonKnightManager);
+                // }
             }
         }
     }
@@ -64,12 +66,44 @@ public class KnightPlayScreenManager : MonoBehaviour
             if (moveType != null)
             {
                 var moveAction = button.gameObject.AddComponent(moveType) as MoveKnightBase;
-                if (moveAction != null)
-                {
-                    moveAction.SetButtonKnightManager(buttonKnightManager);
-                }
+                // if (moveAction != null)
+                // {
+                //     moveAction.SetButtonKnightManager(buttonKnightManager);
+                // }
             }
         }
+    }
+
+    // Tìm và thiết lập Health Bar
+    private void SetupHealthBar()
+    {
+        var healthBarSlider = FindHealthBar();
+        if (healthBarSlider != null)
+        {
+            HealthBarKnightController = healthBarSlider.gameObject.GetComponent<HealthBarKnightController>();
+            if (HealthBarKnightController == null)
+            {
+                HealthBarKnightController = healthBarSlider.gameObject.AddComponent<HealthBarKnightController>();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Health Bar Slider not found!");
+        }
+    }
+
+    // Tìm Slider health bar
+    private Slider FindHealthBar()
+    {
+        var sliders = GetComponentsInChildren<Slider>(true); // Bao gồm cả các đối tượng Inactive
+        foreach (var slider in sliders)
+        {
+            if (slider.name == "HealthBar") // Giả sử Slider health bar có tên là "HealthBar"
+            {
+                return slider;
+            }
+        }
+        return null;
     }
 
     // Tìm button theo tên (bao gồm cả button Inactive)
@@ -114,34 +148,4 @@ public class KnightPlayScreenManager : MonoBehaviour
             _ => null
         };
     }
-
-    private void FindHealthBar()
-    {
-        healthBar = GetComponentInChildren<HealthBarKnightController>(true);
-    }
-
-    public void SetMaxHealthBar(int maxHealth)
-    {
-        if (healthBar != null)
-        {
-            healthBar.SetMaxHealth(maxHealth); // Gọi phương thức từ HealthBar script
-        }
-        else
-        {
-            Debug.LogError("HealthBar reference is missing!");
-        }
-    }
-
-    public void SetValueHealthBar(int health)
-    {
-        if (healthBar != null)
-        {
-            healthBar.SetHealth(health); // Gọi phương thức từ HealthBar script
-        }
-        else
-        {
-            Debug.LogError("HealthBar reference is missing!");
-        }
-    }
-
 }
