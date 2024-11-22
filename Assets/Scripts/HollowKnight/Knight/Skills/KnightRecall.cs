@@ -7,6 +7,11 @@ public class KnightRecall : SkillKnightBase
     protected override void Awake()
     {
         base.Awake();
-        InitLize(cooldown: 5 / 6f, typeSkill: TypeSkill.Recall, executionTime: 5 / 6f);
+        InitLize(
+            cooldown: 5 / 6f,
+            typeSkill: TypeSkill.Recall,
+            executionTime: 5f,
+            pathImage: "UI/SkillKnight/PNG/Recall"
+            );
     }
 }

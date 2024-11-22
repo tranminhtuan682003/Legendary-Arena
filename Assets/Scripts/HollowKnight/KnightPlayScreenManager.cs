@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -8,9 +9,14 @@ public class KnightPlayScreenManager : MonoBehaviour
     private readonly string[] skillNames = { "Attack", "Skill1", "Skill2", "Skill3", "Heal", "Sup", "Recall" };
     private readonly string[] moveNames = { "Up", "Down", "Right", "Left" };
 
+    private TextMeshProUGUI timer;
+    private float elapsedTime = 0f; // Thời gian đã trôi qua
+    private bool isGameRunning = false; // Trạng thái của trận đấu
+
     private ButtonControlManager buttonKnightManager;
     private UIKnightManager uIKnightManager;
     private HealthBarKnightController HealthBarKnightController;
+    private HealthBarEnemyController healthBarEnemyController;
 
     [Inject]
     public void Construct(ButtonControlManager buttonKnightManager, UIKnightManager uIKnightManager)
@@ -23,7 +29,51 @@ public class KnightPlayScreenManager : MonoBehaviour
     {
         SetupSkillButtons();
         SetupMoveButtons();
-        SetupHealthBar(); // Thiết lập Health Bar
+        InitLize();
+    }
+
+    private void OnEnable()
+    {
+        StartTimer(); // Bắt đầu timer khi trận đấu bắt đầu
+    }
+
+    private void InitLize()
+    {
+        timer = transform.Find("LeaderBoard/Score/Time/Timer").GetComponent<TextMeshProUGUI>();
+    }
+
+    // Bắt đầu đếm thời gian
+    private void StartTimer()
+    {
+        elapsedTime = 0f;
+        isGameRunning = true;
+    }
+
+    // Dừng đếm thời gian
+    private void StopTimer()
+    {
+        isGameRunning = false;
+    }
+
+    private void Update()
+    {
+        if (isGameRunning)
+        {
+            UpdateTimer();
+        }
+    }
+
+    // Cập nhật thời gian và hiển thị lên giao diện
+    private void UpdateTimer()
+    {
+        elapsedTime += Time.deltaTime; // Cộng thời gian đã trôi qua
+        TimeSpan time = TimeSpan.FromSeconds(elapsedTime);
+
+        // Hiển thị theo định dạng mm:ss
+        if (timer != null)
+        {
+            timer.text = string.Format("{0:D2}:{1:D2}", time.Minutes, time.Seconds);
+        }
     }
 
     // Thiết lập các button skill
@@ -42,10 +92,6 @@ public class KnightPlayScreenManager : MonoBehaviour
             if (actionType != null)
             {
                 var action = button.gameObject.AddComponent(actionType) as SkillKnightBase;
-                // if (action != null)
-                // {
-                //     action.SetButtonKnightManager(buttonKnightManager);
-                // }
             }
         }
     }
@@ -66,44 +112,8 @@ public class KnightPlayScreenManager : MonoBehaviour
             if (moveType != null)
             {
                 var moveAction = button.gameObject.AddComponent(moveType) as MoveKnightBase;
-                // if (moveAction != null)
-                // {
-                //     moveAction.SetButtonKnightManager(buttonKnightManager);
-                // }
             }
         }
-    }
-
-    // Tìm và thiết lập Health Bar
-    private void SetupHealthBar()
-    {
-        var healthBarSlider = FindHealthBar();
-        if (healthBarSlider != null)
-        {
-            HealthBarKnightController = healthBarSlider.gameObject.GetComponent<HealthBarKnightController>();
-            if (HealthBarKnightController == null)
-            {
-                HealthBarKnightController = healthBarSlider.gameObject.AddComponent<HealthBarKnightController>();
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Health Bar Slider not found!");
-        }
-    }
-
-    // Tìm Slider health bar
-    private Slider FindHealthBar()
-    {
-        var sliders = GetComponentsInChildren<Slider>(true); // Bao gồm cả các đối tượng Inactive
-        foreach (var slider in sliders)
-        {
-            if (slider.name == "HealthBar") // Giả sử Slider health bar có tên là "HealthBar"
-            {
-                return slider;
-            }
-        }
-        return null;
     }
 
     // Tìm button theo tên (bao gồm cả button Inactive)

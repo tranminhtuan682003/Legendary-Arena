@@ -25,13 +25,13 @@ public class UIKnightManager : MonoBehaviour
 
     private Canvas canvas;
     private DiContainer container;
-    private PoolKnightManager poolKnightManager;
+    private PoolEnemyKnightManager poolEnemyKnightManager;
 
     [Inject]
-    public void Construct(DiContainer container, PoolKnightManager poolKnightManager)
+    public void Construct(DiContainer container, PoolEnemyKnightManager poolEnemyKnightManager)
     {
         this.container = container;
-        this.poolKnightManager = poolKnightManager;
+        this.poolEnemyKnightManager = poolEnemyKnightManager;
     }
 
     private void Awake()
@@ -115,16 +115,29 @@ public class UIKnightManager : MonoBehaviour
 
     private void CreateItem()
     {
-        GameObject bulletPrefab = GetBulletByName("Throw");
-        bulletThrow = bulletPrefab;
-        poolKnightManager.CreatePool(bulletThrow);
+        poolEnemyKnightManager.CreatePool("BulletKnight", GetBulletByName("Throw"), 10);
+        poolEnemyKnightManager.CreatePool("SwordKnight", GetBulletByName("Sword"), 10);
+        poolEnemyKnightManager.CreatePool("BulletTowerRed", GetBulletByName("BulletTowerRed"), 10);
     }
 
 
     public void GetBulletThrow(Transform spawnPoint)
     {
-        poolKnightManager.GetFromPool(bulletThrow, spawnPoint.transform.position, spawnPoint.transform.rotation);
+        poolEnemyKnightManager.GetFromPool("BulletKnight", spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
+
+
+    public void GetSwordKnight(Transform spawnPoint)
+    {
+        poolEnemyKnightManager.GetFromPool("SwordKnight", spawnPoint.transform.position, spawnPoint.transform.rotation);
+    }
+
+    public GameObject GetBulletTowerRed(Transform spawnPoint)
+    {
+        return poolEnemyKnightManager.GetFromPool("BulletTowerRed", spawnPoint.transform.position, spawnPoint.transform.rotation);
+    }
+
+
 
     public void ChangeStateStartScreen(bool state)
     {

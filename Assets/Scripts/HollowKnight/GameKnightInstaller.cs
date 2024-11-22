@@ -40,6 +40,13 @@ public class GameKnightInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
+        // Bind PoolKnightManager
+        Container.Bind<PoolEnemyKnightManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("PoolEnemyKnightManager")
+            .AsSingle()
+            .NonLazy();
+
         // Bind UIKnightManager
         Container.Bind<UIKnightManager>()
             .FromNewComponentOnNewGameObject()

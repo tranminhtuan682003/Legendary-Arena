@@ -33,7 +33,7 @@ public class PoolEnemyKnightManager : MonoBehaviour
         }
     }
 
-    public GameObject GetFromPool(string poolName, Vector3 position, Quaternion rotation)
+    public GameObject GetFromPool(string poolName, Vector2 position, Quaternion rotation)
     {
         if (!poolDictionary.ContainsKey(poolName))
         {

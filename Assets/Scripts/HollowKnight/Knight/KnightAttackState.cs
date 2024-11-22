@@ -18,7 +18,7 @@ public class KnightAttackState : IState
 
     public void Enter()
     {
-        knightController.HandleAttackState(typeSkill, cooldown);
+        knightController.HandleAttackState(typeSkill, cooldown, executionTime);
         knightController.SetSkillCooldown(typeSkill, cooldown);
         knightController.StartCoroutine(TransitionToIdleAfterExecution());
     }
@@ -34,8 +34,14 @@ public class KnightAttackState : IState
     private IEnumerator TransitionToIdleAfterExecution()
     {
         yield return new WaitForSeconds(executionTime);
-        knightController.isExecuting = false;
+
+        if (!typeSkill.CanInterrupt())
+        {
+            knightController.isExecuting = false;
+        }
+
         knightController.ChangeState(new KnightIdleState(knightController));
         knightController.PlayAnimation("Idle");
     }
+
 }

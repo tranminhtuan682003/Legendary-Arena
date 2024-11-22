@@ -16,3 +16,8 @@ MonoBehaviour:
   - name: Throw
     prefab: {fileID: 8730055836030038824, guid: ec5656e6024bf5841bda401190ad0a73,
       type: 3}
+  - name: Sword
+    prefab: {fileID: 133204561861678920, guid: 478fd2fcf9f90df488222c5cb766d02b, type: 3}
+  - name: BulletTowerRed
+    prefab: {fileID: 5013621206232725169, guid: 9fc3d1ef05883c24da852268b4b9e85e,
+      type: 3}

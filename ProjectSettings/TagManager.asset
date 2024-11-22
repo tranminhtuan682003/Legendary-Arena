@@ -12,6 +12,8 @@ TagManager:
   - PipeScore
   - FlappyBird
   - Knight
+  - Shield
+  - TowerRed
   layers:
   - Default
   - TransparentFX
@@ -66,4 +68,7 @@ TagManager:
     locked: 0
   - name: Knight
     uniqueID: 1600463625
+    locked: 0
+  - name: FrontKnight
+    uniqueID: 1439023505
     locked: 0

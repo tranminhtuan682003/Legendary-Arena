@@ -16,18 +16,11 @@ public class HealthBarKnightController : MonoBehaviour
     }
     private void OnEnable()
     {
-        KnightEventManager.OnHealthBarSet += HandleKnightOnEnable;
         KnightEventManager.OnHealthBarUpdated += HandleKnightUpdateHealth;
+        healthSlider.value = 1f;
     }
 
-    private void SetMaxHealth(int maxHealth)
-    {
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = maxHealth;
-        UpdateColor(maxHealth / maxHealth);
-    }
-
-    private void SetHealth(int currentHealth)
+    private void SetHealth(float currentHealth)
     {
         healthSlider.value = currentHealth;
     }
@@ -40,12 +33,6 @@ public class HealthBarKnightController : MonoBehaviour
         }
     }
 
-    private void HandleKnightOnEnable(KnightController knightController)
-    {
-        this.knightController = knightController;
-        SetMaxHealth(knightController.GetMaxHealth());
-    }
-
     private void HandleKnightUpdateHealth(KnightController knightController)
     {
         this.knightController = knightController;
@@ -54,7 +41,6 @@ public class HealthBarKnightController : MonoBehaviour
 
     private void OnDisable()
     {
-        KnightEventManager.OnHealthBarSet -= HandleKnightOnEnable;
         KnightEventManager.OnHealthBarUpdated -= HandleKnightUpdateHealth;
     }
 }

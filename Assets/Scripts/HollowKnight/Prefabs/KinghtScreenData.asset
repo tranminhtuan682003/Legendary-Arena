@@ -17,7 +17,7 @@ MonoBehaviour:
     prefab: {fileID: 1178690914029802408, guid: c3042227d4cf6e74d9094004c686d3a1,
       type: 3}
   - name: PlayScreen
-    prefab: {fileID: 6902042444158029060, guid: 5cc051dde1f0bd448a52cee559db8068,
+    prefab: {fileID: 7023515388113345406, guid: 5cc051dde1f0bd448a52cee559db8068,
       type: 3}
   - name: Knight
     prefab: {fileID: 9084690947534876016, guid: aeadf37e8f1cebf43918c72ee04925cc,
@@ -26,5 +26,5 @@ MonoBehaviour:
     prefab: {fileID: 1878277236058717975, guid: c805e5b6c8ff9bd46b4fbaf74fe7ab19,
       type: 3}
   - name: Map1
-    prefab: {fileID: 3839147091355013089, guid: 8ab46c6a29aacf74c9e7716dbfb9910c,
+    prefab: {fileID: 5864128285130199326, guid: 8ab46c6a29aacf74c9e7716dbfb9910c,
       type: 3}

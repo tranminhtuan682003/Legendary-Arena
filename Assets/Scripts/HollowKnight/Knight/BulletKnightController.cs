@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletKnightController : MonoBehaviour
 {
     private float speed = 25f;
+    private int damage = 50;
     private Rigidbody2D rb;
 
     private void Awake()
@@ -17,6 +18,12 @@ public class BulletKnightController : MonoBehaviour
         rb.velocity = transform.right * speed;
     }
 
+    public void InitLize(int damage, float speed)
+    {
+        this.damage = damage;
+        this.speed = speed;
+    }
+
     private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
@@ -24,18 +31,10 @@ public class BulletKnightController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Knight"))
+        var tower = other.GetComponent<IEnemy>();
+        if (other.CompareTag("TowerRed"))
         {
-            var knight = other.GetComponent<KnightController>();
-            if (knight != null)
-            {
-                knight.TakeDamage(100);
-            }
-
-            gameObject.SetActive(false);
-        }
-        else if (other.CompareTag("Wall") || other.CompareTag("Obstacle"))
-        {
+            tower.TakeDamage(damage);
             gameObject.SetActive(false);
         }
     }

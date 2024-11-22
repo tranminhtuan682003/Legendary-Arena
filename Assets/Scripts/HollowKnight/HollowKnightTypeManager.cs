@@ -11,11 +11,25 @@ public enum TypeSkill
 
 }
 
+public static class TypeSkillExtensions
+{
+    public static bool CanInterrupt(this TypeSkill skill)
+    {
+        return skill == TypeSkill.Recall || skill == TypeSkill.Heal || skill == TypeSkill.Supplymentary;
+    }
+}
+
 public enum TypeMove
 {
     Up,
     Down,
     Right,
     Left,
+    None
+}
+
+public enum EnemyBlue
+{
+    enemyBlue,
     None
 }

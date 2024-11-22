@@ -16,16 +16,23 @@ public static class KnightEventManager
     }
 
 
-    //Health Manager
-    public static event Action<KnightController> OnHealthBarSet;
-    public static void InvokeSetHealthBar(KnightController knightController)
+    //Health knight Manager
+    public static event Action<KnightController> OnManaUpdated;
+    public static void InvokeUpdateManaBar(KnightController knightController)
     {
-        OnHealthBarSet?.Invoke(knightController);
+        OnManaUpdated?.Invoke(knightController);
     }
     public static event Action<KnightController> OnHealthBarUpdated;
     public static void InvokeUpdateHealthBar(KnightController knightController)
     {
         OnHealthBarUpdated?.Invoke(knightController);
+    }
+
+    //Health enemy Manger
+    public static event Action<IEnemy> OnHealthEnemyUpdate;
+    public static void InvokeUpdateHealthEnemy(IEnemy enemy)
+    {
+        OnHealthEnemyUpdate?.Invoke(enemy);
     }
 
     //Moves Manager
@@ -41,4 +48,15 @@ public static class KnightEventManager
     {
         OnSkillActived?.Invoke(typeSkill, cooldown, executionTime);
     }
+
+
+    // Detect enemy of team red top
+    public static event Action<GameObject, Team> OnTowerRedDetecEnemy;
+    public static void InvokeTeamRedUpdateEnemy(GameObject enemy, Team team)
+    {
+        OnTowerRedDetecEnemy?.Invoke(enemy, team);
+    }
+
+
+
 }
