@@ -117,7 +117,7 @@ public class KnightController : MonoBehaviour, ITeamMember
         }
     }
 
-    public float GetHealth()
+    public float GetCurrentHealth()
     {
         return (float)currentHealth / maxHealth;
     }

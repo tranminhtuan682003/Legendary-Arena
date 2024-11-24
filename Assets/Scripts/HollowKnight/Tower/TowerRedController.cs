@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class TowerRedController : MonoBehaviour, ITeamMember, IEnemy
+public class TowerRedController : MonoBehaviour, ITeamMember
 {
     private Team team;
     private IState currentState;
@@ -11,7 +11,7 @@ public class TowerRedController : MonoBehaviour, ITeamMember, IEnemy
     private int maxHealth;
 
     private GameObject currentEnemy;
-    private HealthBarEnemyController healthBarController;
+    private HealthBarTeamRedController healthBarController;
 
     [Inject]
     private UIKnightManager uIKnightManager;
@@ -21,10 +21,10 @@ public class TowerRedController : MonoBehaviour, ITeamMember, IEnemy
         InitLize();
 
         // Tự động tìm và gán HealthBarEnemyController
-        healthBarController = GetComponentInChildren<HealthBarEnemyController>();
+        healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
         if (healthBarController != null)
         {
-            healthBarController.SetEnemy(this);
+            healthBarController.SetParrent(this);
         }
         else
         {
@@ -109,7 +109,7 @@ public class TowerRedController : MonoBehaviour, ITeamMember, IEnemy
         if (Time.time >= lastAttackTime + cooldown)
         {
             var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
-            var bulletController = bullet.GetComponent<BulletTowerRedController>();
+            var bulletController = bullet.GetComponent<BulletTowerRedKnightController>();
             if (bulletController != null)
             {
                 bulletController.Initialize(enemy, bulletSpeed, bulletDamage);

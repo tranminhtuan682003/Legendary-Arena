@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TowerRedDetectEnemy : MonoBehaviour
+public class TowerRedDetectEnemy : TowerDetectEnemyBase
 {
     private TowerRedController towerController;
 
@@ -10,27 +10,27 @@ public class TowerRedDetectEnemy : MonoBehaviour
         towerController = GetComponentInParent<TowerRedController>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void OnEnemyDetected(GameObject enemy, Team enemyTeam)
     {
-        var enemy = other.GetComponent<ITeamMember>();
-        if (enemy == null) return;
-
-        if (enemy.GetTeam() == Team.Blue)
+        if (enemyTeam == Team.Blue)
         {
-            // Thông báo trực tiếp đến TowerRedController
-            towerController.HandleDetectEnemy(other.gameObject, Team.Blue);
+            // Gọi hàm xử lý của TowerRedController khi phát hiện kẻ địch
+            towerController.HandleDetectEnemy(enemy, enemyTeam);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected override void OnEnemyLost(GameObject enemy, Team enemyTeam)
     {
-        var enemy = other.GetComponent<ITeamMember>();
-        if (enemy == null) return;
-
-        if (enemy.GetTeam() == Team.Blue)
+        if (enemyTeam == Team.Blue)
         {
-            // Thông báo kẻ địch đã rời khỏi phạm vi
+            // Gọi hàm xử lý của TowerRedController khi kẻ địch rời khỏi phạm vi
             towerController.HandleDetectEnemy(null, Team.None);
         }
+    }
+
+    protected override Team GetTeam()
+    {
+        // Trả về team của tháp
+        return Team.Red;
     }
 }

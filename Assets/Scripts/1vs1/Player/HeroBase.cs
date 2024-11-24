@@ -261,5 +261,10 @@ public abstract class HeroBase : MonoBehaviour, ITeamMember
         }
     }
 
+    public float GetCurrentHealth()
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 }

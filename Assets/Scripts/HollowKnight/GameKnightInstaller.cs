@@ -5,24 +5,18 @@ public class GameKnightInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        BindManagers();
+        BindPoolManagers();
+        BindUIMangers();
+        BindScreenManagers();
+    }
+
+    private void BindManagers()
+    {
         // Bind ButtonControlManager
         Container.Bind<ButtonControlManager>()
             .FromNewComponentOnNewGameObject()
             .WithGameObjectName("ButtonControlManager")
-            .AsSingle()
-            .NonLazy();
-
-        // Bind PoolKnightSoundManager
-        Container.Bind<PoolSoundKnightManager>()
-            .FromNewComponentOnNewGameObject()
-            .WithGameObjectName("PoolSoundKnightManager")
-            .AsSingle()
-            .NonLazy();
-
-        // Bind SoundKnightManager
-        Container.Bind<SoundKnightManager>()
-            .FromNewComponentOnNewGameObject()
-            .WithGameObjectName("SoundKnightManager")
             .AsSingle()
             .NonLazy();
 
@@ -33,6 +27,16 @@ public class GameKnightInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
+        // Bind SoundKnightManager
+        Container.Bind<SoundKnightManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("SoundKnightManager")
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindPoolManagers()
+    {
         // Bind PoolKnightManager
         Container.Bind<PoolKnightManager>()
             .FromNewComponentOnNewGameObject()
@@ -40,20 +44,33 @@ public class GameKnightInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
-        // Bind PoolKnightManager
+        // Bind PoolEnemyKnightManager
         Container.Bind<PoolEnemyKnightManager>()
             .FromNewComponentOnNewGameObject()
             .WithGameObjectName("PoolEnemyKnightManager")
             .AsSingle()
             .NonLazy();
 
+        // Bind PoolSoundKnightManager
+        Container.Bind<PoolSoundKnightManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("PoolSoundKnightManager")
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindUIMangers()
+    {
         // Bind UIKnightManager
         Container.Bind<UIKnightManager>()
             .FromNewComponentOnNewGameObject()
             .WithGameObjectName("UIKnightManager")
             .AsSingle()
             .NonLazy();
+    }
 
+    private void BindScreenManagers()
+    {
         // Bind KnightStartScreenManager
         Container.Bind<KnightStartScreenManager>()
             .FromMethod(context =>

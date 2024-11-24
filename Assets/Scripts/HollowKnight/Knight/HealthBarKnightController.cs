@@ -36,7 +36,7 @@ public class HealthBarKnightController : MonoBehaviour
     private void HandleKnightUpdateHealth(KnightController knightController)
     {
         this.knightController = knightController;
-        SetHealth(knightController.GetHealth());
+        SetHealth(knightController.GetCurrentHealth());
     }
 
     private void OnDisable()

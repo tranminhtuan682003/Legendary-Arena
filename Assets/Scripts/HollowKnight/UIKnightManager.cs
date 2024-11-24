@@ -117,7 +117,8 @@ public class UIKnightManager : MonoBehaviour
     {
         poolEnemyKnightManager.CreatePool("BulletKnight", GetBulletByName("Throw"), 10);
         poolEnemyKnightManager.CreatePool("SwordKnight", GetBulletByName("Sword"), 10);
-        poolEnemyKnightManager.CreatePool("BulletTowerRed", GetBulletByName("BulletTowerRed"), 10);
+        poolEnemyKnightManager.CreatePool("BulletTowerRed", GetBulletByName("BulletTowerRed"), 20);
+        poolEnemyKnightManager.CreatePool("BulletTowerBlue", GetBulletByName("BulletTowerBlue"), 20);
     }
 
 
@@ -135,6 +136,11 @@ public class UIKnightManager : MonoBehaviour
     public GameObject GetBulletTowerRed(Transform spawnPoint)
     {
         return poolEnemyKnightManager.GetFromPool("BulletTowerRed", spawnPoint.transform.position, spawnPoint.transform.rotation);
+    }
+
+    public GameObject GetBulletTowerBlue(Transform spawnPoint)
+    {
+        return poolEnemyKnightManager.GetFromPool("BulletTowerBlue", spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
 
 

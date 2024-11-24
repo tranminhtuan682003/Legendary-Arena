@@ -152,4 +152,9 @@ public abstract class TurretBase : MonoBehaviour, ITeamMember
     {
         gameObject.SetActive(false);
     }
+
+    public float GetCurrentHealth()
+    {
+        throw new System.NotImplementedException();
+    }
 }

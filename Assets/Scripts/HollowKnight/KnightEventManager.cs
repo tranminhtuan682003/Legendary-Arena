@@ -29,8 +29,8 @@ public static class KnightEventManager
     }
 
     //Health enemy Manger
-    public static event Action<IEnemy> OnHealthEnemyUpdate;
-    public static void InvokeUpdateHealthEnemy(IEnemy enemy)
+    public static event Action<ITeamMember> OnHealthEnemyUpdate;
+    public static void InvokeUpdateHealthEnemy(ITeamMember enemy)
     {
         OnHealthEnemyUpdate?.Invoke(enemy);
     }

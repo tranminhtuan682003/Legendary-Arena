@@ -191,4 +191,9 @@ public abstract class SoldierBase : MonoBehaviour, ITeamMember
     {
         gameObject.SetActive(false);
     }
+
+    public float GetCurrentHealth()
+    {
+        throw new System.NotImplementedException();
+    }
 }

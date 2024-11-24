@@ -15,8 +15,6 @@ public class KnightPlayScreenManager : MonoBehaviour
 
     private ButtonControlManager buttonKnightManager;
     private UIKnightManager uIKnightManager;
-    private HealthBarKnightController HealthBarKnightController;
-    private HealthBarEnemyController healthBarEnemyController;
 
     [Inject]
     public void Construct(ButtonControlManager buttonKnightManager, UIKnightManager uIKnightManager)

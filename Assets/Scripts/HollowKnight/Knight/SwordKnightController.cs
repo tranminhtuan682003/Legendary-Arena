@@ -31,7 +31,7 @@ public class SwordKnightController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var tower = other.GetComponent<IEnemy>();
+        var tower = other.GetComponent<ITeamMember>();
         if (other.CompareTag("TowerRed"))
         {
             tower.TakeDamage(damage);
