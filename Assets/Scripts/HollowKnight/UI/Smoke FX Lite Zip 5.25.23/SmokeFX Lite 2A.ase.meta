@@ -105,6 +105,7 @@ ScriptedImporter:
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -126,6 +127,7 @@ ScriptedImporter:
     pivot: {x: 0.03816794, y: 0.75886524}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -146,6 +148,7 @@ ScriptedImporter:
     pivot: {x: 0.08029197, y: 0.7346939}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -166,6 +169,7 @@ ScriptedImporter:
     pivot: {x: 0.0882353, y: 0.7218543}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -186,6 +190,7 @@ ScriptedImporter:
     pivot: {x: 0.11347517, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -206,6 +211,7 @@ ScriptedImporter:
     pivot: {x: 0.12230216, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -226,6 +232,7 @@ ScriptedImporter:
     pivot: {x: 0.13138686, y: 0.67375886}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -246,6 +253,7 @@ ScriptedImporter:
     pivot: {x: 0.519084, y: 0.75886524}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -266,6 +274,7 @@ ScriptedImporter:
     pivot: {x: 0.540146, y: 0.7346939}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -286,6 +295,7 @@ ScriptedImporter:
     pivot: {x: 0.5514706, y: 0.7218543}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -306,6 +316,7 @@ ScriptedImporter:
     pivot: {x: 0.56028366, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -326,6 +337,7 @@ ScriptedImporter:
     pivot: {x: 0.5755396, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -346,6 +358,7 @@ ScriptedImporter:
     pivot: {x: 0.5912409, y: 0.67375886}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -366,6 +379,7 @@ ScriptedImporter:
     pivot: {x: 1.0152671, y: 0.75886524}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -386,6 +400,7 @@ ScriptedImporter:
     pivot: {x: 1.0145985, y: 0.7346939}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -406,6 +421,7 @@ ScriptedImporter:
     pivot: {x: 1.0294118, y: 0.7218543}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -426,6 +442,7 @@ ScriptedImporter:
     pivot: {x: 1.0212766, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -446,6 +463,7 @@ ScriptedImporter:
     pivot: {x: 1.0431654, y: 0.7115385}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -466,6 +484,7 @@ ScriptedImporter:
     pivot: {x: 1.0656934, y: 0.67375886}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -486,6 +505,7 @@ ScriptedImporter:
     pivot: {x: 0.03816794, y: 0.31205672}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -506,6 +526,7 @@ ScriptedImporter:
     pivot: {x: 0.08029197, y: 0.30612245}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -526,6 +547,7 @@ ScriptedImporter:
     pivot: {x: 0.0882353, y: 0.30463576}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -546,6 +568,7 @@ ScriptedImporter:
     pivot: {x: 0.11347517, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -566,6 +589,7 @@ ScriptedImporter:
     pivot: {x: 0.12230216, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -586,6 +610,7 @@ ScriptedImporter:
     pivot: {x: 0.13138686, y: 0.22695035}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -606,6 +631,7 @@ ScriptedImporter:
     pivot: {x: 0.519084, y: 0.31205672}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -626,6 +652,7 @@ ScriptedImporter:
     pivot: {x: 0.540146, y: 0.30612245}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -646,6 +673,7 @@ ScriptedImporter:
     pivot: {x: 0.5514706, y: 0.30463576}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -666,6 +694,7 @@ ScriptedImporter:
     pivot: {x: 0.56028366, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -686,6 +715,7 @@ ScriptedImporter:
     pivot: {x: 0.5755396, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -706,6 +736,7 @@ ScriptedImporter:
     pivot: {x: 0.5912409, y: 0.22695035}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -726,6 +757,7 @@ ScriptedImporter:
     pivot: {x: 1.0152671, y: 0.31205672}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -746,6 +778,7 @@ ScriptedImporter:
     pivot: {x: 1.0145985, y: 0.30612245}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -766,6 +799,7 @@ ScriptedImporter:
     pivot: {x: 1.0294118, y: 0.30463576}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -786,6 +820,7 @@ ScriptedImporter:
     pivot: {x: 1.0212766, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -806,6 +841,7 @@ ScriptedImporter:
     pivot: {x: 1.0431654, y: 0.30769232}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -826,6 +862,7 @@ ScriptedImporter:
     pivot: {x: 1.0656934, y: 0.22695035}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -846,6 +883,7 @@ ScriptedImporter:
     pivot: {x: 0.03816794, y: -0.14893617}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -866,6 +904,7 @@ ScriptedImporter:
     pivot: {x: 0.08029197, y: -0.13605443}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -886,6 +925,7 @@ ScriptedImporter:
     pivot: {x: 0.0882353, y: -0.12582782}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 300
@@ -906,6 +946,7 @@ ScriptedImporter:
     pivot: {x: 0.11347517, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -926,6 +967,7 @@ ScriptedImporter:
     pivot: {x: 0.12230216, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -946,6 +988,7 @@ ScriptedImporter:
     pivot: {x: 0.13138686, y: -0.23404254}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -966,6 +1009,7 @@ ScriptedImporter:
     pivot: {x: 0.519084, y: -0.14893617}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -986,6 +1030,7 @@ ScriptedImporter:
     pivot: {x: 0.540146, y: -0.13605443}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -1006,6 +1051,7 @@ ScriptedImporter:
     pivot: {x: 0.5514706, y: -0.12582782}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 300
@@ -1026,6 +1072,7 @@ ScriptedImporter:
     pivot: {x: 0.56028366, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -1046,6 +1093,7 @@ ScriptedImporter:
     pivot: {x: 0.5755396, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -1066,6 +1114,7 @@ ScriptedImporter:
     pivot: {x: 0.5912409, y: -0.23404254}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -1086,6 +1135,7 @@ ScriptedImporter:
     pivot: {x: 1.0152671, y: -0.14893617}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 300
@@ -1106,6 +1156,7 @@ ScriptedImporter:
     pivot: {x: 1.0145985, y: -0.13605443}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 444
@@ -1126,6 +1177,7 @@ ScriptedImporter:
     pivot: {x: 1.0294118, y: -0.12582782}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 300
@@ -1146,6 +1198,7 @@ ScriptedImporter:
     pivot: {x: 1.0212766, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -1166,6 +1219,7 @@ ScriptedImporter:
     pivot: {x: 1.0431654, y: -0.10897436}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 153
@@ -1186,6 +1240,7 @@ ScriptedImporter:
     pivot: {x: 1.0656934, y: -0.23404254}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 589
@@ -1210,432 +1265,486 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: SmokeFX Lite 2A_Frame_0
+    - name: Frame_0
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 27
         y: -107
         width: 131
         height: 141
       spriteId: e7bb42cf0f2973343978b5461123d23f
-    - name: SmokeFX Lite 2A_Frame_1
+    - name: Frame_1
       frameIndex: 1
+      additiveSortOrder: 0
       cellRect:
         x: 21
         y: -108
         width: 137
         height: 147
       spriteId: 29e009c3478a50748a65ee744604d25f
-    - name: SmokeFX Lite 2A_Frame_2
+    - name: Frame_2
       frameIndex: 2
+      additiveSortOrder: 0
       cellRect:
         x: 20
         y: -109
         width: 136
         height: 151
       spriteId: ca59a4fc6eea4d24380be8263c1224b5
-    - name: SmokeFX Lite 2A_Frame_3
+    - name: Frame_3
       frameIndex: 3
+      additiveSortOrder: 0
       cellRect:
         x: 16
         y: -111
         width: 141
         height: 156
       spriteId: 68db4dc4da30afa4b80b48a7f22cc1aa
-    - name: SmokeFX Lite 2A_Frame_4
+    - name: Frame_4
       frameIndex: 4
+      additiveSortOrder: 0
       cellRect:
         x: 15
         y: -111
         width: 139
         height: 156
       spriteId: 147ef2e003f6afd40b7753f5e396355f
-    - name: SmokeFX Lite 2A_Frame_5
+    - name: Frame_5
       frameIndex: 5
+      additiveSortOrder: 0
       cellRect:
         x: 14
         y: -95
         width: 137
         height: 141
       spriteId: 24243ef0def7ae74eb47b559f25bbeca
-    - name: SmokeFX Lite 2A_Frame_7
+    - name: Frame_7
       frameIndex: 7
+      additiveSortOrder: 0
       cellRect:
         x: -36
         y: -107
         width: 131
         height: 141
       spriteId: 5312e215d99d8164d85f30dbd1d96d4d
-    - name: SmokeFX Lite 2A_Frame_8
+    - name: Frame_8
       frameIndex: 8
+      additiveSortOrder: 0
       cellRect:
         x: -42
         y: -108
         width: 137
         height: 147
       spriteId: 7ae9614500c2ac94eb4c23c38dc2e269
-    - name: SmokeFX Lite 2A_Frame_9
+    - name: Frame_9
       frameIndex: 9
+      additiveSortOrder: 0
       cellRect:
         x: -43
         y: -109
         width: 136
         height: 151
       spriteId: 3b5ca8284b37abf4da8da5d4db99ee5a
-    - name: SmokeFX Lite 2A_Frame_10
+    - name: Frame_10
       frameIndex: 10
+      additiveSortOrder: 0
       cellRect:
         x: -47
         y: -111
         width: 141
         height: 156
       spriteId: d87c1eba74b33ca4c99f4d0df3613a8e
-    - name: SmokeFX Lite 2A_Frame_11
+    - name: Frame_11
       frameIndex: 11
+      additiveSortOrder: 0
       cellRect:
         x: -48
         y: -111
         width: 139
         height: 156
       spriteId: c091cd09835a6164c8b144f837497553
-    - name: SmokeFX Lite 2A_Frame_12
+    - name: Frame_12
       frameIndex: 12
+      additiveSortOrder: 0
       cellRect:
         x: -49
         y: -95
         width: 137
         height: 141
       spriteId: 73b211c81e061eb4280f275b149278fb
-    - name: SmokeFX Lite 2A_Frame_14
+    - name: Frame_14
       frameIndex: 14
+      additiveSortOrder: 0
       cellRect:
         x: -101
         y: -107
         width: 131
         height: 141
       spriteId: b66c68c71150e84469496b22d101a7ec
-    - name: SmokeFX Lite 2A_Frame_15
+    - name: Frame_15
       frameIndex: 15
+      additiveSortOrder: 0
       cellRect:
         x: -107
         y: -108
         width: 137
         height: 147
       spriteId: 773866ffc1c2a2648af85d302dadac0d
-    - name: SmokeFX Lite 2A_Frame_16
+    - name: Frame_16
       frameIndex: 16
+      additiveSortOrder: 0
       cellRect:
         x: -108
         y: -109
         width: 136
         height: 151
       spriteId: feb58778641f7ad4d854116c3f86e771
-    - name: SmokeFX Lite 2A_Frame_17
+    - name: Frame_17
       frameIndex: 17
+      additiveSortOrder: 0
       cellRect:
         x: -112
         y: -111
         width: 141
         height: 156
       spriteId: 5c1353d4c73321b41b35c8227a74a80c
-    - name: SmokeFX Lite 2A_Frame_18
+    - name: Frame_18
       frameIndex: 18
+      additiveSortOrder: 0
       cellRect:
         x: -113
         y: -111
         width: 139
         height: 156
       spriteId: e90f1bc60a235f84a889a2f1fe26931e
-    - name: SmokeFX Lite 2A_Frame_19
+    - name: Frame_19
       frameIndex: 19
+      additiveSortOrder: 0
       cellRect:
         x: -114
         y: -95
         width: 137
         height: 141
       spriteId: e2ad8f730698d5a47833745e99dbc5a4
-    - name: SmokeFX Lite 2A_Frame_21
+    - name: Frame_21
       frameIndex: 21
+      additiveSortOrder: 0
       cellRect:
         x: 27
         y: -44
         width: 131
         height: 141
       spriteId: 09397a0f0e6f2dd479b5e1e5e621ba04
-    - name: SmokeFX Lite 2A_Frame_22
+    - name: Frame_22
       frameIndex: 22
+      additiveSortOrder: 0
       cellRect:
         x: 21
         y: -45
         width: 137
         height: 147
       spriteId: e031dc2684b11844f9c59b7d21011e70
-    - name: SmokeFX Lite 2A_Frame_23
+    - name: Frame_23
       frameIndex: 23
+      additiveSortOrder: 0
       cellRect:
         x: 20
         y: -46
         width: 136
         height: 151
       spriteId: b09e8033f18aa124da08efff8b5e3e64
-    - name: SmokeFX Lite 2A_Frame_24
+    - name: Frame_24
       frameIndex: 24
+      additiveSortOrder: 0
       cellRect:
         x: 16
         y: -48
         width: 141
         height: 156
       spriteId: 3d774b395c5845449bd4410959d605b0
-    - name: SmokeFX Lite 2A_Frame_25
+    - name: Frame_25
       frameIndex: 25
+      additiveSortOrder: 0
       cellRect:
         x: 15
         y: -48
         width: 139
         height: 156
       spriteId: ed6e3277381d6334a8465a460ff0b4a7
-    - name: SmokeFX Lite 2A_Frame_26
+    - name: Frame_26
       frameIndex: 26
+      additiveSortOrder: 0
       cellRect:
         x: 14
         y: -32
         width: 137
         height: 141
       spriteId: 562f7062c6a3a864c82f839b1a2fbc5e
-    - name: SmokeFX Lite 2A_Frame_28
+    - name: Frame_28
       frameIndex: 28
+      additiveSortOrder: 0
       cellRect:
         x: -36
         y: -44
         width: 131
         height: 141
       spriteId: adf2a81c2e5220647aa658cffcf9e21c
-    - name: SmokeFX Lite 2A_Frame_29
+    - name: Frame_29
       frameIndex: 29
+      additiveSortOrder: 0
       cellRect:
         x: -42
         y: -45
         width: 137
         height: 147
       spriteId: e1b3ecb8dfb07944b97c4813f8c7ab29
-    - name: SmokeFX Lite 2A_Frame_30
+    - name: Frame_30
       frameIndex: 30
+      additiveSortOrder: 0
       cellRect:
         x: -43
         y: -46
         width: 136
         height: 151
       spriteId: d775eb1878ceb074e8517dbd47a71347
-    - name: SmokeFX Lite 2A_Frame_31
+    - name: Frame_31
       frameIndex: 31
+      additiveSortOrder: 0
       cellRect:
         x: -47
         y: -48
         width: 141
         height: 156
       spriteId: 679a69e4324717c449975209d04c6d31
-    - name: SmokeFX Lite 2A_Frame_32
+    - name: Frame_32
       frameIndex: 32
+      additiveSortOrder: 0
       cellRect:
         x: -48
         y: -48
         width: 139
         height: 156
       spriteId: 17449f5b1bc2a414f83de28671643f31
-    - name: SmokeFX Lite 2A_Frame_33
+    - name: Frame_33
       frameIndex: 33
+      additiveSortOrder: 0
       cellRect:
         x: -49
         y: -32
         width: 137
         height: 141
       spriteId: cbf4162159d8e3a4aa5602d9e5e8afae
-    - name: SmokeFX Lite 2A_Frame_35
+    - name: Frame_35
       frameIndex: 35
+      additiveSortOrder: 0
       cellRect:
         x: -101
         y: -44
         width: 131
         height: 141
       spriteId: cb1c179b6c5777740984e6de6af3f751
-    - name: SmokeFX Lite 2A_Frame_36
+    - name: Frame_36
       frameIndex: 36
+      additiveSortOrder: 0
       cellRect:
         x: -107
         y: -45
         width: 137
         height: 147
       spriteId: 2172bef7e7273e947a151bd3ac1f2749
-    - name: SmokeFX Lite 2A_Frame_37
+    - name: Frame_37
       frameIndex: 37
+      additiveSortOrder: 0
       cellRect:
         x: -108
         y: -46
         width: 136
         height: 151
       spriteId: aaf9f6126804f2a4b97fba80c26ba12d
-    - name: SmokeFX Lite 2A_Frame_38
+    - name: Frame_38
       frameIndex: 38
+      additiveSortOrder: 0
       cellRect:
         x: -112
         y: -48
         width: 141
         height: 156
       spriteId: a3f80ec2e62346d45a19322205d103b6
-    - name: SmokeFX Lite 2A_Frame_39
+    - name: Frame_39
       frameIndex: 39
+      additiveSortOrder: 0
       cellRect:
         x: -113
         y: -48
         width: 139
         height: 156
       spriteId: 01a22572d2444a34baff85a7135c17d6
-    - name: SmokeFX Lite 2A_Frame_40
+    - name: Frame_40
       frameIndex: 40
+      additiveSortOrder: 0
       cellRect:
         x: -114
         y: -32
         width: 137
         height: 141
       spriteId: 2ae6648f84a021441b860e26d375136e
-    - name: SmokeFX Lite 2A_Frame_42
+    - name: Frame_42
       frameIndex: 42
+      additiveSortOrder: 0
       cellRect:
         x: 27
         y: 21
         width: 131
         height: 141
       spriteId: 5be6f328e5df9874f912dc695416884b
-    - name: SmokeFX Lite 2A_Frame_43
+    - name: Frame_43
       frameIndex: 43
+      additiveSortOrder: 0
       cellRect:
         x: 21
         y: 20
         width: 137
         height: 147
       spriteId: e0b6ea6446577b244952de3cc87465f1
-    - name: SmokeFX Lite 2A_Frame_44
+    - name: Frame_44
       frameIndex: 44
+      additiveSortOrder: 0
       cellRect:
         x: 20
         y: 19
         width: 136
         height: 151
       spriteId: d317d583e448d694f86d5e137a9ca464
-    - name: SmokeFX Lite 2A_Frame_45
+    - name: Frame_45
       frameIndex: 45
+      additiveSortOrder: 0
       cellRect:
         x: 16
         y: 17
         width: 141
         height: 156
       spriteId: 9541326a9567d304093794de76df02f9
-    - name: SmokeFX Lite 2A_Frame_46
+    - name: Frame_46
       frameIndex: 46
+      additiveSortOrder: 0
       cellRect:
         x: 15
         y: 17
         width: 139
         height: 156
       spriteId: 7743d35d61be5074ba282fa5a42a7d9e
-    - name: SmokeFX Lite 2A_Frame_47
+    - name: Frame_47
       frameIndex: 47
+      additiveSortOrder: 0
       cellRect:
         x: 14
         y: 33
         width: 137
         height: 141
       spriteId: 6f84ac8230722aa419bc85634df0339b
-    - name: SmokeFX Lite 2A_Frame_49
+    - name: Frame_49
       frameIndex: 49
+      additiveSortOrder: 0
       cellRect:
         x: -36
         y: 21
         width: 131
         height: 141
       spriteId: 772cf5f19bcc41748907027dc08da797
-    - name: SmokeFX Lite 2A_Frame_50
+    - name: Frame_50
       frameIndex: 50
+      additiveSortOrder: 0
       cellRect:
         x: -42
         y: 20
         width: 137
         height: 147
       spriteId: ddae0b115ec6c48499c66597d22ec921
-    - name: SmokeFX Lite 2A_Frame_51
+    - name: Frame_51
       frameIndex: 51
+      additiveSortOrder: 0
       cellRect:
         x: -43
         y: 19
         width: 136
         height: 151
       spriteId: ab22626f34b65cd4083b1e31c76b06c8
-    - name: SmokeFX Lite 2A_Frame_52
+    - name: Frame_52
       frameIndex: 52
+      additiveSortOrder: 0
       cellRect:
         x: -47
         y: 17
         width: 141
         height: 156
       spriteId: f59d57bbb61a6b54dae9132f88c23889
-    - name: SmokeFX Lite 2A_Frame_53
+    - name: Frame_53
       frameIndex: 53
+      additiveSortOrder: 0
       cellRect:
         x: -48
         y: 17
         width: 139
         height: 156
       spriteId: 295bcce7a94230e42a8280f6029e223a
-    - name: SmokeFX Lite 2A_Frame_54
+    - name: Frame_54
       frameIndex: 54
+      additiveSortOrder: 0
       cellRect:
         x: -49
         y: 33
         width: 137
         height: 141
       spriteId: b225e5f15271fa84fbdf341932c5f5b7
-    - name: SmokeFX Lite 2A_Frame_56
+    - name: Frame_56
       frameIndex: 56
+      additiveSortOrder: 0
       cellRect:
         x: -101
         y: 21
         width: 131
         height: 141
       spriteId: 5b147981f92f98d4fa887a7f887b62c8
-    - name: SmokeFX Lite 2A_Frame_57
+    - name: Frame_57
       frameIndex: 57
+      additiveSortOrder: 0
       cellRect:
         x: -107
         y: 20
         width: 137
         height: 147
       spriteId: edcb8a327e64eaf4d833d5835bf39b76
-    - name: SmokeFX Lite 2A_Frame_58
+    - name: Frame_58
       frameIndex: 58
+      additiveSortOrder: 0
       cellRect:
         x: -108
         y: 19
         width: 136
         height: 151
       spriteId: a5a2a3ef37924f9418a333bec813b794
-    - name: SmokeFX Lite 2A_Frame_59
+    - name: Frame_59
       frameIndex: 59
+      additiveSortOrder: 0
       cellRect:
         x: -112
         y: 17
         width: 141
         height: 156
       spriteId: 486f6dd00242bec4cb19d6fee550fc74
-    - name: SmokeFX Lite 2A_Frame_60
+    - name: Frame_60
       frameIndex: 60
+      additiveSortOrder: 0
       cellRect:
         x: -113
         y: 17
         width: 139
         height: 156
       spriteId: 10000a5ef6dc9274d92f697b212c2f40
-    - name: SmokeFX Lite 2A_Frame_61
+    - name: Frame_61
       frameIndex: 61
+      additiveSortOrder: 0
       cellRect:
         x: -114
         y: 33

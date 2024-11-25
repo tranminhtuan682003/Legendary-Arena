@@ -25,7 +25,7 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
     protected virtual void MoveTowardsTarget()
     {
         Vector2 direction = (target.transform.position - transform.position).normalized;
-        rb.velocity = direction * bulletSpeed;
+        rb.linearVelocity = direction * bulletSpeed;
     }
 
     public virtual void Initialize(GameObject target, float speed, int bulletDamage)

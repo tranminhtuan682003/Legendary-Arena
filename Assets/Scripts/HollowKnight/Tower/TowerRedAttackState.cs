@@ -20,7 +20,7 @@ public class TowerRedAttackState : IState
 
     public void Execute()
     {
-        towerRedController.FireBullet(enemy, 10f, 1.5f, ref lastAttackTime, 100);
+        towerRedController.FireBullet(enemy, 15f, 1.5f, ref lastAttackTime, 100);
     }
 
     public void Exit()

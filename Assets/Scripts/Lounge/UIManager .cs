@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
         {
             if (instance == null)
             {
-                var existingInstance = FindObjectOfType<UIManager>();
+                var existingInstance = FindFirstObjectByType<UIManager>();
                 if (existingInstance != null)
                 {
                     instance = existingInstance;
@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
 
     private void InitScreen()
     {
-        canvas = FindObjectOfType<Canvas>();
+        canvas = FindFirstObjectByType<Canvas>();
         Addressables.LoadAssetAsync<UIDatabase>(UIDatabaseAddress).Completed += handle =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)

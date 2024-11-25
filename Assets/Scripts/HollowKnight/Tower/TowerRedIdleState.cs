@@ -12,7 +12,6 @@ public class TowerRedIdleState : IState
 
     public void Enter()
     {
-        Debug.Log("Enter idle");
     }
 
     public void Execute()

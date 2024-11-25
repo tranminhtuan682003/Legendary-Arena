@@ -56,12 +56,12 @@ public class SelectGameManager : MonoBehaviour
         backgrounds = new Dictionary<string, Sprite>
         {
             { "1vs1", Resources.Load<Sprite>("UI/BackgroundGameMode/bg2") },
-            { "3vs3", Resources.Load<Sprite>("UI/BackgroundGameMode/bg3") },
-            { "5vs5", Resources.Load<Sprite>("UI/BackgroundGameMode/bg4") },
-            { "10vs10", Resources.Load<Sprite>("UI/BackgroundGameMode/bg5") },
-            { "UpDown", Resources.Load<Sprite>("UI/BackgroundGameMode/bg6") },
+            { "FlappyBird", Resources.Load<Sprite>("UI/BackgroundGameMode/bg3") },
+            { "HollowKnight", Resources.Load<Sprite>("UI/BackgroundGameMode/bg4") },
+            { "CandyCrush", Resources.Load<Sprite>("UI/BackgroundGameMode/bg5") },
+            { "Sicbo", Resources.Load<Sprite>("UI/BackgroundGameMode/bg6") },
             { "XXX", Resources.Load<Sprite>("UI/BackgroundGameMode/xxx") },
-            { "Rank", Resources.Load<Sprite>("UI/BackgroundGameMode/rank") },
+            { "None", Resources.Load<Sprite>("UI/BackgroundGameMode/rank") },
         };
     }
     private void ChangeBackground(string gameMode)
@@ -95,22 +95,22 @@ public class SelectGameManager : MonoBehaviour
             case "1vs1":
                 gameMode.SetActive(true);
                 break;
-            case "UpDown":
+            case "Sicbo":
                 gameMode.SetActive(true);
                 break;
-            case "10vs10":
+            case "FlappyBird":
                 gameMode.SetActive(true);
                 break;
-            case "3vs3":
+            case "HollowKnight":
                 gameMode.SetActive(true);
                 break;
-            case "5vs5":
+            case "CandyCrush":
                 gameMode.SetActive(true);
                 break;
             case "XXX":
                 gameMode.SetActive(true);
                 break;
-            case "Rank":
+            case "None":
                 gameMode.SetActive(true);
                 break;
             default:

@@ -10,7 +10,7 @@ public class Candy : MonoBehaviour
 
     private void Start()
     {
-        gridManager = FindObjectOfType<GridManager>();
+        gridManager = FindFirstObjectByType<GridManager>();
     }
 
     private void OnMouseDown()

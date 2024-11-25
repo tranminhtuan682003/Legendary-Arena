@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class PipeController : MonoBehaviour
@@ -11,7 +10,6 @@ public class PipeController : MonoBehaviour
         // Cập nhật tốc độ mỗi khi Pipe được kích hoạt lại
         speed = FlappyBirdGameManager.Instance.GetCurrentPipeSpeed();
         hasPassed = false; // Đặt lại trạng thái để tính điểm cho lần tiếp theo
-        StartCoroutine(WaitForReturnPool());
     }
 
     void Update()
@@ -24,12 +22,6 @@ public class PipeController : MonoBehaviour
         transform.position += Vector3.left * speed * Time.deltaTime;
     }
 
-    private IEnumerator WaitForReturnPool()
-    {
-        yield return new WaitForSeconds(6f);
-        gameObject.SetActive(false); // Vô hiệu hóa Pipe để tái sử dụng từ pool
-    }
-
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("FlappyBird") && !hasPassed)
@@ -38,5 +30,10 @@ public class PipeController : MonoBehaviour
             SoundFlappyManager.Instance.PlayPointSound();
             FlappyBirdGameManager.Instance.SetScore(1);
         }
+    }
+
+    private void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
     }
 }

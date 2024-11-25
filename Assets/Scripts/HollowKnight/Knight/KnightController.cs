@@ -11,6 +11,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     private Team team;
 
     [Inject] private UIKnightManager uIKnightManager;
+    [Inject] private SoundKnightManager soundKnightManager;
     private Animator animator;
     private Rigidbody2D rb;
     private GameObject effect;
@@ -160,7 +161,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     private void MoveHorizontally(float direction)
     {
         moveDirection = new Vector2(direction, 0);
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
         FlipCharacter(direction);
     }
 
@@ -185,7 +186,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     public void StopMovement()
     {
         moveDirection = Vector2.zero;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
     private void FlipCharacter(float direction)
@@ -299,6 +300,7 @@ public class KnightController : MonoBehaviour, ITeamMember
         var effectAnimator = effect.GetComponent<Animator>();
         effectAnimator.SetTrigger("Run");
         yield return new WaitForSeconds(executionTime); // Chờ Recall hoàn tất
+        transform.position = new Vector3(-141f, 6, 0);
         effect.SetActive(false);
         currentCoroutine = null; // Dọn dẹp sau khi hoàn tất
         Debug.Log("Recall completed.");
@@ -317,8 +319,6 @@ public class KnightController : MonoBehaviour, ITeamMember
             effect.SetActive(false);
         }
     }
-
-
 
     private IEnumerator Heal(float cooldown)
     {
@@ -353,6 +353,7 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     private IEnumerator Skill2(string nameAnimation, float executionTime)
     {
+        soundKnightManager.PlayMusicSkill2();
         TakeMana(20);
         isTakeDamage = true;
         this.shield.SetActive(true);
@@ -392,12 +393,14 @@ public class KnightController : MonoBehaviour, ITeamMember
     {
         if (isTakeDamage) return;
         currentHealth -= amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         KnightEventManager.InvokeUpdateHealthBar(this);
         if (currentHealth <= 0)
         {
             ChangeState(new KnightDeadState(this));
         }
     }
+
 
     public void TakeMana(int amount)
     {

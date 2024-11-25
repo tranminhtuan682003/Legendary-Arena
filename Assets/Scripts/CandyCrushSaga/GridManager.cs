@@ -19,14 +19,11 @@ public class GridManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        float startX = -width / 2 * candySize;
-        float startY = -height / 2 * candySize + candySize / 2;
-
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                Vector3 position = new Vector3(startX + x * candySize, startY + y * candySize, 0);
+                Vector3 position = CalculateGridPosition(x, y);
                 GameCandyManager.instance.GetBackgroundBuble(position, Quaternion.identity);
 
                 GameObject candyInstance = GameCandyManager.instance.GetCandy(position, Quaternion.identity);
@@ -34,6 +31,13 @@ public class GridManager : MonoBehaviour
             }
         }
         CheckMatches();
+    }
+
+    private Vector3 CalculateGridPosition(int x, int y)
+    {
+        float startX = -width / 2 * candySize + candySize / 2;
+        float startY = -height / 2 * candySize + candySize / 2;
+        return new Vector3(startX + x * candySize, startY + y * candySize, 0);
     }
 
     public void CheckMatches()
@@ -86,11 +90,14 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        // Phá hủy các viên kẹo trong danh sách sau 0.5 giây
+        // Phá hủy các viên kẹo trong danh sách
         foreach (var candy in candiesToDestroy)
         {
             StartCoroutine(DestroyCandyWithAnimation(candy));
         }
+
+        // Sau khi phá hủy, làm đầy lại lưới
+        StartCoroutine(RefillGrid());
     }
 
     private IEnumerator DestroyCandyWithAnimation(GameObject candy)
@@ -103,31 +110,63 @@ public class GridManager : MonoBehaviour
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         }
 
-        yield return new WaitForSeconds(0f); // Chờ thêm 0.5 giây trước khi phá hủy
-
         Vector2Int pos = FindCandyPosition(candy);
         if (pos.x != -1 && pos.y != -1)
         {
             gridArray[pos.x, pos.y] = null;
         }
+
         SoundCandyManager.Instance.PlayDestroySound();
         SoundCandyManager.Instance.PlayPointSound();
+
+        // Thêm điểm khi viên kẹo bị phá hủy
+        PlayScreenManager.Instance.AddScore(10);
+
         candy.SetActive(false);
     }
 
-    private Vector2Int FindCandyPosition(GameObject candy)
+
+
+    private IEnumerator RefillGrid()
     {
-        for (int x = 0; x < width; x++)
+        bool isRefilling = true;
+
+        while (isRefilling)
         {
-            for (int y = 0; y < height; y++)
+            isRefilling = false;
+
+            for (int x = 0; x < width; x++)
             {
-                if (gridArray[x, y] == candy)
+                for (int y = 0; y < height; y++)
                 {
-                    return new Vector2Int(x, y);
+                    if (gridArray[x, y] == null)
+                    {
+                        // Kéo viên kẹo từ hàng trên xuống
+                        if (y < height - 1 && gridArray[x, y + 1] != null)
+                        {
+                            gridArray[x, y] = gridArray[x, y + 1];
+                            gridArray[x, y + 1] = null;
+
+                            StartCoroutine(SmoothMove(gridArray[x, y], CalculateGridPosition(x, y)));
+                            isRefilling = true;
+                        }
+                        else if (y == height - 1) // Tạo mới tại hàng trên cùng
+                        {
+                            Vector3 spawnPosition = CalculateGridPosition(x, height);
+                            GameObject newCandy = GameCandyManager.instance.GetCandy(spawnPosition, Quaternion.identity);
+                            gridArray[x, y] = newCandy;
+
+                            StartCoroutine(SmoothMove(newCandy, CalculateGridPosition(x, y)));
+                            isRefilling = true;
+                        }
+                    }
                 }
             }
+
+            yield return new WaitForSeconds(0.5f);
         }
-        return new Vector2Int(-1, -1);
+
+        CheckMatches(); // Kiểm tra các khớp mới sau khi làm đầy
     }
 
     public void SwapCandies(GameObject candy, Vector2 direction)
@@ -145,10 +184,25 @@ public class GridManager : MonoBehaviour
                 gridArray[candyPosition.x, candyPosition.y] = targetCandy;
                 gridArray[targetPosition.x, targetPosition.y] = candy;
 
-                StartCoroutine(SmoothMove(candy, targetCandy.transform.position));
-                StartCoroutine(SmoothMove(targetCandy, candy.transform.position, true));
+                StartCoroutine(SmoothMove(candy, CalculateGridPosition(targetPosition.x, targetPosition.y)));
+                StartCoroutine(SmoothMove(targetCandy, CalculateGridPosition(candyPosition.x, candyPosition.y), true));
             }
         }
+    }
+
+    private Vector2Int FindCandyPosition(GameObject candy)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (gridArray[x, y] == candy)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+        return new Vector2Int(-1, -1);
     }
 
     private IEnumerator SmoothMove(GameObject candy, Vector3 targetPosition, bool checkAfterMove = false)

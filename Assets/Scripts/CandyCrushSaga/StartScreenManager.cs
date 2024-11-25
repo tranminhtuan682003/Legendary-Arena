@@ -33,6 +33,7 @@ public class StartScreenManager : MonoBehaviour
     {
         SoundCandyManager.Instance.PlayButtonClickSound();
         UICandyManager.instance.ChangeStateStartScreen(false);
+        UICandyManager.instance.ChangeStatePlayScreen(true);
     }
 
     private void HandleMenuButton()

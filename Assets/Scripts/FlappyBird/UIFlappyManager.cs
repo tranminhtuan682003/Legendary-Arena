@@ -43,6 +43,8 @@ public class UIFlappyManager : MonoBehaviour
         {
             Instance = this;
             InitLize();
+            StartCoroutine(LoadPipeData());
+
         }
         else
         {
@@ -51,14 +53,9 @@ public class UIFlappyManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        StartCoroutine(LoadPipeData());
-    }
-
     private void InitLize()
     {
-        canvas = FindObjectOfType<Canvas>();
+        canvas = FindFirstObjectByType<Canvas>();
         spawnPoint = GameObject.Find("SpawnPoint");
     }
 
@@ -144,10 +141,6 @@ public class UIFlappyManager : MonoBehaviour
             int randomIndex = Random.Range(0, pipePrefabs.Count);
             var randomItem = pipePrefabs[randomIndex];
             PoolPipeManager.Instance.GetFromPool(randomItem, spawnPoint.transform.position, spawnPoint.transform.rotation);
-        }
-        else
-        {
-            Debug.LogWarning("pipePrefabs list is empty : " + pipePrefabs.Count);
         }
     }
 

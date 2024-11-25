@@ -4,8 +4,6 @@ using UnityEngine.UI;
 public abstract class HealthBarBase : MonoBehaviour
 {
     private Slider healthSlider;
-    [SerializeField] private Gradient healthGradient;
-    [SerializeField] private Image fillImage;
 
     protected virtual void Awake()
     {
@@ -19,15 +17,6 @@ public abstract class HealthBarBase : MonoBehaviour
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth;
-        }
-        UpdateColor(currentHealth);
-    }
-
-    private void UpdateColor(float currentHealth)
-    {
-        if (fillImage != null && healthGradient != null)
-        {
-            fillImage.color = healthGradient.Evaluate(currentHealth);
         }
     }
 }

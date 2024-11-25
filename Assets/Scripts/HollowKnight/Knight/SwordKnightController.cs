@@ -15,7 +15,7 @@ public class SwordKnightController : MonoBehaviour
 
     private void OnEnable()
     {
-        rb.velocity = transform.right * speed;
+        rb.linearVelocity = transform.right * speed;
     }
 
     public void InitLize(int damage, float speed)

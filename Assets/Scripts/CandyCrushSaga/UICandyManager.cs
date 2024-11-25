@@ -20,6 +20,7 @@ public class UICandyManager : MonoBehaviour
         {
             instance = this;
             InitLize();
+            StartCoroutine(LoadScreenCandyData());
         }
         else
         {
@@ -30,12 +31,11 @@ public class UICandyManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(LoadScreenCandyData());
     }
 
     private void InitLize()
     {
-        canvas = FindObjectOfType<Canvas>();
+        canvas = FindFirstObjectByType<Canvas>();
     }
 
     private IEnumerator LoadScreenCandyData()
@@ -63,6 +63,8 @@ public class UICandyManager : MonoBehaviour
     private void CreateScreen()
     {
         startScreen = Instantiate(GetPrefabByName("StartScreen"), canvas.transform);
+        playScreen = Instantiate(GetPrefabByName("PlayScreen"), canvas.transform);
+        playScreen.SetActive(false);
     }
 
 
@@ -71,6 +73,18 @@ public class UICandyManager : MonoBehaviour
         if (startScreen != null)
         {
             startScreen.SetActive(state);
+        }
+        else
+        {
+            Debug.Log("Khong có màn hinh fnayf");
+        }
+    }
+
+    public void ChangeStatePlayScreen(bool state)
+    {
+        if (playScreen != null)
+        {
+            playScreen.SetActive(state);
         }
         else
         {

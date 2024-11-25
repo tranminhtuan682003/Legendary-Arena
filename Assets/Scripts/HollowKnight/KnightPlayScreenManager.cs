@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,11 @@ public class KnightPlayScreenManager : MonoBehaviour
     private TextMeshProUGUI timer;
     private float elapsedTime = 0f; // Thời gian đã trôi qua
     private bool isGameRunning = false; // Trạng thái của trận đấu
+    private TextMeshProUGUI notice;
 
     private ButtonControlManager buttonKnightManager;
     private UIKnightManager uIKnightManager;
+    [Inject] SoundKnightManager soundKnightManager;
 
     [Inject]
     public void Construct(ButtonControlManager buttonKnightManager, UIKnightManager uIKnightManager)
@@ -32,12 +35,30 @@ public class KnightPlayScreenManager : MonoBehaviour
 
     private void OnEnable()
     {
-        StartTimer(); // Bắt đầu timer khi trận đấu bắt đầu
+        StartTimer();
+    }
+    private void OnDisable()
+    {
+        StopTimer();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(NoticeStart());
+    }
+
+    private void Update()
+    {
+        if (isGameRunning)
+        {
+            UpdateTimer();
+        }
     }
 
     private void InitLize()
     {
         timer = transform.Find("LeaderBoard/Score/Time/Timer").GetComponent<TextMeshProUGUI>();
+        notice = transform.Find("Notice").GetComponent<TextMeshProUGUI>();
     }
 
     // Bắt đầu đếm thời gian
@@ -51,14 +72,6 @@ public class KnightPlayScreenManager : MonoBehaviour
     private void StopTimer()
     {
         isGameRunning = false;
-    }
-
-    private void Update()
-    {
-        if (isGameRunning)
-        {
-            UpdateTimer();
-        }
     }
 
     // Cập nhật thời gian và hiển thị lên giao diện
@@ -155,5 +168,19 @@ public class KnightPlayScreenManager : MonoBehaviour
             "Left" => typeof(KnightMoveLeft),
             _ => null
         };
+    }
+
+    private void SetNotice(string notice)
+    {
+        this.notice.text = notice;
+    }
+
+    private IEnumerator NoticeStart()
+    {
+        yield return new WaitForSeconds(5f);
+        soundKnightManager.PlayMusicGetReady();
+        SetNotice("Get ready! Minions will be deployed in ten seconds");
+        yield return new WaitForSeconds(3f);
+        SetNotice("");
     }
 }

@@ -14,7 +14,5 @@ public class BulletTowerRedKnightController : BulletTowerKnightBase
     protected override void OnBulletHit()
     {
         base.OnBulletHit();
-        // Thêm hiệu ứng đặc biệt khi đạn Red Knight va chạm
-        Debug.Log("Red Knight bullet hit!");
     }
 }

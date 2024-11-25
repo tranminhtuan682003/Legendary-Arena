@@ -15,6 +15,5 @@ public class BulletTowerBlueKnightController : BulletTowerKnightBase
     {
         base.OnBulletHit();
         // Thêm hiệu ứng đặc biệt khi đạn Blue Knight va chạm
-        Debug.Log("Blue Knight bullet hit!");
     }
 }

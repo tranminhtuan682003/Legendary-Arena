@@ -12,7 +12,7 @@ public class UpDownManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<UpDownManager>();
+                instance = FindFirstObjectByType<UpDownManager>();
                 if (instance == null)
                 {
                     var newObj = new GameObject("UpDownManager");

@@ -15,7 +15,8 @@ public class BulletKnightController : MonoBehaviour
 
     private void OnEnable()
     {
-        rb.velocity = transform.right * speed;
+        rb.linearVelocity = transform.right * speed;
+        StartCoroutine(AttackRange());
     }
 
     public void InitLize(int damage, float speed)
@@ -37,5 +38,11 @@ public class BulletKnightController : MonoBehaviour
             tower.TakeDamage(damage);
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator AttackRange()
+    {
+        yield return new WaitForSeconds(5 / speed);
+        gameObject.SetActive(false);
     }
 }

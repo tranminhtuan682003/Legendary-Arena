@@ -48,7 +48,7 @@ public abstract class BulletBase : MonoBehaviour
         else
         {
             target = null; // Đặt target về null nếu không còn active
-            rb.velocity = transform.forward * speedMove;
+            rb.linearVelocity = transform.forward * speedMove;
             StartCoroutine(DisableAfterTime(timeLife));
         }
     }

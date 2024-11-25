@@ -24,7 +24,7 @@ public class PoolSoundKnightManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(poolName) || clip == null)
         {
-            Debug.LogError("Invalid pool name or AudioClip. Cannot create pool.");
+            Debug.LogError("Invalid pool name or AudioClip. Cannot create pool." + poolName);
             return;
         }
 
@@ -170,4 +170,33 @@ public class PoolSoundKnightManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Tăng âm lượng của tất cả AudioSource trong tất cả các pool.
+    /// </summary>
+    public void IncreaseVolume(float increment)
+    {
+        foreach (var pool in poolDictionary.Values)
+        {
+            foreach (var audioSource in pool)
+            {
+                audioSource.volume = Mathf.Clamp(audioSource.volume + increment, 0f, 1f);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Giảm âm lượng của tất cả AudioSource trong tất cả các pool.
+    /// </summary>
+    public void DecreaseVolume(float decrement)
+    {
+        foreach (var pool in poolDictionary.Values)
+        {
+            foreach (var audioSource in pool)
+            {
+                audioSource.volume = Mathf.Clamp(audioSource.volume - decrement, 0f, 1f);
+            }
+        }
+    }
+
 }

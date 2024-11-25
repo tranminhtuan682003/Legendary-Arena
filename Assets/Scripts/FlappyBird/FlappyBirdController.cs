@@ -37,7 +37,7 @@ public class FlappyBirdController : MonoBehaviour
     private void HandleMove()
     {
         SoundFlappyManager.Instance.PlayWingBet();
-        rigitbody.velocity = Vector2.zero;
+        rigitbody.linearVelocity = Vector2.zero;
 
         rigitbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }

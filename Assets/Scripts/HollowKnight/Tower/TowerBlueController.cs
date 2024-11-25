@@ -19,8 +19,6 @@ public class TowerBlueController : MonoBehaviour, ITeamMember
     private void Awake()
     {
         InitLize();
-
-        // Tự động tìm và gán HealthBarEnemyController
         healthBarController = GetComponentInChildren<HealthBarTeamBlueController>();
         if (healthBarController != null)
         {

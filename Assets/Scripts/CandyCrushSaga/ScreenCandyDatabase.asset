@@ -16,3 +16,6 @@ MonoBehaviour:
   - screenName: StartScreen
     screenPrefab: {fileID: 2736483546678771481, guid: 60ee3071c47f35947a08fcf84fcc01fa,
       type: 3}
+  - screenName: PlayScreen
+    screenPrefab: {fileID: 7726695228233614678, guid: 3ba1e1adc42c78941a4abf2569940203,
+      type: 3}

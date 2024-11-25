@@ -15,17 +15,29 @@ MonoBehaviour:
   datas:
   - name: MusicStart
     audio: {fileID: 8300000, guid: 1f736284afb894a40b7007a13e6e3950, type: 3}
-  - name: MusicPlay
-    audio: {fileID: 0}
-  - name: Attack
-    audio: {fileID: 0}
+  - name: ShutDown
+    audio: {fileID: 8300000, guid: ef74eb860e3260749adb51fe60d579b7, type: 3}
+  - name: GetReady
+    audio: {fileID: 8300000, guid: b2f9f87b3741bbc489764a93afbf3629, type: 3}
+  - name: TowerTeamDestroyed
+    audio: {fileID: 8300000, guid: 9ea0f58bd59997845935faedf41c700c, type: 3}
+  - name: TowerEnemyDestroyed
+    audio: {fileID: 8300000, guid: 56ab9d39cd6ee8f4492cf02883b2b4bf, type: 3}
+  - name: Victory
+    audio: {fileID: 8300000, guid: ca48001c2eb41054a9f44fecaefef3b2, type: 3}
+  - name: DefeatEnemy
+    audio: {fileID: 8300000, guid: 1264d8bd1d9185d41a94e7aee2a95e63, type: 3}
+  - name: youDefeat
+    audio: {fileID: 8300000, guid: 0223b8e6a624c764c8cef5c166e9dc41, type: 3}
+  - name: FirstBlood
+    audio: {fileID: 8300000, guid: e369e2a1e346e484d90eeff5a39fa4c3, type: 3}
+  - name: Legendary
+    audio: {fileID: 8300000, guid: 27cb18de0850c4843b897502bf2de881, type: 3}
+  - name: Ultimate
+    audio: {fileID: 8300000, guid: 5a8bc6a7fa32d1345b76fb957c25a217, type: 3}
   - name: Skill1
-    audio: {fileID: 0}
+    audio: {fileID: 8300000, guid: 0ef9a0803ba92d243919eadd3baaeb34, type: 3}
   - name: Skill2
-    audio: {fileID: 0}
-  - name: Skill3
-    audio: {fileID: 0}
-  - name: Move
-    audio: {fileID: 0}
-  - name: Jump
-    audio: {fileID: 0}
+    audio: {fileID: 8300000, guid: f5cbee18f7754014f894f17a4cfab866, type: 3}
+  - name: MusicPlay
+    audio: {fileID: 8300000, guid: b0f1cdd2036d14542a68b40b01b90147, type: 3}

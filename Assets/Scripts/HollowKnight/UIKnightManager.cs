@@ -45,7 +45,7 @@ public class UIKnightManager : MonoBehaviour
 
     private void InitLize()
     {
-        canvas = FindObjectOfType<Canvas>();
+        canvas = FindFirstObjectByType<Canvas>();
     }
 
     private IEnumerator LoadScreenData()
@@ -60,6 +60,7 @@ public class UIKnightManager : MonoBehaviour
         {
             knightDatabase = handleScreen.Result;
             CreateScreen();
+            // CreateSoldier();
         }
         if (handleBullet.Status == AsyncOperationStatus.Succeeded)
         {
@@ -121,6 +122,21 @@ public class UIKnightManager : MonoBehaviour
         poolEnemyKnightManager.CreatePool("BulletTowerBlue", GetBulletByName("BulletTowerBlue"), 20);
     }
 
+    private void CreateSoldier()
+    {
+        poolEnemyKnightManager.CreatePool("SoldierRed", GetScreenByName("SoldierRed"), 20);
+        poolEnemyKnightManager.CreatePool("SoldierBlue", GetScreenByName("SoldierBlue"), 20);
+    }
+
+    public void GetSoldierBlue(Transform spawnPoint)
+    {
+        poolEnemyKnightManager.GetFromPool("SoldierBlue", spawnPoint.position, spawnPoint.rotation);
+    }
+
+    public void GetSoldierRed(Transform spawnPoint)
+    {
+        poolEnemyKnightManager.GetFromPool("SoldierRed", spawnPoint.position, spawnPoint.rotation);
+    }
 
     public void GetBulletThrow(Transform spawnPoint)
     {
