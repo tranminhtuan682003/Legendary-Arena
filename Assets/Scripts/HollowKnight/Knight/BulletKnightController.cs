@@ -7,6 +7,7 @@ public class BulletKnightController : MonoBehaviour
     private float speed = 25f;
     private int damage = 50;
     private Rigidbody2D rb;
+    private GameObject target;
 
     private void Awake()
     {
@@ -15,34 +16,64 @@ public class BulletKnightController : MonoBehaviour
 
     private void OnEnable()
     {
-        rb.linearVelocity = transform.right * speed;
-        StartCoroutine(AttackRange());
+        // Nếu có mục tiêu, bắt đầu di chuyển về phía mục tiêu
+        if (target != null)
+        {
+            StartCoroutine(MoveTowardsTarget());
+        }
+        else
+        {
+            // Nếu không có target, di chuyển theo hướng mặc định
+            rb.linearVelocity = transform.right * speed;
+        }
     }
 
-    public void InitLize(int damage, float speed)
+    public void InitLize(GameObject target)
     {
-        this.damage = damage;
-        this.speed = speed;
+        this.target = target;
+
+        // Nếu có target, bắt đầu di chuyển về phía mục tiêu
+        if (target != null)
+        {
+            StartCoroutine(MoveTowardsTarget());
+        }
+        else
+        {
+            // Nếu không có target, di chuyển theo hướng mặc định
+            rb.linearVelocity = transform.right * speed;
+        }
     }
 
     private void OnBecameInvisible()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(false); // Tắt viên đạn khi nó ra khỏi màn hình
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var tower = other.GetComponent<ITeamMember>();
-        if (other.CompareTag("TowerRed"))
+        // Kiểm tra va chạm với một đối tượng kế thừa từ ITeamMember
+        var teamMember = other.GetComponent<ITeamMember>();
+        if (teamMember != null)
         {
-            tower.TakeDamage(damage);
-            gameObject.SetActive(false);
+            if (teamMember.GetTeam() != Team.Blue)
+            {
+                teamMember.TakeDamage(damage);
+                gameObject.SetActive(false); // Tắt viên đạn
+            }
         }
     }
 
-    private IEnumerator AttackRange()
+    private IEnumerator MoveTowardsTarget()
     {
-        yield return new WaitForSeconds(5 / speed);
-        gameObject.SetActive(false);
+        while (target != null)
+        {
+            // Tính hướng di chuyển về phía mục tiêu
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+            rb.linearVelocity = direction * speed;
+            yield return null; // Đợi một frame trước khi tiếp tục
+        }
+
+        // Nếu không còn target, di chuyển theo hướng mặc định
+        rb.linearVelocity = transform.right * speed;
     }
 }

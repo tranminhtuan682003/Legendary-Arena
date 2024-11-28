@@ -36,6 +36,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     public bool isExecuting = false;
     private GameObject shield;
     private Transform spawnPoint;
+    private GameObject currentEnemy;
 
     [Header("Dead Settings")]
     public bool isDead;
@@ -68,6 +69,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     private void Update()
     {
         currentState?.Execute();
+        DetectEnemyAndHandle();
     }
 
     private void OnDisable()
@@ -207,6 +209,31 @@ public class KnightController : MonoBehaviour, ITeamMember
         }
     }
 
+    private void DetectEnemyAndHandle()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10f);
+        bool foundEnemy = false;
+        foreach (var collider in colliders)
+        {
+            var enemy = collider.GetComponent<ITeamMember>();
+            if (enemy != null && enemy.GetTeam() == Team.Red)
+            {
+                foundEnemy = true;
+                GameObject enemyGameObject = collider.gameObject;
+                if (currentEnemy == null || Vector3.Distance(transform.position, currentEnemy.transform.position) > 10f)
+                {
+                    currentEnemy = enemyGameObject;
+                    Debug.Log("enemy la : " + currentEnemy.name);
+                    return;
+                }
+            }
+        }
+        if (!foundEnemy)
+        {
+            currentEnemy = null;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("GroundKnight"))
@@ -254,7 +281,6 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     public void HandleAttackState(TypeSkill typeSkill, float cooldown, float executionTime)
     {
-        // Đặt trạng thái "đang thực thi" nếu kỹ năng không phải loại có thể ngắt
         if (!typeSkill.CanInterrupt())
         {
             isExecuting = true;
@@ -338,10 +364,27 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     private IEnumerator PerformBasicAttack(string nameAnimation, float executionTime)
     {
+        // Phát animation tấn công
         PlayAnimation(nameAnimation);
+
+        // Đợi nửa thời gian thực hiện trước khi bắn viên đạn
         yield return new WaitForSeconds(executionTime / 2);
-        uIKnightManager.GetBulletThrow(spawnPoint);
+
+        // Lấy viên đạn từ manager và khởi tạo với target (kẻ địch)
+        var bullet = uIKnightManager.GetBulletThrow(spawnPoint);
+
+        if (bullet != null)
+        {
+            // Gọi InitLize để gán target là kẻ địch
+            bullet.GetComponent<BulletKnightController>().InitLize(currentEnemy);
+        }
+        else
+        {
+            Debug.LogWarning("Không thể tạo viên đạn!");
+        }
     }
+
+
 
     private IEnumerator Skill1(string nameAnimation, float executionTime)
     {

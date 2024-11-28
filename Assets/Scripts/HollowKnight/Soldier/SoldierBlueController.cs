@@ -1,105 +1,35 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using Zenject;
 
-public class SoldierBlueController : MonoBehaviour, ITeamMember
+public class SoldierBlueController : SoldierKnightBase
 {
-    private IState currentState;
-    [Inject] private UIKnightManager uIKnightManager;
-
-    [Header("Team Info")]
-    private Team team;
-
-    [Header("Health")]
-    private int maxHealth;
-    private int currentHealth;
-
-    [Header("Move")]
-    private float speedMove;
-
-    [Header("Attack")]
-    private GameObject currentEnemy;
-    private Transform spawnPoint;
-    private float lastAttackTime;
-
-    private void Awake()
+    protected override void InitLize()
     {
-        InitSoldier();
-    }
-
-    private void Start()
-    {
-        ChangeState(new SoldierBlueIdleState(this));
-    }
-
-    private void Update()
-    {
-        currentState?.Execute();
-    }
-
-    public void InitSoldier()
-    {
+        base.InitLize();
         team = Team.Blue;
+        teamEnemy = Team.Red;
         spawnPoint = transform.Find("SpawnPoint");
         maxHealth = 500;
         currentHealth = maxHealth;
-        speedMove = 3f;
+        attackRange = 10f;
+        speedMove = 2.5f;
+        direction = Vector3.right;
+        healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
+        healthBarController.SetParrent(this);
     }
 
-    public void ChangeState(IState newState)
+    public override void FireBullet(GameObject enemy)
     {
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
-    }
+        base.FireBullet(enemy);
+        if (enemy == null) return;
+        var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
 
-    public void HandleEnemyDetection(GameObject enemy, Team enemyTeam)
-    {
-        if (enemyTeam == Team.Red)
+        if (bullet != null)
         {
-            currentEnemy = enemy;
-            ChangeState(new SoldierBlueAttackState(this, currentEnemy));
-        }
-        else
-        {
-            currentEnemy = null;
-            ChangeState(new SoldierBlueIdleState(this));
-        }
-    }
-
-    public void FireBullet(GameObject enemy, float bulletSpeed, float cooldown, int bulletDamage)
-    {
-        if (enemy == null || !enemy.activeInHierarchy) return;
-
-        if (Time.time >= lastAttackTime + cooldown)
-        {
-            var bullet = uIKnightManager.GetBulletTowerBlue(spawnPoint);
             var bulletController = bullet.GetComponent<BulletTowerBlueKnightController>();
             if (bulletController != null)
             {
-                bulletController.Initialize(enemy, bulletSpeed, bulletDamage);
+                bulletController.Initialize(enemy, 20f, 20);
             }
-            lastAttackTime = Time.time;
-            Debug.Log("SoldierBlue fired a bullet!");
         }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            ChangeState(new SoldierBlueDeadState(this));
-        }
-    }
-
-    public Team GetTeam()
-    {
-        return team;
-    }
-
-    public float GetCurrentHealth()
-    {
-        return (float)currentHealth / maxHealth;
     }
 }

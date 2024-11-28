@@ -6,8 +6,8 @@ public class GameKnightInstaller : MonoInstaller
     public override void InstallBindings()
     {
         BindManagers();
-        BindPoolManagers();
         BindUIMangers();
+        BindPoolManagers();
         BindScreenManagers();
     }
 

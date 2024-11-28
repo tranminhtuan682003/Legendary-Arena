@@ -54,6 +54,6 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
 
     protected virtual void OnBulletHit()
     {
-        gameObject.SetActive(false); // Tắt đạn
+        gameObject.SetActive(false);
     }
 }

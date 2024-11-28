@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
+using Zenject;
 
 public class PoolEnemyKnightManager : MonoBehaviour
 {
-    private Dictionary<string, List<GameObject>> poolDictionary; // Quản lý pool theo tên
+    private Dictionary<string, List<GameObject>> poolDictionary;
+    private DiContainer container;
+    [Inject]
+    public void Construct(DiContainer container)
+    {
+        this.container = container;
+    }
 
     private void Awake()
     {
@@ -93,11 +101,18 @@ public class PoolEnemyKnightManager : MonoBehaviour
 
     private GameObject InstantiateNewObject(GameObject prefab)
     {
-        GameObject newObject = Instantiate(prefab, transform);
-        newObject.name = prefab.name; // Đồng bộ tên với prefab để dễ quản lý
+        if (container == null)
+        {
+            Debug.LogError("DiContainer is null!");
+            return null;
+        }
+
+        GameObject newObject = container.InstantiatePrefab(prefab, transform);
+        newObject.name = prefab.name;
         newObject.SetActive(false);
         return newObject;
     }
+
 
     private void ActivateObject(GameObject obj, Vector3 position, Quaternion rotation)
     {

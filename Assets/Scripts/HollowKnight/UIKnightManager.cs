@@ -60,7 +60,7 @@ public class UIKnightManager : MonoBehaviour
         {
             knightDatabase = handleScreen.Result;
             CreateScreen();
-            // CreateSoldier();
+            CreateSoldier();
         }
         if (handleBullet.Status == AsyncOperationStatus.Succeeded)
         {
@@ -124,9 +124,9 @@ public class UIKnightManager : MonoBehaviour
 
     private void CreateSoldier()
     {
-        poolEnemyKnightManager.CreatePool("SoldierRed", GetScreenByName("SoldierRed"), 20);
-        poolEnemyKnightManager.CreatePool("SoldierBlue", GetScreenByName("SoldierBlue"), 20);
+        poolEnemyKnightManager.CreatePool("SoldierRed", GetScreenByName("SoldierRed"), 40);
     }
+
 
     public void GetSoldierBlue(Transform spawnPoint)
     {
@@ -138,9 +138,9 @@ public class UIKnightManager : MonoBehaviour
         poolEnemyKnightManager.GetFromPool("SoldierRed", spawnPoint.position, spawnPoint.rotation);
     }
 
-    public void GetBulletThrow(Transform spawnPoint)
+    public GameObject GetBulletThrow(Transform spawnPoint)
     {
-        poolEnemyKnightManager.GetFromPool("BulletKnight", spawnPoint.transform.position, spawnPoint.transform.rotation);
+        return poolEnemyKnightManager.GetFromPool("BulletKnight", spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
 
 
@@ -158,8 +158,6 @@ public class UIKnightManager : MonoBehaviour
     {
         return poolEnemyKnightManager.GetFromPool("BulletTowerBlue", spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
-
-
 
     public void ChangeStateStartScreen(bool state)
     {

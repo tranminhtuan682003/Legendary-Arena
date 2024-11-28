@@ -29,8 +29,4 @@ MonoBehaviour:
     prefab: {fileID: 5864128285130199326, guid: 8ab46c6a29aacf74c9e7716dbfb9910c,
       type: 3}
   - name: SoldierRed
-    prefab: {fileID: 6102970404632260873, guid: 4baf994ab827d464ebcc5be85dfb8d98,
-      type: 3}
-  - name: SoldierBlue
-    prefab: {fileID: 6327043016635430923, guid: f09e72b8ec0509c45b09e9a0e57dcff4,
-      type: 3}
+    prefab: {fileID: 609681077625249291, guid: 4baf994ab827d464ebcc5be85dfb8d98, type: 3}

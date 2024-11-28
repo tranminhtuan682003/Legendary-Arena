@@ -1,8 +1,8 @@
-using System.Collections;
 using UnityEngine;
 using Zenject;
+using System.Collections;
 
-public class SpawnSoldierManager : MonoBehaviour
+public class SpawnSoldierBlueManager : MonoBehaviour
 {
     [Inject] UIKnightManager uIKnightManager;
 
@@ -17,7 +17,7 @@ public class SpawnSoldierManager : MonoBehaviour
         {
             for (int i = 0; i < 1; i++)
             {
-                uIKnightManager.GetSoldierRed(transform);
+                uIKnightManager.GetSoldierBlue(transform);
                 yield return new WaitForSeconds(1);
             }
             yield return new WaitForSeconds(20);
