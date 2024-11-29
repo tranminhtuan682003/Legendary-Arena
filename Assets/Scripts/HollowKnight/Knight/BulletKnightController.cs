@@ -55,7 +55,7 @@ public class BulletKnightController : MonoBehaviour
         var teamMember = other.GetComponent<ITeamMember>();
         if (teamMember != null)
         {
-            if (teamMember.GetTeam() != Team.Blue)
+            if (teamMember.GetTeam() == Team.Red)
             {
                 teamMember.TakeDamage(damage);
                 gameObject.SetActive(false); // Tắt viên đạn

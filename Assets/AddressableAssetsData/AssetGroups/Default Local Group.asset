@@ -13,37 +13,10 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
-  m_Data:
-    m_SerializedData: []
   m_GUID: 7e9f0b7034c74a344878f476c179ef3e
   m_SerializeEntries:
-  - m_GUID: 8440ac86a17f325498e099834a94b8bb
-    m_Address: Assets/Scripts/Manager/NavigationManager/UIDatabase.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6187817881229e41a18f854f1955d78
-    m_Address: Assets/Scripts/ManagerAndUI/Hero/HeroDatabase.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 36ddc3db6e7e01b40835ae08ea7d8d4e
-    m_Address: Assets/Scripts/Tower/ItemOfTurret.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bf5521299c1309d4f87da7e458b382c3
-    m_Address: Assets/Scripts/Soldier/SoldierDatabase.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e8cacbb59a9b6c1469b50d5bd400f238
-    m_Address: Assets/Scripts/Player/ValheinDatabase.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9e25d627a5a098d458f2d46e9b50d1d5
-    m_Address: SkillConfig_Valhein(Clone)
+  - m_GUID: 061768f70fa4b334eb74faf08101be0f
+    m_Address: KnightBulletDatabase
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -52,8 +25,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36ddc3db6e7e01b40835ae08ea7d8d4e
+    m_Address: Assets/Scripts/Tower/ItemOfTurret.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f55911e92c3947419976527d397b711
     m_Address: ScreenFlappyDataAdress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c9cfc48c0e651e44b0590898f2748c6
+    m_Address: LoungeScreensAddress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8440ac86a17f325498e099834a94b8bb
+    m_Address: Assets/Scripts/Manager/NavigationManager/UIDatabase.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -62,8 +50,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bd64583b15c6b70478dcd0533451ecd5
-    m_Address: CandyDatabaseAddress
+  - m_GUID: 9e25d627a5a098d458f2d46e9b50d1d5
+    m_Address: SkillConfig_Valhein(Clone)
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -72,13 +60,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd64583b15c6b70478dcd0533451ecd5
+    m_Address: CandyDatabaseAddress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf5521299c1309d4f87da7e458b382c3
+    m_Address: Assets/Scripts/Soldier/SoldierDatabase.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c01d4490caa1fb346ab93fee066ce8ae
     m_Address: KnightScreenDatabase
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 061768f70fa4b334eb74faf08101be0f
-    m_Address: KnightBulletDatabase
+  - m_GUID: c6187817881229e41a18f854f1955d78
+    m_Address: Assets/Scripts/ManagerAndUI/Hero/HeroDatabase.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8cacbb59a9b6c1469b50d5bd400f238
+    m_Address: Assets/Scripts/Player/ValheinDatabase.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -91,5 +94,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: cefafc9a5a88bcd4fabf3bea3eefc9cc, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 6ad0855345aa73a4aa1edd2238a5eb2a, type: 2}
     - {fileID: 11400000, guid: f848fa698f972724d9676b2fcd6729da, type: 2}
+    - {fileID: 11400000, guid: 6ad0855345aa73a4aa1edd2238a5eb2a, type: 2}

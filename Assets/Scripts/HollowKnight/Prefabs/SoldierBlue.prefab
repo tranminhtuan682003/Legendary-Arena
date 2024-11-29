@@ -357,7 +357,7 @@ Transform:
   m_GameObject: {fileID: 7193815309537541025}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.44, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 4366170208721684210}
   - component: {fileID: 1498549863323674353}
   - component: {fileID: 2360008827027316106}
+  - component: {fileID: 7229246866650700427}
   m_Layer: 0
   m_Name: SoldierBlue
   m_TagString: TowerRed
@@ -528,3 +529,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &7229246866650700427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255372679524131972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32cd8ef497c7da45bde71f1e840e2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

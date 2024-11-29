@@ -31,10 +31,21 @@ public class SwordKnightController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var tower = other.GetComponent<ITeamMember>();
-        if (other.CompareTag("TowerRed"))
+        var targetTeamMember = other.GetComponent<ITeamMember>();
+        if (targetTeamMember != null && targetTeamMember.GetTeam() == Team.Red)
         {
-            tower.TakeDamage(damage);
+            ApplyDamage(targetTeamMember);
+            OnBulletHit();
         }
+    }
+
+    protected virtual void ApplyDamage(ITeamMember targetTeamMember)
+    {
+        targetTeamMember.TakeDamage(damage);
+    }
+
+    protected virtual void OnBulletHit()
+    {
+        gameObject.SetActive(false);
     }
 }

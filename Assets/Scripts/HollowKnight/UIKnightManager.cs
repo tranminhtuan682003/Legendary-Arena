@@ -124,6 +124,7 @@ public class UIKnightManager : MonoBehaviour
 
     private void CreateSoldier()
     {
+        poolEnemyKnightManager.CreatePool("SoldierBlue", GetScreenByName("SoldierBlue"), 40);
         poolEnemyKnightManager.CreatePool("SoldierRed", GetScreenByName("SoldierRed"), 40);
     }
 

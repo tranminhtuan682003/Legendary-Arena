@@ -13,7 +13,7 @@ public class SoldierBlueController : SoldierKnightBase
         attackRange = 10f;
         speedMove = 2.5f;
         direction = Vector3.right;
-        healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
+        healthBarController = GetComponentInChildren<HealthBarTeamBlueController>();
         healthBarController.SetParrent(this);
     }
 
@@ -21,7 +21,7 @@ public class SoldierBlueController : SoldierKnightBase
     {
         base.FireBullet(enemy);
         if (enemy == null) return;
-        var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
+        var bullet = uIKnightManager.GetBulletTowerBlue(spawnPoint);
 
         if (bullet != null)
         {

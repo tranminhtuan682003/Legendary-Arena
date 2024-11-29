@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfa4fd9edee2ca469d6241baf35d4d3, type: 3}
+  m_Name: LoungeScreenDatabase
+  m_EditorClassIdentifier: 
+  screens:
+  - name: HomeScreen
+    screen: {fileID: 6137913898450389455, guid: 06c2bd4943388834096cba72ba2820e0,
+      type: 3}
+  - name: ProfileScreen
+    screen: {fileID: 961290554555584482, guid: 70c2766122ab53041b3d04b34f2abc21, type: 3}
+  - name: Navigation
+    screen: {fileID: 1609501697559966218, guid: b9453b1928112d64b99f4c9208f63f60,
+      type: 3}
+  - name: ShopScreen
+    screen: {fileID: 3049049260748059731, guid: 362a9332eabfafe46bd0788c3e78a64b,
+      type: 3}
+  - name: HeroScreen
+    screen: {fileID: 3754449141831162044, guid: 36f8e0379b3ca5048a0d3ec82e8535aa,
+      type: 3}
+  - name: BagScreen
+    screen: {fileID: 8180810246954889338, guid: 16834eb32b928b34e85138c78de4f021,
+      type: 3}
+  - name: GameScreen
+    screen: {fileID: 8105930612091625750, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
+      type: 3}

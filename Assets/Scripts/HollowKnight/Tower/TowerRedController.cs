@@ -1,129 +1,34 @@
 using UnityEngine;
 using Zenject;
 
-public class TowerRedController : MonoBehaviour, ITeamMember
+public class TowerRedController : TowerKnightBase
 {
-    private Team team;
-    private IState currentState;
-    private Transform spawnPoint;
-
-    private int currentHealth;
-    private int maxHealth;
-
-    private GameObject currentEnemy;
-    private HealthBarTeamRedController healthBarController;
-
-    [Inject]
-    private UIKnightManager uIKnightManager;
-
-    private void Awake()
+    protected override void Initialize()
     {
-        InitLize();
-
-        // Tự động tìm và gán HealthBarEnemyController
-        healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
-        if (healthBarController != null)
-        {
-            healthBarController.SetParrent(this);
-        }
-        else
-        {
-            Debug.LogError($"HealthBarEnemyController not found for {name}");
-        }
-    }
-
-    private void Start()
-    {
-        ChangeState(new TowerRedIdleState(this));
-    }
-
-    private void Update()
-    {
-        currentState?.Execute();
-    }
-
-    public void ChangeState(IState newState)
-    {
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
-    }
-
-    public Team GetTeam()
-    {
-        return team;
-    }
-
-    private void InitLize()
-    {
+        // Gọi lại phương thức khởi tạo của lớp cha
+        base.Initialize();
         team = Team.Red;
+        teamEnemy = Team.Blue;
         spawnPoint = transform.Find("SpawnPoint");
         maxHealth = 2000;
         currentHealth = maxHealth;
+        attackRange = 10f;
+        healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
+        healthBarController.SetParrent(this); // Đặt reference cho health bar
     }
 
-    public float GetCurrentHealth()
+    public override void FireBullet(GameObject enemy)
     {
-        return (float)currentHealth / maxHealth;
-    }
-
-    #region Handle Attack
-
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
-        float normalizedHealth = GetCurrentHealth();
-
-        // Cập nhật thanh máu
-        if (healthBarController != null)
+        base.FireBullet(enemy);
+        if (enemy == null) return;
+        var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
+        if (bullet != null)
         {
-            healthBarController.UpdateHealth(normalizedHealth);
-        }
-
-        Debug.Log($"Tower {name} health: {currentHealth}");
-
-        if (currentHealth <= 0)
-        {
-            Dead();
-        }
-    }
-
-    public void HandleDetectEnemy(GameObject enemy, Team team)
-    {
-        if (team == Team.Blue)
-        {
-            currentEnemy = enemy; // Gán kẻ địch hiện tại
-            ChangeState(new TowerRedAttackState(this, enemy));
-        }
-        else
-        {
-            currentEnemy = null;
-            ChangeState(new TowerRedIdleState(this));
-        }
-    }
-
-    public void FireBullet(GameObject enemy, float bulletSpeed, float cooldown, ref float lastAttackTime, int bulletDamage)
-    {
-        if (enemy == null || !enemy.activeInHierarchy) return;
-
-        if (Time.time >= lastAttackTime + cooldown)
-        {
-            var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
             var bulletController = bullet.GetComponent<BulletTowerRedKnightController>();
             if (bulletController != null)
             {
-                bulletController.Initialize(enemy, bulletSpeed, bulletDamage);
+                bulletController.Initialize(enemy, 20f, 20);
             }
-            lastAttackTime = Time.time;
-            Debug.Log("Bullet fired!");
         }
-    }
-
-    #endregion
-
-    public void Dead()
-    {
-        gameObject.SetActive(false);
-        Debug.Log($"Tower {name} is destroyed.");
     }
 }

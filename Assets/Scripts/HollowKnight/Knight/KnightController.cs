@@ -25,7 +25,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     private bool isTakeDamage;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 10f;
     private bool isGrounded;
     private bool hasJumped;
@@ -104,7 +104,7 @@ public class KnightController : MonoBehaviour, ITeamMember
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         team = Team.Blue;
-        maxHealth = 1000;
+        maxHealth = 2000;
         maxMana = 100;
         healthBar = transform.Find("HealthBarManager").GetComponent<Canvas>();
         spawnPoint = transform.Find("SpawnPoint");
@@ -300,6 +300,9 @@ public class KnightController : MonoBehaviour, ITeamMember
             case TypeSkill.Skill3:
                 StartCoroutine(Skill3("Skill1", executionTime));
                 break;
+            case TypeSkill.Supplymentary:
+                StartCoroutine(Sup());
+                break;
             case TypeSkill.Recall:
                 StartRecall("Fly", executionTime);
                 break;
@@ -362,6 +365,14 @@ public class KnightController : MonoBehaviour, ITeamMember
         }
     }
 
+    private IEnumerator Sup()
+    {
+        moveSpeed = moveSpeed * 1.5f;
+        Debug.Log("toc do hien tai là : " + moveSpeed);
+        yield return new WaitForSeconds(5f);
+        moveSpeed = moveSpeed / 1.5f;
+    }
+
     private IEnumerator PerformBasicAttack(string nameAnimation, float executionTime)
     {
         // Phát animation tấn công
@@ -410,6 +421,11 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     private IEnumerator Skill3(string nameAnimation, float executionTime)
     {
+        if (currentEnemy != null)
+        {
+            transform.position = currentEnemy.transform.position;
+            currentEnemy.GetComponent<ITeamMember>().TakeDamage(70);
+        }
         TakeMana(30);
         isTakeDamage = true;
         this.effect.SetActive(true);
