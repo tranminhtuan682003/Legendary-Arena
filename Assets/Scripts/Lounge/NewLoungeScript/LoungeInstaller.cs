@@ -14,5 +14,11 @@ public class LoungeInstaller : MonoInstaller
             .WithGameObjectName("UILoungeManager")
             .AsSingle()
             .NonLazy();
+
+        Container.Bind<LoungeManager>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("LoungeManager")
+            .AsSingle()
+            .NonLazy();
     }
 }

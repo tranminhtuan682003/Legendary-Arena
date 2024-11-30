@@ -25,6 +25,15 @@ public class NavigationScreenManager : MonoBehaviour
 
     private void Awake()
     {
+        InitiaLize();
+    }
+
+    private void OnEnable()
+    {
+    }
+
+    private void InitiaLize()
+    {
         homeButton = FindButtonByName("Home", "HomeButton");
         heroButton = FindButtonByName("Hero", "HeroButton");
         shopButton = FindButtonByName("Shop", "ShopButton");
@@ -44,10 +53,6 @@ public class NavigationScreenManager : MonoBehaviour
         shopButton.onClick.AddListener(() => OnButtonClick(shopButton, shopButtonText));
         bagButton.onClick.AddListener(() => OnButtonClick(bagButton, bagButtonText));
         gameButton.onClick.AddListener(() => OnButtonClick(gameButton, gameButtonText));
-    }
-
-    private void OnEnable()
-    {
     }
 
     private Button FindButtonByName(string parentName, string buttonName)

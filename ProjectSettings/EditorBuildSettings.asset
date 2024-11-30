@@ -15,16 +15,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Lounge.unity
     guid: 5af2e71ee044eea4f822ca4349897947
   - enabled: 1
-    path: Assets/Scenes/1vs1.unity
+    path: Assets/Scenes/OneVsOne.unity
     guid: c38026ec84d34004b9fc049bdb685be8
   - enabled: 1
-    path: Assets/Scenes/CandyCrush.unity
+    path: Assets/Scenes/Candy.unity
     guid: d4ba7bac393b33d48b39aed09afb6f80
   - enabled: 1
-    path: Assets/Scenes/SichBo.unity
+    path: Assets/Scenes/Sicbo.unity
     guid: 2c720b2cb2e89a14d93fd231938d6d59
   - enabled: 1
-    path: Assets/Scenes/MonsterShot.unity
+    path: Assets/Scenes/Knight.unity
     guid: 62434f07ce0f35545a4038958eecece7
   - enabled: 1
     path: Assets/Scenes/FlappyBird.unity

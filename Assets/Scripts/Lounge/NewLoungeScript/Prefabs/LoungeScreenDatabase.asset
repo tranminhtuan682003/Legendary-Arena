@@ -33,3 +33,6 @@ MonoBehaviour:
   - name: GameScreen
     screen: {fileID: 8105930612091625750, guid: 50e9af7da5ff2824e8b73a7e149d67c0,
       type: 3}
+  - name: PickHero
+    screen: {fileID: 8224656060654732329, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
+      type: 3}
