@@ -1,3 +1,4 @@
+using System.Collections;
 using Mono.Cecil;
 using TMPro;
 using UnityEngine;
@@ -106,8 +107,8 @@ public class GameModeScreenManager : MonoBehaviour
         }
         if (loungeManager.typeGame == TypeGame.OneVsOne)
         {
-            uILoungeManager.ShowScreen("PickHero");
-            uILoungeManager.HideNavigation();
+            uILoungeManager.StateNavigation(false);
+            uILoungeManager.ShowScreen("Ready");
         }
         else
         {
@@ -119,4 +120,5 @@ public class GameModeScreenManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneGame);
     }
+
 }

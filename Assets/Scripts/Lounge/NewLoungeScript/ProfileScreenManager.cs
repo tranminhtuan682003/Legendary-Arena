@@ -29,6 +29,7 @@ public class ProfileScreenManager : MonoBehaviour
 
     private void OnExitButtonClick()
     {
+        uILoungeManager.StateNavigation(true);
         uILoungeManager.ShowScreen("HomeScreen");
     }
 }

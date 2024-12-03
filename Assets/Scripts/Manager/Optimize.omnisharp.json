@@ -1,5 +1,0 @@
-{
-    "fileOptions": {
-        "excludeSearchPatterns": ["**/Library/**", "**/Temp/**", "**/Build/**"]
-    }
-}

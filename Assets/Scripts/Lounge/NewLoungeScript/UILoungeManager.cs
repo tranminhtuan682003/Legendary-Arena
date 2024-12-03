@@ -88,8 +88,8 @@ public class UILoungeManager : MonoBehaviour
         navigation = container.InstantiatePrefab(FindScreenPrefab("Navigation"), canvas.transform);
     }
 
-    public void HideNavigation()
+    public void StateNavigation(bool state)
     {
-        navigation.SetActive(false);
+        navigation.SetActive(state);
     }
 }

@@ -69,21 +69,21 @@ public class UISBManager : MonoBehaviour
         DepositState(false);
         SettingState(false);
         SceneTransitionState(false);
-        LoadGeneratedIds();
+        // LoadGeneratedIds();
     }
 
     private void Start()
     {
-        UpdateDateDisplay();
+        // UpdateDateDisplay();
 
-        if (countdownText != null)
-        {
-            animator = countdownText.GetComponent<Animator>();
-        }
-        else
-        {
-            Debug.LogError("CountdownText not found. Animator not initialized.");
-        }
+        // if (countdownText != null)
+        // {
+        //     animator = countdownText.GetComponent<Animator>();
+        // }
+        // else
+        // {
+        //     Debug.LogError("CountdownText not found. Animator not initialized.");
+        // }
     }
 
     #region UI Initialization
@@ -185,18 +185,18 @@ public class UISBManager : MonoBehaviour
     #endregion
 
     #region UI Updates
-    public void UpdateDateDisplay()
-    {
-        DateTime currentDate = DateTime.Now;
-        int newId = generatedIds.Count > 0 ? generatedIds[generatedIds.Count - 1] + 1 : 100;
-        generatedIds.Add(newId);
+    // public void UpdateDateDisplay()
+    // {
+    //     DateTime currentDate = DateTime.Now;
+    //     int newId = generatedIds.Count > 0 ? generatedIds[generatedIds.Count - 1] + 1 : 100;
+    //     generatedIds.Add(newId);
 
-        if (idGame != null)
-        {
-            idGame.text = $"{currentDate:ddMMyyyy}-{newId}";
-        }
-        SaveGeneratedIds();
-    }
+    //     if (idGame != null)
+    //     {
+    //         idGame.text = $"{currentDate:ddMMyyyy}-{newId}";
+    //     }
+    //     SaveGeneratedIds();
+    // }
 
     public void UpdateCountdownText(int text)
     {
@@ -392,19 +392,19 @@ public class UISBManager : MonoBehaviour
 
     #endregion
 
-    #region ID Persistence
-    private void SaveGeneratedIds()
-    {
-        bool success = JsonFileHandler.SaveToFile(generatedIds, IdFileName);
-        if (!success)
-        {
-            Debug.LogError("Failed to save generated IDs.");
-        }
-    }
+    // #region ID Persistence
+    // private void SaveGeneratedIds()
+    // {
+    //     bool success = JsonFileHandler.SaveToFile(generatedIds, IdFileName);
+    //     if (!success)
+    //     {
+    //         Debug.LogError("Failed to save generated IDs.");
+    //     }
+    // }
 
-    private void LoadGeneratedIds()
-    {
-        generatedIds = JsonFileHandler.LoadFromFile<List<int>>(IdFileName) ?? new List<int>();
-    }
-    #endregion
+    // private void LoadGeneratedIds()
+    // {
+    //     generatedIds = JsonFileHandler.LoadFromFile<List<int>>(IdFileName) ?? new List<int>();
+    // }
+    // #endregion
 }

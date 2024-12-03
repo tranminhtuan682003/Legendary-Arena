@@ -8,7 +8,7 @@ public class BannerAutoScroll : MonoBehaviour
     private int totalBanners = 6, currentBanner = 0, direction = 1;
     private float waitTime = 2f, smoothTime = 0.3f, velocity = 0f;
 
-    void Start() => StartCoroutine(AutoScroll());
+    private void OnEnable() => StartCoroutine(AutoScroll());
 
     IEnumerator AutoScroll()
     {

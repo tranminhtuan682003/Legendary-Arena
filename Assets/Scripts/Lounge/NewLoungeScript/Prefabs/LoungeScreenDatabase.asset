@@ -36,3 +36,6 @@ MonoBehaviour:
   - name: PickHero
     screen: {fileID: 8224656060654732329, guid: 27dc6c63a40b15c4a9a6b6f663d99110,
       type: 3}
+  - name: Ready
+    screen: {fileID: 9083945209936250411, guid: 5f6e37306d6443e4ba7434b45cb6949b,
+      type: 3}
