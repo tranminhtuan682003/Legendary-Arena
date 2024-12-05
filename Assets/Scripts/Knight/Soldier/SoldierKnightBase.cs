@@ -47,6 +47,12 @@ public abstract class SoldierKnightBase : MonoBehaviour, ITeamMember
         bool foundEnemy = false;
         GameObject newEnemy = null;
 
+        // Kiểm tra nếu kẻ thù hiện tại đã bị phá hủy hoặc không còn hoạt động
+        if (currentEnemy != null && !currentEnemy.activeSelf)
+        {
+            currentEnemy = null; // Cập nhật lại kẻ thù hiện tại nếu nó đã bị vô hiệu hóa
+        }
+
         foreach (var collider in colliders)
         {
             var enemy = collider.GetComponent<ITeamMember>();
@@ -94,6 +100,7 @@ public abstract class SoldierKnightBase : MonoBehaviour, ITeamMember
             }
         }
     }
+
 
 
 

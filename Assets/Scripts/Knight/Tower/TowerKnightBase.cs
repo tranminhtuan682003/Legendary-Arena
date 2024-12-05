@@ -60,33 +60,40 @@ public class TowerKnightBase : MonoBehaviour, ITeamMember
                 foundEnemy = true;
                 newEnemy = collider.gameObject;
 
+                // Kiểm tra nếu kẻ thù hiện tại đã bị phá hủy hoặc không còn hoạt động
+                if (currentEnemy != null && (!currentEnemy.activeSelf || currentEnemy == null))
+                {
+                    currentEnemy = null; // Nếu kẻ thù cũ không hợp lệ, đặt lại currentEnemy
+                }
+
                 // Nếu có kẻ thù mới và không phải là kẻ thù hiện tại
                 if (currentEnemy != newEnemy)
                 {
                     currentEnemy = newEnemy;
 
-                    // Chỉ chuyển trạng thái sang AttackState nếu chưa ở trong AttackState
+                    // Chuyển trạng thái (tùy vào logic cụ thể của game)
+                    // Ví dụ, nếu kẻ thù mới được phát hiện, chuyển sang trạng thái tấn công
                     if (!(currentState is TowerKnightAttackState))
                     {
                         ChangeState(new TowerKnightAttackState(this, currentEnemy));
                     }
                 }
-                break; // Không cần kiểm tra thêm sau khi đã tìm thấy kẻ thù
+
+                break; // Nếu đã tìm thấy kẻ thù, không cần tìm kiếm tiếp
             }
         }
 
-        // Nếu không tìm thấy kẻ thù, chuyển sang trạng thái Idle
-        if (!foundEnemy)
+        // Nếu không tìm thấy kẻ thù, kiểm tra và có thể chuyển sang trạng thái idle hoặc trạng thái khác
+        if (!foundEnemy && currentEnemy != null)
         {
-            currentEnemy = null;
-
-            // Chỉ chuyển sang IdleState nếu chưa ở trong IdleState
+            currentEnemy = null; // Nếu không tìm thấy kẻ thù, đặt lại currentEnemy
             if (!(currentState is TowerKnightIdleState))
             {
                 ChangeState(new TowerKnightIdleState(this));
             }
         }
     }
+
 
 
 
@@ -130,4 +137,6 @@ public class TowerKnightBase : MonoBehaviour, ITeamMember
         currentHealth = 0;
         gameObject.SetActive(false); // Tắt đối tượng khi chết
     }
+
+    protected virtual void OnDisable() { }
 }

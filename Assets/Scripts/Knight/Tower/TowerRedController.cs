@@ -27,7 +27,8 @@ public class TowerRedController : TowerKnightBase
             var bulletController = bullet.GetComponent<BulletTowerRedKnightController>();
             if (bulletController != null)
             {
-                bulletController.Initialize(enemy, 20f, 20);
+                bulletController.Initialize(enemy, 20f, 150);
+                currentEnemy = null;
             }
         }
     }

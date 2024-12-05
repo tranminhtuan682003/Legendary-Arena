@@ -39,6 +39,7 @@ public class KnightStartScreenManager : MonoBehaviour
     private void OnEnable()
     {
         readyScreen.SetActive(false);
+        exitGame.gameObject.SetActive(true);
     }
 
     private void Start()

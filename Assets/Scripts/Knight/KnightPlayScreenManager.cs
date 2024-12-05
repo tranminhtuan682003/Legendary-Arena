@@ -14,6 +14,8 @@ public class KnightPlayScreenManager : MonoBehaviour
     private float elapsedTime = 0f; // Thời gian đã trôi qua
     private bool isGameRunning = false; // Trạng thái của trận đấu
     private TextMeshProUGUI notice;
+    private GameObject winAnimation;
+    private GameObject loseAnimation;
 
     private ButtonControlManager buttonKnightManager;
     private UIKnightManager uIKnightManager;
@@ -36,6 +38,7 @@ public class KnightPlayScreenManager : MonoBehaviour
     private void OnEnable()
     {
         StartTimer();
+        KnightEventManager.OnGameWin += HandleGameWin;
     }
     private void OnDisable()
     {
@@ -57,8 +60,14 @@ public class KnightPlayScreenManager : MonoBehaviour
 
     private void InitLize()
     {
+        winAnimation = transform.Find("WinScreen")?.gameObject;
+        loseAnimation = transform.Find("LoseScreen")?.gameObject;
+
         timer = transform.Find("LeaderBoard/Score/Time/Timer").GetComponent<TextMeshProUGUI>();
         notice = transform.Find("Notice").GetComponent<TextMeshProUGUI>();
+
+        winAnimation.SetActive(false);
+        loseAnimation.SetActive(false);
     }
 
     // Bắt đầu đếm thời gian
@@ -182,5 +191,25 @@ public class KnightPlayScreenManager : MonoBehaviour
         SetNotice("Get ready! Minions will be deployed in ten seconds");
         yield return new WaitForSeconds(3f);
         SetNotice("");
+    }
+
+    public void Win()
+    {
+        winAnimation.SetActive(true);
+    }
+
+    public void Lose()
+    {
+        loseAnimation.SetActive(true);
+    }
+
+    private void HandleGameWin()
+    {
+        Win();
+    }
+
+    private void OnDestroy()
+    {
+        KnightEventManager.OnGameWin += HandleGameWin;
     }
 }

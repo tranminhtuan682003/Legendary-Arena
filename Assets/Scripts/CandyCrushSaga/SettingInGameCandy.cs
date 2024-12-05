@@ -59,12 +59,14 @@ public class SettingInGameCandy : MonoBehaviour
     {
         float newVolume = Mathf.Clamp(volume.value + 0.1f, 0f, 1f); // Tăng 10%
         volume.value = newVolume;
-
+        SoundCandyManager.Instance.IncreaseVolume();
     }
     private void HandleVolumeDownClick()
     {
         float newVolume = Mathf.Clamp(volume.value - 0.1f, 0f, 1f); // Tăng 10%
         volume.value = newVolume;
+        SoundCandyManager.Instance.DownVolume();
+
     }
 
     private void HandleExitClick()

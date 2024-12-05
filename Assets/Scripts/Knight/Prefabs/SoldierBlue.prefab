@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6450933723361375685}
   - component: {fileID: 8468981174876880065}
   - component: {fileID: 4251027277777330629}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: 'HealthBarManager '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4246856624447778273}
   - component: {fileID: 1517692192073889609}
   - component: {fileID: 7905990922000938914}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 6657717985328051201}
   - component: {fileID: 8812889938843591837}
   - component: {fileID: 3502613163020888767}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2368194255099789175}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 1498549863323674353}
   - component: {fileID: 2360008827027316106}
   - component: {fileID: 7229246866650700427}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SoldierBlue
   m_TagString: TowerRed
   m_Icon: {fileID: 0}
@@ -392,8 +392,8 @@ Transform:
   m_GameObject: {fileID: 8255372679524131972}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -64.65, y: 5.5722427, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalPosition: {x: -55.6, y: 6.3, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2368194255099789175}

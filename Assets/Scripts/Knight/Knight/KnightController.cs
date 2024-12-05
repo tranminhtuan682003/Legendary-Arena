@@ -223,7 +223,6 @@ public class KnightController : MonoBehaviour, ITeamMember
                 if (currentEnemy == null || Vector3.Distance(transform.position, currentEnemy.transform.position) > 10f)
                 {
                     currentEnemy = enemyGameObject;
-                    Debug.Log("enemy la : " + currentEnemy.name);
                     return;
                 }
             }
@@ -313,6 +312,8 @@ public class KnightController : MonoBehaviour, ITeamMember
                 Debug.Log("Invalid skill type!");
                 break;
         }
+
+        currentEnemy = null;
     }
 
 
@@ -471,6 +472,7 @@ public class KnightController : MonoBehaviour, ITeamMember
     {
         isDead = true;
         gameObject.SetActive(false);
+        KnightEventManager.InvokePlayerDead();
     }
     #endregion
 }

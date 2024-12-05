@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartScreenManager : MonoBehaviour
 {
     private Button playButton;
-    private Button menuButton;
+    private Button exitButton;
+    private Button settingButton;
     private void Awake()
     {
         InitLize();
@@ -19,14 +21,16 @@ public class StartScreenManager : MonoBehaviour
 
     private void InitLize()
     {
-        playButton = GameObject.Find("PlayButton").GetComponent<Button>();
-        menuButton = GameObject.Find("MenuButton").GetComponent<Button>();
+        playButton = transform.Find("PlayButton").GetComponent<Button>();
+        exitButton = transform.Find("ExitButton").GetComponent<Button>();
+        settingButton = transform.Find("SettingButton")?.GetComponent<Button>();
     }
 
     private void ButtonOnclick()
     {
         playButton.onClick.AddListener(HandlePlayButton);
-        menuButton.onClick.AddListener(HandleMenuButton);
+        exitButton.onClick.AddListener(HandleExitButton);
+        settingButton.onClick.AddListener(() => HandleSettingButtonClick());
     }
 
     private void HandlePlayButton()
@@ -36,9 +40,16 @@ public class StartScreenManager : MonoBehaviour
         UICandyManager.instance.ChangeStatePlayScreen(true);
     }
 
-    private void HandleMenuButton()
+    private void HandleExitButton()
     {
         SoundCandyManager.Instance.PlayButtonClickSound();
-        Debug.Log("Menu butotn clicked");
+        SceneManager.LoadScene("Lounge");
+        Debug.Log("exit butotn clicked");
+    }
+
+    private void HandleSettingButtonClick()
+    {
+        SoundCandyManager.Instance.PlayButtonClickSound();
+        Debug.Log("Setitng butotn clicked");
     }
 }

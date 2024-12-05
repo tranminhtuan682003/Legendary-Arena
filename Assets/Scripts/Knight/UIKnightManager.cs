@@ -114,6 +114,12 @@ public class UIKnightManager : MonoBehaviour
         knight = container.InstantiatePrefab(prefab);
     }
 
+    public void CreateKnight()
+    {
+        var prefab = GetScreenByName("Knight");
+        knight = container.InstantiatePrefab(prefab);
+    }
+
     private void CreateItem()
     {
         poolEnemyKnightManager.CreatePool("BulletKnight", GetBulletByName("Throw"), 10);

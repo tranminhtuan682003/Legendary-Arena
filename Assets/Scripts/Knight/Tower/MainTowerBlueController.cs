@@ -1,21 +1,19 @@
 using UnityEngine;
-using Zenject;
 
-public class SoldierRedController : SoldierKnightBase
+public class MainTowerBlueController : TowerKnightBase
 {
-    protected override void InitLize()
+    protected override void Initialize()
     {
-        base.InitLize();
-        team = Team.Red;
-        teamEnemy = Team.Blue;
+        // Gọi lại phương thức khởi tạo của lớp cha
+        base.Initialize();
+        team = Team.Blue;
+        teamEnemy = Team.Red;
         spawnPoint = transform.Find("SpawnPoint");
-        maxHealth = 500;
+        maxHealth = 2000;
         currentHealth = maxHealth;
         attackRange = 10f;
-        speedMove = 2.5f;
-        direction = Vector3.left;
         healthBarController = GetComponentInChildren<HealthBarTeamRedController>();
-        healthBarController.SetParrent(this);
+        healthBarController.SetParrent(this); // Đặt reference cho health bar
     }
 
     public override void FireBullet(GameObject enemy)
@@ -23,14 +21,19 @@ public class SoldierRedController : SoldierKnightBase
         base.FireBullet(enemy);
         if (enemy == null) return;
         var bullet = uIKnightManager.GetBulletTowerRed(spawnPoint);
-
         if (bullet != null)
         {
             var bulletController = bullet.GetComponent<BulletTowerRedKnightController>();
             if (bulletController != null)
             {
-                bulletController.Initialize(enemy, 30f, 20);
+                bulletController.Initialize(enemy, 20f, 50);
             }
         }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        KnightEventManager.InvokeGameWin();
     }
 }

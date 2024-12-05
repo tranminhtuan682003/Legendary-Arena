@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayScreenManager : MonoBehaviour
 {
     public static PlayScreenManager Instance; // Singleton để dễ truy cập
+    private Button setting;
+    private Button upSound;
+    private Button downSound;
+    private Button exitGame;
 
     private TextMeshProUGUI scoreText;
     private int currentScore = 0;

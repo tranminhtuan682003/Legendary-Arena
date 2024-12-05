@@ -15,12 +15,12 @@ public class SpawnSoldierManager : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 2; i++)
             {
                 uIKnightManager.GetSoldierRed(transform);
                 yield return new WaitForSeconds(1);
             }
-            yield return new WaitForSeconds(20);
+            yield return new WaitForSeconds(15);
         }
     }
 }

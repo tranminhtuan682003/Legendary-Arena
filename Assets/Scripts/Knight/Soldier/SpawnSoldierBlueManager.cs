@@ -20,7 +20,7 @@ public class SpawnSoldierBlueManager : MonoBehaviour
                 uIKnightManager.GetSoldierBlue(transform);
                 yield return new WaitForSeconds(1);
             }
-            yield return new WaitForSeconds(20);
+            yield return new WaitForSeconds(15);
         }
     }
 }

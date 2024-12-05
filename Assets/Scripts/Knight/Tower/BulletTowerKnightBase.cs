@@ -8,6 +8,7 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
     protected int damage;
     protected GameObject target; // Mục tiêu của đạn
     protected float bulletSpeed; // Tốc độ đạn
+    protected Vector2 defaultDirection = Vector2.right; // Hướng mặc định (có thể thay đổi theo yêu cầu)
 
     protected virtual void Awake()
     {
@@ -20,12 +21,23 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
         {
             MoveTowardsTarget();
         }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
+    // Di chuyển về hướng của target
     protected virtual void MoveTowardsTarget()
     {
         Vector2 direction = (target.transform.position - transform.position).normalized;
-        rb.linearVelocity = direction * bulletSpeed;
+        rb.linearVelocity = direction * bulletSpeed; // Di chuyển về target
+    }
+
+    // Di chuyển theo hướng mặc định nếu không có target
+    protected virtual void MoveInDefaultDirection()
+    {
+        rb.linearVelocity = defaultDirection * bulletSpeed; // Di chuyển theo hướng mặc định
     }
 
     public virtual void Initialize(GameObject target, float speed, int bulletDamage)

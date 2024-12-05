@@ -58,11 +58,13 @@ public static class KnightEventManager
     }
 
     #region ResultGameManager
-    public static event Action<bool> OnGameWin;
-    public static void InvokeGameWin(bool win)
+    public static event Action OnGameWin;
+
+    public static void InvokeGameWin()
     {
-        OnGameWin?.Invoke(win);
+        OnGameWin?.Invoke();
     }
+
 
     public static event Action<bool> OnGameLose;
     public static void InvokeGameLose(bool lose)
@@ -70,5 +72,14 @@ public static class KnightEventManager
         OnGameLose?.Invoke(lose);
     }
 
+    #endregion
+
+    #region 
+    public static event Action OnPlayerDead;
+
+    public static void InvokePlayerDead()
+    {
+        OnPlayerDead?.Invoke();
+    }
     #endregion
 }

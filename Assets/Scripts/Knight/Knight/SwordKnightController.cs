@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwordKnightController : MonoBehaviour
 {
     private float speed = 25f;
-    private int damage = 100;
+    private int damage = 150;
     private Rigidbody2D rb;
 
     private void Awake()

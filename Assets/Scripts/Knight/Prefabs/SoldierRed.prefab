@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9199531648490754044}
   - component: {fileID: 7691198505783563680}
   - component: {fileID: 4672045978093854610}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 8495250916482381772}
   - component: {fileID: 5574024763102739828}
   - component: {fileID: 5885003393932747673}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SoldierRed
   m_TagString: TowerRed
   m_Icon: {fileID: 0}
@@ -184,8 +184,8 @@ Transform:
   m_GameObject: {fileID: 609681077625249291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -76.5, y: 5.5722427, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalPosition: {x: -41.486034, y: 6.343289, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3205723164243822033}
@@ -342,7 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3205723164243822033}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 6377954367261841394}
   - component: {fileID: 4394024647692276419}
   - component: {fileID: 4832393139740411689}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 770183446916725032}
   - component: {fileID: 789001314878754501}
   - component: {fileID: 68477719308834011}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: 'HealthBarManager '
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletKnightController : MonoBehaviour
 {
     private float speed = 25f;
-    private int damage = 50;
+    private int damage = 150;
     private Rigidbody2D rb;
     private GameObject target;
 

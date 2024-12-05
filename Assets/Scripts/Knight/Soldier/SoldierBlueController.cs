@@ -28,7 +28,7 @@ public class SoldierBlueController : SoldierKnightBase
             var bulletController = bullet.GetComponent<BulletTowerBlueKnightController>();
             if (bulletController != null)
             {
-                bulletController.Initialize(enemy, 20f, 20);
+                bulletController.Initialize(enemy, 30f, 20);
             }
         }
     }

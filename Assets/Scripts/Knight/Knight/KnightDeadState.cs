@@ -11,6 +11,7 @@ public class KnightDeadState : IState
     }
     public void Enter()
     {
+        knightController.Dead();
     }
 
     public void Execute()
