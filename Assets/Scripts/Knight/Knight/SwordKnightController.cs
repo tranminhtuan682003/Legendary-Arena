@@ -35,7 +35,7 @@ public class SwordKnightController : MonoBehaviour
         if (targetTeamMember != null && targetTeamMember.GetTeam() == Team.Red)
         {
             ApplyDamage(targetTeamMember);
-            OnBulletHit();
+            // OnBulletHit();
         }
     }
 

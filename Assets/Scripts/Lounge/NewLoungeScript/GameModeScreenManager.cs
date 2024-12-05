@@ -20,6 +20,8 @@ public class GameModeScreenManager : MonoBehaviour
     private Button gameNone;
     private Image backgroundGameMode;
 
+    private Button rank;
+
     [Header("Button Ready")]
     private Button readyButton;
 
@@ -56,6 +58,7 @@ public class GameModeScreenManager : MonoBehaviour
         gameSicbo = FindButtonByName("Sicbo");
         gameKnight = FindButtonByName("Knight");
         gameNone = FindButtonByName("None");
+        rank = transform.Find("LeftBar/Modes/Rank")?.GetComponent<Button>();
         backgroundGameMode = transform.Find("BackgroundGameMode").GetComponent<Image>();
 
         game1vs1.onClick.AddListener(() => HandleGameModeClick("1vs1", TypeGame.OneVsOne));
@@ -64,6 +67,7 @@ public class GameModeScreenManager : MonoBehaviour
         gameSicbo.onClick.AddListener(() => HandleGameModeClick("Sicbo", TypeGame.Sicbo));
         gameKnight.onClick.AddListener(() => HandleGameModeClick("Knight", TypeGame.Knight));
         gameNone.onClick.AddListener(() => HandleGameModeClick("None", TypeGame.None));
+        rank.onClick.AddListener(() => HandleGameModeClick("rank", TypeGame.Rank));
     }
 
     private void FindNameButtons()
@@ -101,7 +105,7 @@ public class GameModeScreenManager : MonoBehaviour
     private void HandleReadyClick()
     {
         string sceneGame = loungeManager.typeGame.ToString();
-        if (loungeManager.typeGame == TypeGame.None)
+        if (loungeManager.typeGame == TypeGame.None || loungeManager.typeGame == TypeGame.Rank)
         {
             return;
         }

@@ -30,6 +30,8 @@ public class NavigationScreenManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // Khi bật màn hình, chỉ mờ văn bản (TextMeshProUGUI)
+        FadeOutTextOnly();
     }
 
     private void InitiaLize()
@@ -65,6 +67,7 @@ public class NavigationScreenManager : MonoBehaviour
     {
         StartCoroutine(MoveSelectButton(button.transform.position));
         StartCoroutine(FadeButton(button, buttonText));
+
         switch (button.name)
         {
             case "HomeButton":
@@ -82,7 +85,6 @@ public class NavigationScreenManager : MonoBehaviour
             case "GameButton":
                 uILoungeManager.ShowScreen("GameScreen");
                 break;
-
         }
     }
 
@@ -101,23 +103,44 @@ public class NavigationScreenManager : MonoBehaviour
 
     private IEnumerator FadeButton(Button button, TextMeshProUGUI buttonText)
     {
-        Image buttonImage = button.GetComponent<Image>();
+        Image buttonImage = button.GetComponent<Image>();  // Lấy Component Image của Button
+
+        // Đảm bảo Image component không null
         if (buttonImage != null)
         {
-            buttonText.CrossFadeAlpha(1f, 0.5f, false); // Văn bản hiện ngay lập tức
+            // Mờ hình ảnh trong 0.5s và làm văn bản hiện lên ngay lập tức
+            buttonText.CrossFadeAlpha(1f, 0.5f, false); // Lập tức làm cho văn bản hiện lên
             buttonImage.CrossFadeAlpha(0f, 0.5f, false); // Mờ hình ảnh trong 0.5s
-        }
 
-        // Đợi một chút trước khi chuyển trạng thái ngược lại
-        yield return new WaitForSeconds(1f);
+            // Đợi 1 giây trước khi làm ngược lại
+            yield return new WaitForSeconds(1f);
 
-        // Mờ văn bản và làm hình ảnh hiện lên
-        if (buttonImage != null)
-        {
+            // Làm mờ văn bản và làm hình ảnh hiện lại
             buttonText.CrossFadeAlpha(0f, 0.5f, false); // Mờ văn bản trong 0.5s
             buttonImage.CrossFadeAlpha(1f, 0.5f, false); // Làm hình ảnh hiện lên trong 0.5s
+        }
+        else
+        {
+            Debug.LogWarning("Button does not have an Image component.");
         }
     }
 
 
+
+
+    private void FadeOutTextOnly()
+    {
+        // Làm mờ văn bản (TextMeshProUGUI) nhưng để hình ảnh hiện lên
+        FadeOutText(homeButton, homeButtonText);
+        FadeOutText(heroButton, heroButtonText);
+        FadeOutText(shopButton, shopButtonText);
+        FadeOutText(bagButton, bagButtonText);
+        FadeOutText(gameButton, gameButtonText);
+    }
+
+    private void FadeOutText(Button button, TextMeshProUGUI buttonText)
+    {
+        // Làm mờ chỉ văn bản (TextMeshProUGUI)
+        buttonText.CrossFadeAlpha(0f, 0f, false); // Lập tức làm mờ văn bản
+    }
 }

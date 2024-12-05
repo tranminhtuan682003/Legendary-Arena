@@ -22,6 +22,6 @@ MonoBehaviour:
   - name: SignIn
     screen: {fileID: 4447292502935525590, guid: 8defaf3583d5e0845825eb538d6b8796,
       type: 3}
-  - name: ChangePassword
+  - name: ForgotPassword
     screen: {fileID: 3869693510401547830, guid: 0a39d415b686a6e4b9045aaeceb339e7,
       type: 3}

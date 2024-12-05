@@ -20,5 +20,6 @@ public class LoungeInstaller : MonoInstaller
             .WithGameObjectName("LoungeManager")
             .AsSingle()
             .NonLazy();
+
     }
 }

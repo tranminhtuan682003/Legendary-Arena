@@ -57,6 +57,18 @@ public static class KnightEventManager
         OnTowerRedDetecEnemy?.Invoke(enemy, team);
     }
 
+    #region ResultGameManager
+    public static event Action<bool> OnGameWin;
+    public static void InvokeGameWin(bool win)
+    {
+        OnGameWin?.Invoke(win);
+    }
 
+    public static event Action<bool> OnGameLose;
+    public static void InvokeGameLose(bool lose)
+    {
+        OnGameLose?.Invoke(lose);
+    }
 
+    #endregion
 }

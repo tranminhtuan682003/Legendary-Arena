@@ -17,5 +17,11 @@ public class GameGlobalInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
+        Container.Bind<GameGlobalController>()
+            .FromNewComponentOnNewGameObject()
+            .WithGameObjectName("GameGlobalController")
+            .AsSingle()
+            .NonLazy();
+
     }
 }

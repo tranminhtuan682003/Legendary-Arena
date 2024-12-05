@@ -5,6 +5,7 @@ using PlayFab.ClientModels;
 using Zenject;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SignInScreenManager : MonoBehaviour
 {
@@ -12,15 +13,20 @@ public class SignInScreenManager : MonoBehaviour
     private TMP_InputField password;
     private Button signInButton;
     private Button signUpButton;
+    private GameObject error;
+    private Button forgotPassword;
+    private ScrollRect methodLogin;
     [Inject] private UILoadScreenManager uILoadScreenManager;
+    [Inject] private GameGlobalController gameGlobalController;
 
     private void Awake()
     {
         InitiaLize();
     }
 
-    void Start()
+    private void OnEnable()
     {
+        methodLogin.verticalNormalizedPosition = 1f;
     }
 
     private void InitiaLize()
@@ -35,12 +41,17 @@ public class SignInScreenManager : MonoBehaviour
         password = transform.Find("Body/Panel/Body/Input/EmailAndPassword/Password/InputField")?.GetComponent<TMP_InputField>();
         signInButton = transform.Find("Body/Panel/Body/MothodLogin/Scroll/Viewport/Content/SigninButton")?.GetComponent<Button>();
         signUpButton = transform.Find("Body/Panel/Body/MothodLogin/Scroll/Viewport/Content/SignupButton")?.GetComponent<Button>();
+        forgotPassword = transform.Find("Body/Panel/Body/Input/ForgotPassword/Text (TMP)")?.GetComponent<Button>();
+        methodLogin = transform.Find("Body/Panel/Body/MothodLogin/Scroll")?.GetComponent<ScrollRect>();
+        error = transform.Find("Error")?.gameObject;
+        error.SetActive(false);
     }
 
     private void AddButtonOnclick()
     {
         signInButton.onClick.AddListener(() => HandleSignInButtonClick());
         signUpButton.onClick.AddListener(() => HandleSignUpButtonClick());
+        forgotPassword.onClick.AddListener(() => HandleForgotPasswordButtonClick());
     }
 
     private void HandleSignInButtonClick()
@@ -51,7 +62,8 @@ public class SignInScreenManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(emailValue) || string.IsNullOrEmpty(passwordValue))
         {
-            Debug.LogError("Email or Password cannot be empty!");
+            StartCoroutine(ShowError());
+            Debug.Log("Email or Password cannot be empty!");
             return;
         }
 
@@ -66,27 +78,31 @@ public class SignInScreenManager : MonoBehaviour
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
 
-    // Hàm khi đăng nhập thành công
     private void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("Login successful!");
-
-        // Chuyển đến màn hình chính của game hoặc dashboard
-        SceneManager.LoadScene("Lounge");
+        gameGlobalController.GoOnSceneLounge();
     }
 
-    // Hàm khi đăng nhập thất bại
     private void OnLoginFailure(PlayFabError error)
     {
-        Debug.LogError("Login failed: " + error.ErrorMessage);
-
-        // Hiển thị thông báo lỗi cho người dùng
-        // Có thể thông báo lỗi đăng nhập trong UI
-        // uILoadScreenManager.ShowError("Login failed: " + error.ErrorMessage);
+        Debug.Log("Login failed: " + error.ErrorMessage);
     }
 
     private void HandleSignUpButtonClick()
     {
         uILoadScreenManager.ShowScreen("SignUp");
+    }
+
+    private void HandleForgotPasswordButtonClick()
+    {
+        uILoadScreenManager.ShowScreen("ForgotPassword");
+    }
+
+    private IEnumerator ShowError()
+    {
+        error.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        error.SetActive(false);
     }
 }

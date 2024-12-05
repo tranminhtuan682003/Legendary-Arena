@@ -45,6 +45,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 691bdb3210d9e5c4d88e7741b0d4d2f5
+    m_Address: HeroAddress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8440ac86a17f325498e099834a94b8bb
     m_Address: Assets/Scripts/Manager/NavigationManager/UIDatabase.asset
     m_ReadOnly: 0
@@ -77,11 +82,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c01d4490caa1fb346ab93fee066ce8ae
     m_Address: KnightScreenDatabase
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6187817881229e41a18f854f1955d78
-    m_Address: Assets/Scripts/ManagerAndUI/Hero/HeroDatabase.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

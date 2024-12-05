@@ -5,6 +5,7 @@ public enum TypeGame
     Candy,
     Sicbo,
     Knight,
+    Rank,
     None
 }
 

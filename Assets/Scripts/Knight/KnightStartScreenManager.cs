@@ -70,6 +70,7 @@ public class KnightStartScreenManager : MonoBehaviour
     private void HandlePlayGameClick()
     {
         // Show the ready screen
+        exitGame.gameObject.SetActive(false);
         readyScreen.SetActive(true);
 
         // Dim the icon color

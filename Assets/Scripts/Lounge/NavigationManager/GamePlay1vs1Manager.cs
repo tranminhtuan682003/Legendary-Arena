@@ -33,6 +33,7 @@ public class GamePlay1vs1Manager : MonoBehaviour
     private void Start()
     {
         ChangeState(GameState.Start);
+
     }
 
     public void ChangeState(GameState newState)
