@@ -25,8 +25,8 @@ public class KnightController : MonoBehaviour, ITeamMember
     private bool isTakeDamage;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float jumpForce = 10f;
+    private float moveSpeed = 5f;
+    private float jumpForce = 10f;
     private bool isGrounded;
     private bool hasJumped;
     private Vector2 moveDirection;
@@ -352,8 +352,8 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     private IEnumerator Heal(float cooldown)
     {
-        int healPerSecond = 20;
-        int manaPerSecond = 2;
+        int healPerSecond = 50;
+        int manaPerSecond = 20;
         for (int i = 0; i < cooldown; i++)
         {
             KnightEventManager.InvokeUpdateHealthBar(this);
@@ -368,10 +368,10 @@ public class KnightController : MonoBehaviour, ITeamMember
 
     private IEnumerator Sup()
     {
-        moveSpeed = moveSpeed * 1.5f;
+        moveSpeed = moveSpeed * 2f;
         Debug.Log("toc do hien tai là : " + moveSpeed);
         yield return new WaitForSeconds(5f);
-        moveSpeed = moveSpeed / 1.5f;
+        moveSpeed = moveSpeed / 2f;
     }
 
     private IEnumerator PerformBasicAttack(string nameAnimation, float executionTime)
@@ -471,8 +471,9 @@ public class KnightController : MonoBehaviour, ITeamMember
     public void Dead()
     {
         isDead = true;
-        gameObject.SetActive(false);
+        Destroy(gameObject);
         KnightEventManager.InvokePlayerDead();
+        soundKnightManager.PlayMusicYouDefeat();
     }
     #endregion
 }

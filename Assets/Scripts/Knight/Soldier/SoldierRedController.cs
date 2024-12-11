@@ -9,7 +9,7 @@ public class SoldierRedController : SoldierKnightBase
         team = Team.Red;
         teamEnemy = Team.Blue;
         spawnPoint = transform.Find("SpawnPoint");
-        maxHealth = 500;
+        maxHealth = 1000;
         currentHealth = maxHealth;
         attackRange = 10f;
         speedMove = 2.5f;

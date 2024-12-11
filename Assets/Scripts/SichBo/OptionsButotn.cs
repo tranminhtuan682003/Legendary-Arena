@@ -26,7 +26,7 @@ public class OptionsButotn : MonoBehaviour
         }
         else if (button.name == "ExitGameButton")
         {
-            UISBManager.Instance.SceneTransitionState(true);
+            SceneManager.LoadScene("Lounge");
         }
         else if (button.name == "SettingButton")
         {

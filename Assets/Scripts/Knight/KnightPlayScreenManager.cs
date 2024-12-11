@@ -42,6 +42,7 @@ public class KnightPlayScreenManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        winAnimation.SetActive(false);
         StopTimer();
     }
 

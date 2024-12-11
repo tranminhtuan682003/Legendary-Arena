@@ -14,6 +14,10 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+    private void OnEnable()
+    {
+        StartCoroutine(DeActive());
+    }
 
     protected virtual void Update()
     {
@@ -66,6 +70,12 @@ public abstract class BulletTowerKnightBase : MonoBehaviour
 
     protected virtual void OnBulletHit()
     {
+        gameObject.SetActive(false);
+    }
+
+    private IEnumerator DeActive()
+    {
+        yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
     }
 }

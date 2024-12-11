@@ -33,7 +33,7 @@ public class HomeBlueController : MonoBehaviour
     {
         while (true)
         {
-            knight.TakeDamage(-60);
+            knight.TakeDamage(-150);
             yield return new WaitForSeconds(1f);
         }
     }

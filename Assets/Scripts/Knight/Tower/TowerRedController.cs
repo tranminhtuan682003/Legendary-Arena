@@ -28,7 +28,6 @@ public class TowerRedController : TowerKnightBase
             if (bulletController != null)
             {
                 bulletController.Initialize(enemy, 20f, 150);
-                currentEnemy = null;
             }
         }
     }

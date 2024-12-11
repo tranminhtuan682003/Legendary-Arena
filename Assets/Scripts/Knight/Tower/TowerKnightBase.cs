@@ -5,6 +5,7 @@ public class TowerKnightBase : MonoBehaviour, ITeamMember
 {
     private IState currentState;
     [Inject] protected UIKnightManager uIKnightManager;
+    [Inject] protected SoundKnightManager soundKnightManager;
     protected Team team;
     protected Team teamEnemy;
     protected int maxHealth;
@@ -63,36 +64,25 @@ public class TowerKnightBase : MonoBehaviour, ITeamMember
                 // Kiểm tra nếu kẻ thù hiện tại đã bị phá hủy hoặc không còn hoạt động
                 if (currentEnemy != null && (!currentEnemy.activeSelf || currentEnemy == null))
                 {
-                    currentEnemy = null; // Nếu kẻ thù cũ không hợp lệ, đặt lại currentEnemy
+                    currentEnemy = null;  // Gán null nếu kẻ thù đã chết hoặc không còn hoạt động
                 }
 
-                // Nếu có kẻ thù mới và không phải là kẻ thù hiện tại
-                if (currentEnemy != newEnemy)
+                if (currentEnemy == null)
                 {
-                    currentEnemy = newEnemy;
-
-                    // Chuyển trạng thái (tùy vào logic cụ thể của game)
-                    // Ví dụ, nếu kẻ thù mới được phát hiện, chuyển sang trạng thái tấn công
-                    if (!(currentState is TowerKnightAttackState))
-                    {
-                        ChangeState(new TowerKnightAttackState(this, currentEnemy));
-                    }
+                    currentEnemy = newEnemy;  // Cập nhật kẻ thù mới
+                    ChangeState(new TowerKnightAttackState(this, currentEnemy));  // Thay đổi trạng thái tấn công
                 }
-
-                break; // Nếu đã tìm thấy kẻ thù, không cần tìm kiếm tiếp
             }
         }
 
-        // Nếu không tìm thấy kẻ thù, kiểm tra và có thể chuyển sang trạng thái idle hoặc trạng thái khác
+        // Nếu không tìm thấy kẻ thù nào, giữ trạng thái idle
         if (!foundEnemy && currentEnemy != null)
         {
-            currentEnemy = null; // Nếu không tìm thấy kẻ thù, đặt lại currentEnemy
-            if (!(currentState is TowerKnightIdleState))
-            {
-                ChangeState(new TowerKnightIdleState(this));
-            }
+            currentEnemy = null;
+            ChangeState(new TowerKnightIdleState(this));  // Trở lại trạng thái idle nếu không có kẻ thù
         }
     }
+
 
 
 
@@ -136,6 +126,7 @@ public class TowerKnightBase : MonoBehaviour, ITeamMember
     {
         currentHealth = 0;
         gameObject.SetActive(false); // Tắt đối tượng khi chết
+        soundKnightManager.PlayMusicTowerEnemyDestroyed();
     }
 
     protected virtual void OnDisable() { }
